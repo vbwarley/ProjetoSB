@@ -10,13 +10,14 @@ import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
 import nucleo.model.persistencia.dao.DAOPostagem;
 import nucleo.model.persistencia.dao.DAOUsuario;
+import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 public class JDBCDAOFactory extends DAOFactory {
 
 	@Override
 	public DAOUsuario<Usuario, String> getDAOUsuario() {
-		// TODO Auto-generated method stub
-		return null;
+		DAOUsuario<Usuario, String> usuario = new JDBCDAOUsuario(); 
+		return usuario;
 	}
 
 	@Override

@@ -29,4 +29,8 @@ public abstract class JDBCDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public Connection getConnection() {
+		return connection;
+	}
 }
