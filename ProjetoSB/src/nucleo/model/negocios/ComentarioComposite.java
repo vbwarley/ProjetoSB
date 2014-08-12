@@ -9,6 +9,7 @@ public class ComentarioComposite {
 	private String conteudo;
 	private int codigoPostagem;
 	private int codigoPai = -1;
+	private String login;
 	private ArrayList<ComentarioComposite> listaComentarios;
 	
 	public ComentarioComposite() {
@@ -61,6 +62,14 @@ public class ComentarioComposite {
 
 	public void setCodigoPostagem(int codigoPostagem) {
 		this.codigoPostagem = codigoPostagem;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public void addComentario(ComentarioComposite comentario) {

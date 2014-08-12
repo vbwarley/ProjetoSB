@@ -2,7 +2,7 @@ package nucleo.model.negocios;
 
 public class Blog {
 	
-	private int codigo;
+	private int codigo = 0;
 	private String titulo;
 	private String descricao;
 	private String imagemFundo;
@@ -10,8 +10,10 @@ public class Blog {
 	private boolean autorizaComentarioAnonimo;
 	
 	public Blog() {
-		// TODO Auto-generated constructor stub
+		codigo += 1;
+			
 	}
+	
 
 	public int getCodigo() {
 		return codigo;

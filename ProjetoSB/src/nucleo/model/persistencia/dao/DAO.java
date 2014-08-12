@@ -12,5 +12,4 @@ public interface DAO<T, type> {
 	void alterar(T objeto);
 	void deletar(T objeto);
 	List<T> getList();
-	void criar(ComentarioComposite objeto, Usuario usuario);
 }

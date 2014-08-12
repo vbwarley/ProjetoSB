@@ -74,10 +74,5 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, Strin
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public void criar(ComentarioComposite objeto, Usuario usuario) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
