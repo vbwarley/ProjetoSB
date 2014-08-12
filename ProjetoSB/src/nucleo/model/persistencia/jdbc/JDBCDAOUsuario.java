@@ -22,6 +22,8 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, Strin
 		}
 	}
 	
+	//COMENT�RIO!!!
+	
 	@Override
 	public Usuario consultar(String id) {
 		// TODO Auto-generated method stub
