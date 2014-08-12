@@ -9,9 +9,10 @@ public class Postagem extends Observable {
 	private String titulo;
 	private String conteudo;
 	private Set<String> palavrasChave;
+	private Blog blog;
 
 	public Postagem() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public int getCodigo() {
@@ -45,5 +46,15 @@ public class Postagem extends Observable {
 	public void setPalavrasChave(Set<String> palavrasChave) {
 		this.palavrasChave = palavrasChave;
 	}
+
+	public Blog getBlog() {
+		return blog;
+	}
+
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+	
+	
 
 }
