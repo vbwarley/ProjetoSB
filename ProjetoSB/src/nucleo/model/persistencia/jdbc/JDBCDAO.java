@@ -8,7 +8,7 @@ public abstract class JDBCDAO {
 
 	private Connection connection;
 	
-	private JDBCDAO() {
+	public JDBCDAO() {
 		
 	}
 	
