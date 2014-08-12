@@ -2,6 +2,9 @@ package nucleo.model.persistencia.dao;
 
 import java.util.List;
 
+import nucleo.model.negocios.ComentarioComposite;
+import nucleo.model.negocios.Usuario;
+
 public interface DAO<T, type> {
 
 	void criar(T objeto);
@@ -9,4 +12,5 @@ public interface DAO<T, type> {
 	void alterar(T objeto);
 	void deletar(T objeto);
 	List<T> getList();
+	void criar(ComentarioComposite objeto, Usuario usuario);
 }

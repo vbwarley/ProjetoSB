@@ -7,6 +7,7 @@ public class ComentarioComposite {
 	private int codigo;
 	private String titulo;
 	private String conteudo;
+	private int codigoPai = -1;
 	private ArrayList<ComentarioComposite> listaComentarios;
 	
 	public ComentarioComposite() {
@@ -39,6 +40,14 @@ public class ComentarioComposite {
 
 	public ArrayList<ComentarioComposite> getListaComentarios() {
 		return listaComentarios;
+	}
+
+	public int getCodigoPai() {
+		return codigoPai;
+	}
+
+	public void setCodigoPai(int codigoPai) {
+		this.codigoPai = codigoPai;
 	}
 
 	public void setListaComentarios(ArrayList<ComentarioComposite> listaComentarios) {

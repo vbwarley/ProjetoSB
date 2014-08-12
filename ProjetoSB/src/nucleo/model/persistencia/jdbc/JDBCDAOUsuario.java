@@ -4,6 +4,7 @@ import java.util.List;
 import java.sql.PreparedStatement;
 
 import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.ComentarioComposite;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOUsuario;
 
@@ -72,6 +73,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, Strin
 	public List<Usuario> getList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void criar(ComentarioComposite objeto, Usuario usuario) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
