@@ -21,7 +21,8 @@ public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<Comenta
 	@Override
 	public void criar(ComentarioComposite objeto, Usuario usuario) {		
 				
-		String sql = "INSERT INTO comentario (codigo, nome, conteudo, Usuario, codigoComentario) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO comentario (codigo, titulo, conteudo, login, codigoPai, codigoPostagem) VALUES (?,?,?,?,?)";
+		
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
 			
@@ -32,8 +33,7 @@ public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<Comenta
 			if (usuario != null){
 				stmt.setString(4, usuario.getLogin());
 			} else { 
-				stmt.setString(4, null);
-					
+				stmt.setString(4, null);	
 			}
 			
 			if (objeto.getCodigoPai() != -1){

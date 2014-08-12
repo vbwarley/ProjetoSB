@@ -7,6 +7,7 @@ public class ComentarioComposite {
 	private int codigo;
 	private String titulo;
 	private String conteudo;
+	private int codigoPostagem;
 	private int codigoPai = -1;
 	private ArrayList<ComentarioComposite> listaComentarios;
 	
@@ -54,6 +55,14 @@ public class ComentarioComposite {
 		this.listaComentarios = listaComentarios;
 	}
 	
+	public int getCodigoPostagem() {
+		return codigoPostagem;
+	}
+
+	public void setCodigoPostagem(int codigoPostagem) {
+		this.codigoPostagem = codigoPostagem;
+	}
+
 	public void addComentario(ComentarioComposite comentario) {
 		// ...
 	}
