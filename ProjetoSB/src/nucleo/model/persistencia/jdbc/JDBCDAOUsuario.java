@@ -1,17 +1,27 @@
 package nucleo.model.persistencia.jdbc;
 
 import java.util.List;
+import java.sql.PreparedStatement;
 
+import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOUsuario;
 
-public class JDBCDAOUsuario<Usuario, String> implements DAOUsuario<Usuario, String> {
+public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, String> {
 
+	public JDBCDAOUsuario() {
+		abrirConexao();
+	}
 	@Override
 	public void criar(Usuario objeto) {
-		// TODO Auto-generated method stub
+		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sql);
+		} catch (Exception e) {
+			
+		}
 	}
-
+	
 	@Override
 	public Usuario consultar(String id) {
 		// TODO Auto-generated method stub
