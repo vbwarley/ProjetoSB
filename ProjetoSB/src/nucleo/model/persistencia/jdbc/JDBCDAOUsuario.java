@@ -12,6 +12,8 @@ public class JDBCDAOUsuario<Usuario, String> implements DAOUsuario<Usuario, Stri
 		
 	}
 
+	//COMENTÁRIO!!!
+	
 	@Override
 	public Usuario consultar(String id) {
 		// TODO Auto-generated method stub
