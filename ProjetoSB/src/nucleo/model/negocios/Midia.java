@@ -5,7 +5,25 @@ public class Midia {
 	private int codigo;
 	private TipoMidia tipo;
 	private String nomeArquivo;
+	private ComentarioComposite comentario;
+	private Postagem postagem;
 	
+	public ComentarioComposite getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(ComentarioComposite comentario) {
+		this.comentario = comentario;
+	}
+
+	public Postagem getPostagem() {
+		return postagem;
+	}
+
+	public void setPostagem(Postagem postagem) {
+		this.postagem = postagem;
+	}
+
 	public Midia() {
 		// TODO Auto-generated constructor stub
 	}
