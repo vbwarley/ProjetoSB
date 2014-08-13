@@ -1,5 +1,7 @@
 package nucleo.model.negocios;
 
+import java.util.Set;
+
 public class Blog {
 	
 	private int codigo = 0;
@@ -8,12 +10,11 @@ public class Blog {
 	private String imagemFundo;
 	private boolean autorizaComentario;
 	private boolean autorizaComentarioAnonimo;
+	private Set<Usuario> assinantes;
 	
 	public Blog() {
 		codigo += 1;
-			
-	}
-	
+	}	
 
 	public int getCodigo() {
 		return codigo;
@@ -61,6 +62,16 @@ public class Blog {
 
 	public void setAutorizaComentarioAnonimo(boolean autorizaComentarioAnonimo) {
 		this.autorizaComentarioAnonimo = autorizaComentarioAnonimo;
+	}
+
+
+	public Set<Usuario> getAssinantes() {
+		return assinantes;
+	}
+
+
+	public void setAssinantes(Set<Usuario> assinantes) {
+		this.assinantes = assinantes;
 	}
 	
 	
