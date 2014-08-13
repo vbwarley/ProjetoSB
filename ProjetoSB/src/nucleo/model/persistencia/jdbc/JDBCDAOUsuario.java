@@ -2,6 +2,8 @@ package nucleo.model.persistencia.jdbc;
 
 import java.util.List;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.ComentarioComposite;
@@ -17,6 +19,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, Strin
 	public void criar(Usuario objeto) {
 		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		String sqlA = "INSERT INTO assinatura VALUES (?,?,?)";
+
 		
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
@@ -39,22 +42,54 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario<Usuario, Strin
 			for (Blog blog : objeto.getAssinatura()) {
 				stmtBlog.setString(1, objeto.getLogin());
 				stmtBlog.setString(2, objeto.getSenha());
-				stmtBlog.setInt(3, blog.getCodigo());
+				stmtBlog.setInt(3, blog.getCodigo()); 
 				
 				stmtBlog.execute();
 			}
 			
-		} catch (Exception e) {
-			
+		} catch (SQLException e) {
+			throw new RuntimeException();
 		}
-	}
-	
+	}	
 
 	
 	@Override
 	public Usuario consultar(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		String selectSQL = "SELECT * FROM usuario WHERE usuario.login = ?";
+		Usuario u = null;
+		
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(selectSQL);
+			
+			stmt.setString(1, id);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			
+			while (rs.next()) {
+				u = new Usuario();
+				
+				u.setLogin(rs.getString(1));
+				u.setSenha(rs.getString(2));
+				u.setNome(rs.getString(3));
+				u.setEmail(rs.getString(4));
+				u.setDataNascimento(rs.getDate(5));
+				u.setEndereco(rs.getString(6));
+				u.setInteresses(rs.getString(7));
+				u.setQuemSouEu(rs.getString(8));
+				u.setFilmes(rs.getString(9));
+				u.setLivro(rs.getString(10));
+				u.setMusicas(rs.getString(11));
+				
+			}
+				
+				
+			
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+		
+		return u;
 	}
 
 	@Override
