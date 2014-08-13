@@ -1,10 +1,9 @@
 package nucleo.model.persistencia.jdbc;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
-import nucleo.model.negocios.ComentarioComposite;
 import nucleo.model.negocios.Postagem;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOPostagem;
 
 public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem<Postagem, Integer>{
@@ -14,6 +13,23 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem<Postagem, In
 		String sql = "INSERT INTO postagem VALUES (?,?,?,?,?)";
 		String sqlPP = "INSERT INTO postagem_palavras (?,?)";
 		String sqlP = "INSERT INTO palavras_chaves (?,?)";
+		
+		try {
+			
+			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			PreparedStatement stmtPalavras_chave = getConnection().prepareStatement(sqlP);
+			PreparedStatement stmtPostagem_palavras = getConnection().prepareStatement(sqlPP);
+			
+			stmt.setInt(1, objeto.getCodigo());
+			stmt.setString(2, objeto.getTitulo());
+			stmt.setString(3, objeto.getConteudo());
+			
+			stmt.execute();
+					
+			
+		} catch (Exception e) {
+			
+		}
 
 	}
 
