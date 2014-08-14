@@ -7,9 +7,9 @@ public class ComentarioComposite {
 	private int codigo;
 	private String titulo;
 	private String conteudo;
-	private int codigoPostagem;
-	private int codigoPai = -1;
-	private String login;
+	private Postagem Postagem;
+	private ComentarioComposite comentarioPai;
+	private Usuario usuario;
 	private ArrayList<ComentarioComposite> listaComentarios;
 	
 	public ComentarioComposite() {
@@ -44,32 +44,34 @@ public class ComentarioComposite {
 		return listaComentarios;
 	}
 
-	public int getCodigoPai() {
-		return codigoPai;
-	}
-
-	public void setCodigoPai(int codigoPai) {
-		this.codigoPai = codigoPai;
-	}
-
 	public void setListaComentarios(ArrayList<ComentarioComposite> listaComentarios) {
 		this.listaComentarios = listaComentarios;
 	}
 	
-	public int getCodigoPostagem() {
-		return codigoPostagem;
+	
+	
+	public Postagem getPostagem() {
+		return Postagem;
 	}
 
-	public void setCodigoPostagem(int codigoPostagem) {
-		this.codigoPostagem = codigoPostagem;
+	public void setPostagem(Postagem postagem) {
+		Postagem = postagem;
 	}
 
-	public String getLogin() {
-		return login;
+	public ComentarioComposite getComentarioPai() {
+		return comentarioPai;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setComentarioPai(ComentarioComposite comentarioPai) {
+		this.comentarioPai = comentarioPai;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public void addComentario(ComentarioComposite comentario) {
