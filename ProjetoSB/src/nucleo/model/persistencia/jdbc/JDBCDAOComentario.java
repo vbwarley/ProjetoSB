@@ -8,8 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
-
 import nucleo.model.negocios.ComentarioAnonimo;
 import nucleo.model.negocios.ComentarioComposite;
 import nucleo.model.negocios.Usuario;
