@@ -2,7 +2,6 @@ package nucleo.model.negocios;
 
 public class PostagemPalavraChave {
 
-	private Integer codigo;
 	private Postagem postagem;
 	private PalavraChave palavraChave;
 
