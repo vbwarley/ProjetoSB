@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.Blog;
-import nucleo.model.negocios.ComentarioComposite;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
 
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
@@ -37,8 +35,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 			throw new RuntimeException();
 		}
 }
-	
-
 	@Override
 	public Blog consultar(Integer id) {
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
@@ -60,8 +56,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
-				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				
+				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));	
 			}
 
 		} catch (SQLException e) {
@@ -75,26 +70,21 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 		
 			String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
 					+ "WHERE titulo=?";
-
 			
 			try {
 				PreparedStatement stmt = getConnection()
 						.prepareStatement(sqlUpdate);
-
 				
 				stmt.setInt(1, objeto.getCodigo());
 				stmt.setString(2, objeto.getTitulo());
 				stmt.setString(3, objeto.getDescricao());
 				stmt.setString(4, objeto.getImagemFundo());
-			
-					
 				
 				stmt.executeUpdate();
 
 			} catch (SQLException e) {
 				throw new RuntimeException();
 			}
-
 	}
 
 	@Override
@@ -138,7 +128,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
 				
-
 				bu.add(b);
 			}
 
