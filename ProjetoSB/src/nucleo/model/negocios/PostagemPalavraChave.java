@@ -2,7 +2,6 @@ package nucleo.model.negocios;
 
 public class PostagemPalavraChave {
 
-	private Integer codigo;
 	private Postagem postagem;
 	private PalavraChave palavraChave;
 
@@ -10,14 +9,6 @@ public class PostagemPalavraChave {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Integer getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-
 	public Postagem getPostagem() {
 		return postagem;
 	}
