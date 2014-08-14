@@ -3,6 +3,7 @@ package nucleo.model.persistencia.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.Postagem;
@@ -70,17 +71,76 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public void alterar(Postagem objeto) {
+		
+		String sqlUpdate = "UPDATE postagem SET codigo=?,titulo=?,conteudo=?,codBlog"
+				+ "WHERE codigo=?";
 
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sqlUpdate);
+
+			stmt.setInt(1, objeto.getCodigo());
+			stmt.setString(2, objeto.getTitulo());
+			stmt.setString(3, objeto.getConteudo());
+			stmt.setInt(4, objeto.getBlog().getCodigo());
+			
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
 	}
+	
 
 	@Override
 	public void deletar(Postagem objeto) {
+		
+		String sqlDelete = "DELETE FROM postagem WHERE codigo = ?";
 
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sqlDelete);
+
+			stmt.setInt(1, objeto.getCodigo());
+
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
 	}
+
 
 	@Override
 	public List<Postagem> getList() {
 
-		return null;
+		String sqlList = "SELECT * FROM postagem";
+		List<Postagem> po = null;
+		Postagem p = null;
+		
+		JDBCDAOBlog b = new JDBCDAOBlog();
+
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
+
+			ResultSet rs = stmt.executeQuery(sqlList);
+
+			while (rs.next()) {
+				p = new Postagem();
+				po = new ArrayList<Postagem>();
+
+				p.setCodigo(rs.getInt(1));
+				p.setTitulo(rs.getString(2));
+				p.setConteudo(rs.getString(3));
+				p.setBlog(b.consultar(rs.getInt(4)));
+				
+
+				po.add(p);
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+
+		return po;
 	}
 }
