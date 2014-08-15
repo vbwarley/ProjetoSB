@@ -9,6 +9,7 @@ public class PostagemPalavraChave {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
 	public Postagem getPostagem() {
 		return postagem;
 	}
