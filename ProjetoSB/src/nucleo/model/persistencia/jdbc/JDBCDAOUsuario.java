@@ -55,6 +55,8 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 	@Override
 	public Usuario consultar(String id) {
 		String selectSQL = "SELECT * FROM usuario WHERE login = ?";
+		String selectSQLA = "SELECT * FROM assinatura WHERE login=? and codBlog=?"; // ver isso
+		
 		Usuario u = null;
 
 		try {

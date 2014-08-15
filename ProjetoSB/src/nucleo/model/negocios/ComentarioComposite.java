@@ -1,6 +1,7 @@
 package nucleo.model.negocios;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComentarioComposite {
 	
@@ -10,7 +11,7 @@ public class ComentarioComposite {
 	private Postagem Postagem;
 	private ComentarioComposite comentarioPai;
 	private Usuario usuario;
-	private ArrayList<ComentarioComposite> listaComentarios;
+	private List<ComentarioComposite> listaComentarios;
 	
 	public ComentarioComposite() {
 		// TODO Auto-generated constructor stub
@@ -40,15 +41,14 @@ public class ComentarioComposite {
 		this.conteudo = conteudo;
 	}
 
-	public ArrayList<ComentarioComposite> getListaComentarios() {
+	public List<ComentarioComposite> getListaComentarios() {
 		return listaComentarios;
 	}
 
-	public void setListaComentarios(ArrayList<ComentarioComposite> listaComentarios) {
-		this.listaComentarios = listaComentarios;
+	public void setListaComentarios(List<ComentarioComposite> list) {
+		this.listaComentarios = list;
 	}
-	
-	
+		
 	
 	public Postagem getPostagem() {
 		return Postagem;

@@ -72,7 +72,7 @@ public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<Comenta
 				comentario.setTitulo(rs.getString("titulo"));
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
-				comentario.setListaComentarios(getListaComentarios(comentario.getCodigo()));
+				comentario.setListaComentarios(getListaComentarios(comentario.getCodigo())); 
 				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt("postagem")));
 			}
 
@@ -83,7 +83,7 @@ public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<Comenta
 	}
 
 	@Override
-	public void alterar(ComentarioComposite objeto) {
+	public void alterar(ComentarioComposite objeto) {	
 		// TODO Auto-generated method stub
 		
 	}
@@ -100,11 +100,11 @@ public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<Comenta
 		return null;
 	}
 	
-	public ArrayList<ComentarioComposite> getListaComentarios(Integer codigo){
+	public List<ComentarioComposite> getListaComentarios(Integer codigo){
 		
 		String sql = "SELECT * FROM comentario WHERE comentarioPai = " + codigo;
 		
-		ArrayList<ComentarioComposite> lista = new ArrayList<ComentarioComposite>();
+		List<ComentarioComposite> lista = new ArrayList<ComentarioComposite>();
 		
 		//codigo, titulo, conteudo, login, comentarioPai, Postagem
 		try {
