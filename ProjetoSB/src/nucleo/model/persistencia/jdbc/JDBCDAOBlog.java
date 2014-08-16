@@ -9,37 +9,38 @@ import java.util.List;
 import nucleo.model.negocios.Blog;
 import nucleo.model.persistencia.dao.DAOBlog;
 
-public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
+public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	public JDBCDAOBlog() {
 		abrirConexao();
 	}
-	
+
 	@Override
 	public void criar(Blog objeto) {
 		String sql = "INSERT INTO blog VALUES (?,?,?,?,?,?)";
-		
+
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
-			
+
 			stmt.setInt(1, objeto.getCodigo());
 			stmt.setString(2, objeto.getTitulo());
 			stmt.setString(3, objeto.getDescricao());
 			stmt.setString(4, objeto.getImagemFundo());
 			stmt.setBoolean(5, objeto.isAutorizaComentario());
 			stmt.setBoolean(6, objeto.isAutorizaComentarioAnonimo());
-			
+
 			stmt.execute();
-			
-		}catch (SQLException e) {
+
+		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
-}
+	}
+
 	@Override
 	public Blog consultar(Integer id) {
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
 		Blog b = null;
-		
+
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(selectSQL);
@@ -56,7 +57,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
-				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));	
+				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
 			}
 
 		} catch (SQLException e) {
@@ -67,29 +68,29 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 
 	@Override
 	public void alterar(Blog objeto) {
-		
-			String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
-					+ "WHERE titulo=?";
-			
-			try {
-				PreparedStatement stmt = getConnection()
-						.prepareStatement(sqlUpdate);
-				
-				stmt.setInt(1, objeto.getCodigo());
-				stmt.setString(2, objeto.getTitulo());
-				stmt.setString(3, objeto.getDescricao());
-				stmt.setString(4, objeto.getImagemFundo());
-				
-				stmt.executeUpdate();
 
-			} catch (SQLException e) {
-				throw new RuntimeException();
-			}
+		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
+				+ "WHERE titulo=?";
+
+		try {
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(sqlUpdate);
+
+			stmt.setInt(1, objeto.getCodigo());
+			stmt.setString(2, objeto.getTitulo());
+			stmt.setString(3, objeto.getDescricao());
+			stmt.setString(4, objeto.getImagemFundo());
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
 	}
 
 	@Override
 	public void deletar(Blog objeto) {
-		
+
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
 		try {
@@ -102,7 +103,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
-		
+
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 			ResultSet rs = stmt.executeQuery(sqlList);
 
 			while (rs.next()) {
-				b= new Blog();
+				b = new Blog();
 				bu = new ArrayList<Blog>();
 
 				b.setCodigo(rs.getInt(1));
@@ -127,7 +128,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				
+
 				bu.add(b);
 			}
 
@@ -139,5 +140,3 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer>{
 	}
 
 }
-
-

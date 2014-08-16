@@ -14,7 +14,8 @@ public abstract class JDBCDAO {
 	
 	public void abrirConexao() {
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:/banco_sb","","");
+			if (connection != null)
+				connection = DriverManager.getConnection("jdbc:mysql://localhost:/banco_sb","","");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -23,7 +24,8 @@ public abstract class JDBCDAO {
 	
 	public void fecharConexao() {
 		try {
-			connection.close();
+			if (!connection.isClosed())
+				connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,11 +14,12 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		DAOUsuario<Usuario, String> {
 
 	public JDBCDAOUsuario() {
-		abrirConexao();
+
 	}
 
 	@Override
 	public void criar(Usuario objeto) {
+		abrirConexao();
 		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		String sqlA = "INSERT INTO assinatura VALUES (?,?)";
 
@@ -47,25 +48,36 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				stmtBlog.execute();
 			}
 
+			stmt.close();
+			stmtBlog.close();
+
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 	}
 
 	@Override
 	public Usuario consultar(String id) {
+		abrirConexao();
 		String selectSQL = "SELECT * FROM usuario WHERE login = ?";
-		String selectSQLA = "SELECT * FROM assinatura WHERE login=? and codBlog=?"; // ver isso
-		
+		String selectSQLA = "SELECT * FROM assinatura WHERE login=?";
+
 		Usuario u = null;
 
 		try {
+			// recuperando dados do usuario
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(selectSQL);
-
 			stmt.setString(1, id);
-
 			ResultSet rs = stmt.executeQuery();
+
+			// recuperando dados da assinatura do usuario
+			PreparedStatement stmtA = getConnection().prepareStatement(
+					selectSQLA);
+			stmtA.setString(1, id);
+			ResultSet rsA = stmtA.executeQuery();
 
 			while (rs.next()) {
 				u = new Usuario();
@@ -82,16 +94,23 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				u.setLivro(rs.getString(10));
 				u.setMusicas(rs.getString(11));
 
+				// recupera as assinaturas
+				while (rsA.next())
+					u.getAssinatura().add(
+							new JDBCDAOBlog().consultar(rsA.getInt(2)));
 			}
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 		return u;
 	}
 
 	@Override
 	public void alterar(Usuario objeto) {
+		abrirConexao();
 		String sqlUpdate = "UPDATE usuario SET login=?,senha=?,nome=?,email=?,data_nascimento=?"
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
@@ -116,11 +135,14 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 	}
 
 	@Override
 	public void deletar(Usuario objeto) {
+		abrirConexao();
 		String sqlDelete = "DELETE FROM usuario WHERE login = ?";
 
 		try {
@@ -132,11 +154,14 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 	}
 
 	@Override
 	public List<Usuario> getList() {
+		abrirConexao();
 		String sqlList = "SELECT * FROM usuario";
 		List<Usuario> lu = null;
 		Usuario u = null;
@@ -167,6 +192,8 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 
 		return lu;
