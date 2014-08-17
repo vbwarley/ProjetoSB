@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.StringUtils;
+
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOUsuario;
@@ -99,7 +101,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 					u.getAssinatura().add(
 							new JDBCDAOBlog().consultar(rsA.getInt(2)));
 			}
-			
+
 			stmt.close();
 			stmtA.close();
 			rs.close();
@@ -118,10 +120,23 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,data_nascimento=?"
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
-
+		// exclui os blogs da assinatura do usuario
+		String sqlA = "DELETE FROM assinatura WHERE login=? AND codBlog NOT IN(" + new String(new char[(objeto.getAssinatura().size())]).replace("\0", ",?") + ")";
+		
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
+			PreparedStatement stmtBlog = getConnection().prepareStatement(sqlA);
+			
+			stmt.setString(1, objeto.getLogin());
+			int c = 1;
+			
+			for (Blog b : objeto.getAssinatura()) {
+				c++;
+				stmtBlog.setInt(c, b.getCodigo());
+			}
+							
+			stmtBlog.executeQuery();
 
 			stmt.setString(1, objeto.getSenha());
 			stmt.setString(2, objeto.getNome());
@@ -134,9 +149,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(9, objeto.getLivro());
 			stmt.setString(10, objeto.getMusicas());
 			stmt.setString(11, objeto.getLogin());
+			
 
 			stmt.executeUpdate();
 			stmt.close();
+			stmtBlog.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -168,13 +185,19 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 	public List<Usuario> getList() {
 		abrirConexao();
 		String sqlList = "SELECT * FROM usuario";
+		String sqlListA = "SELECT * FROM assinatura";
+
 		List<Usuario> lu = null;
 		Usuario u = null;
 
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
-
 			ResultSet rs = stmt.executeQuery(sqlList);
+
+			// recuperando dados da assinatura do usuario
+			PreparedStatement stmtA = getConnection().prepareStatement(
+					sqlListA);
+			ResultSet rsA = stmtA.executeQuery();
 
 			while (rs.next()) {
 				u = new Usuario();
@@ -194,8 +217,18 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 				lu.add(u);
 			}
+			
+			// para cada usuario recuperado, verifica-se se ele é assinante de algum blog
+			// caso positivo, o blog é adicionado
+			while (rsA.next())
+				for (Usuario user : lu) 
+					if (rsA.getString(1).equals(user.getLogin()))
+						user.getAssinatura().add(new JDBCDAOBlog().consultar(rsA.getInt(2)));
+				
 			stmt.close();
+			stmtA.close();
 			rs.close();
+			rsA.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
