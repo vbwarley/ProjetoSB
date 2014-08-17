@@ -7,22 +7,6 @@ public class Midia {
 	private String nomeArquivo;
 	private ComentarioComposite comentario;
 	private Postagem postagem;
-	
-	public ComentarioComposite getComentario() {
-		return comentario;
-	}
-
-	public void setComentario(ComentarioComposite comentario) {
-		this.comentario = comentario;
-	}
-
-	public Postagem getPostagem() {
-		return postagem;
-	}
-
-	public void setPostagem(Postagem postagem) {
-		this.postagem = postagem;
-	}
 
 	public Midia() {
 		// TODO Auto-generated constructor stub
@@ -52,6 +36,20 @@ public class Midia {
 		this.nomeArquivo = nomeArquivo;
 	}
 	
-	
+	public ComentarioComposite getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(ComentarioComposite comentario) {
+		this.comentario = comentario;
+	}
+
+	public Postagem getPostagem() {
+		return postagem;
+	}
+
+	public void setPostagem(Postagem postagem) {
+		this.postagem = postagem;
+	}
 	
 }

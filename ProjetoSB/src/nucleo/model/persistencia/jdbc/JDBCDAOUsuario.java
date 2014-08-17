@@ -99,7 +99,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 					u.getAssinatura().add(
 							new JDBCDAOBlog().consultar(rsA.getInt(2)));
 			}
-
+			
+			stmt.close();
+			stmtA.close();
+			rs.close();
+			rsA.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -111,7 +115,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 	@Override
 	public void alterar(Usuario objeto) {
 		abrirConexao();
-		String sqlUpdate = "UPDATE usuario SET login=?,senha=?,nome=?,email=?,data_nascimento=?"
+		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,data_nascimento=?"
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
 
@@ -119,20 +123,20 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 
-			stmt.setString(1, objeto.getLogin());
-			stmt.setString(2, objeto.getSenha());
-			stmt.setString(3, objeto.getNome());
-			stmt.setString(4, objeto.getEmail());
-			stmt.setDate(5, objeto.getDataNascimento());
-			stmt.setString(6, objeto.getEndereco());
-			stmt.setString(7, objeto.getInteresses());
-			stmt.setString(8, objeto.getQuemSouEu());
-			stmt.setString(9, objeto.getFilmes());
-			stmt.setString(10, objeto.getLivro());
-			stmt.setString(11, objeto.getMusicas());
+			stmt.setString(1, objeto.getSenha());
+			stmt.setString(2, objeto.getNome());
+			stmt.setString(3, objeto.getEmail());
+			stmt.setDate(4, objeto.getDataNascimento());
+			stmt.setString(5, objeto.getEndereco());
+			stmt.setString(6, objeto.getInteresses());
+			stmt.setString(7, objeto.getQuemSouEu());
+			stmt.setString(8, objeto.getFilmes());
+			stmt.setString(9, objeto.getLivro());
+			stmt.setString(10, objeto.getMusicas());
+			stmt.setString(11, objeto.getLogin());
 
 			stmt.executeUpdate();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -152,6 +156,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(1, objeto.getLogin());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -189,7 +194,8 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 				lu.add(u);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
