@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.util.codec.binary.StringUtils;
-
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOUsuario;
