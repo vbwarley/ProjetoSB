@@ -47,7 +47,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		JDBCDAOBlog b = new JDBCDAOBlog();
 
 		try {
-			abrirConexao();
 
 			PreparedStatement stmt = getConnection().prepareStatement(
 					PostagemSQL);
