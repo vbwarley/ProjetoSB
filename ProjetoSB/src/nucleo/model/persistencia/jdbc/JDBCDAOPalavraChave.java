@@ -11,48 +11,53 @@ import nucleo.model.negocios.PalavraChave;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
-public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave<PalavraChave, Integer> {
+public class JDBCDAOPalavraChave extends JDBCDAO implements
+		DAOPalavraChave<PalavraChave, Integer> {
+
+	public JDBCDAOPalavraChave() {
+		abrirConexao();
+	}
 
 	@Override
 	public void criar(PalavraChave objeto) {
-		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave VALUES (?,?)";
 
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(insertSql);
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(insertSql);
 
 			stmt.setInt(1, objeto.getCodigo());
 			stmt.setString(2, objeto.getNome());
-			
+
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
 			fecharConexao();
-		}		
+		}
 	}
 
 	@Override
 	public PalavraChave consultar(Integer id) {
-		abrirConexao();
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
-		
+
 		PalavraChave pc = null;
-		
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(selectSql);
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(selectSql);
 			stmt.setInt(1, id);
-			
+
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				pc = new PalavraChave();
-				
+
 				pc.setCodigo(id);
 				pc.setNome(rs.getString(2));
 			}
-			
+
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
@@ -60,22 +65,21 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave<Pala
 		} finally {
 			fecharConexao();
 		}
-		
+
 		return pc;
 	}
 
 	@Override
 	public void alterar(PalavraChave objeto) {
-		abrirConexao();
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
-		
-		
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(updateSql);
-		
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(updateSql);
+
 			stmt.setString(1, objeto.getNome());
 			stmt.setInt(2, objeto.getCodigo());
-			
+
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -87,7 +91,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave<Pala
 
 	@Override
 	public void deletar(PalavraChave objeto) {
-		abrirConexao();
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
 
 		try {
@@ -107,7 +110,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave<Pala
 
 	@Override
 	public List<PalavraChave> getList() {
-		abrirConexao();
 		String sqlList = "SELECT * FROM palavras_chave";
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
@@ -126,7 +128,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave<Pala
 
 				lpc.add(pc);
 			}
-			
+
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
