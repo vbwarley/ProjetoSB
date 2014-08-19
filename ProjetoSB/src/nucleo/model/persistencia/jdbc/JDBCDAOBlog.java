@@ -30,10 +30,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.setBoolean(6, objeto.isAutorizaComentarioAnonimo());
 
 			stmt.execute();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		}finally{
+		} finally {
 			fecharConexao();
 		}
 	}
@@ -48,8 +48,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(selectSQL);
 			stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-			
+			ResultSet rs = stmt.executeQuery();
+
 			while (rs.next()) {
 				b = new Blog();
 
@@ -61,7 +61,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
 			}
 			stmt.close();
-
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -72,7 +72,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public void alterar(Blog objeto) {
-		abrirConexao();
 		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
 				+ "WHERE titulo=?";
 
@@ -87,17 +86,15 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 			stmt.executeUpdate();
 			stmt.close();
-
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		}finally{
+		} finally {
 			fecharConexao();
 		}
 	}
 
 	@Override
 	public void deletar(Blog objeto) {
-         abrirConexao();
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
 		try {
@@ -110,7 +107,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		}finally{
+		} finally {
 			fecharConexao();
 		}
 
@@ -118,10 +115,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public List<Blog> getList() {
-		abrirConexao();
-		
-        String sqlList = "SELECT * FROM blog";
-        
+		String sqlList = "SELECT * FROM blog";
+
 		List<Blog> bu = null;
 		Blog b = null;
 
@@ -142,10 +137,11 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 				bu.add(b);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		}finally{
+		} finally {
 			fecharConexao();
 		}
 
