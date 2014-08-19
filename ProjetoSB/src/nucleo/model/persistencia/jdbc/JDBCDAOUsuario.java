@@ -127,7 +127,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			PreparedStatement stmtBlog = getConnection().prepareStatement(sqlA);
 			
 			stmt.setString(1, objeto.getLogin());
-			int c = 1;
+			int c = 0;
 			
 			for (Blog b : objeto.getAssinatura()) {
 				c++;
