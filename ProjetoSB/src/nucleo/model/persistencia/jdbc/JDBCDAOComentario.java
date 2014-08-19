@@ -1,16 +1,12 @@
 package nucleo.model.persistencia.jdbc;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import nucleo.model.negocios.ComentarioAnonimo;
 import nucleo.model.negocios.ComentarioComposite;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOComentario;
 
 public class JDBCDAOComentario  extends JDBCDAO implements DAOComentario<ComentarioComposite, Integer>{
