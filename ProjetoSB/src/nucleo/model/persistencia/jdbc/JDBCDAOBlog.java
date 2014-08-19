@@ -33,6 +33,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}finally{
+			fecharConexao();
 		}
 	}
 
@@ -42,13 +44,12 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 		Blog b = null;
 
 		try {
+			// recuperando dados do blog
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(selectSQL);
-
 			stmt.setInt(1, id);
-
-			ResultSet rs = stmt.executeQuery();
-
+            ResultSet rs = stmt.executeQuery();
+			
 			while (rs.next()) {
 				b = new Blog();
 
@@ -59,16 +60,19 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
 			}
+			stmt.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 		return b;
 	}
 
 	@Override
 	public void alterar(Blog objeto) {
-
+		abrirConexao();
 		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
 				+ "WHERE titulo=?";
 
@@ -82,15 +86,18 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.setString(4, objeto.getImagemFundo());
 
 			stmt.executeUpdate();
+			stmt.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}finally{
+			fecharConexao();
 		}
 	}
 
 	@Override
 	public void deletar(Blog objeto) {
-
+         abrirConexao();
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
 		try {
@@ -100,22 +107,26 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.setString(1, objeto.getTitulo());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}finally{
+			fecharConexao();
 		}
 
 	}
 
 	@Override
 	public List<Blog> getList() {
-
-		String sqlList = "SELECT * FROM blog";
+		abrirConexao();
+		
+        String sqlList = "SELECT * FROM blog";
+        
 		List<Blog> bu = null;
 		Blog b = null;
 
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
-
 			ResultSet rs = stmt.executeQuery(sqlList);
 
 			while (rs.next()) {
@@ -134,6 +145,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		}finally{
+			fecharConexao();
 		}
 
 		return bu;
