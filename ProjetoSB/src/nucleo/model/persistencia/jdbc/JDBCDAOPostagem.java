@@ -12,6 +12,10 @@ import nucleo.model.persistencia.dao.DAOPostagem;
 public class JDBCDAOPostagem extends JDBCDAO implements
 		DAOPostagem<Postagem, Integer> {
 
+	public JDBCDAOPostagem() {
+		abrirConexao();
+	}
+
 	@Override
 	public void criar(Postagem objeto) {
 		String sql = "INSERT INTO postagem VALUES (?,?,?,?,?)";
@@ -26,10 +30,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 			stmt.setInt(4, objeto.getBlog().getCodigo());
 
 			stmt.execute();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-
+		} finally {
+			fecharConexao();
 		}
 
 	}
@@ -60,10 +65,12 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				p.setBlog(b.consultar(rs.getInt(4)));
 
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-
+		} finally {
+			fecharConexao();
 		}
 
 		return p;
@@ -71,52 +78,52 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public void alterar(Postagem objeto) {
-		
 		String sqlUpdate = "UPDATE postagem SET codigo=?,titulo=?,conteudo=?,codBlog"
 				+ "WHERE codigo=?";
 
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sqlUpdate);
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(sqlUpdate);
 
 			stmt.setInt(1, objeto.getCodigo());
 			stmt.setString(2, objeto.getTitulo());
 			stmt.setString(3, objeto.getConteudo());
 			stmt.setInt(4, objeto.getBlog().getCodigo());
-			
 
 			stmt.executeUpdate();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 	}
-	
 
 	@Override
 	public void deletar(Postagem objeto) {
-		
 		String sqlDelete = "DELETE FROM postagem WHERE codigo = ?";
 
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sqlDelete);
+			PreparedStatement stmt = getConnection()
+					.prepareStatement(sqlDelete);
 
 			stmt.setInt(1, objeto.getCodigo());
 
 			stmt.executeUpdate();
-			
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 	}
 
-
 	@Override
 	public List<Postagem> getList() {
-
 		String sqlList = "SELECT * FROM postagem";
 		List<Postagem> po = null;
 		Postagem p = null;
-		
+
 		JDBCDAOBlog b = new JDBCDAOBlog();
 
 		try {
@@ -132,13 +139,15 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
 				p.setBlog(b.consultar(rs.getInt(4)));
-				
 
 				po.add(p);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
+		} finally {
+			fecharConexao();
 		}
 
 		return po;
