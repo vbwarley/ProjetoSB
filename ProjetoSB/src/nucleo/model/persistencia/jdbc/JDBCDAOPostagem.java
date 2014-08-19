@@ -44,8 +44,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		String PostagemSQL = "Select * from postagem where codigo = ?";
 		Postagem p = null;
 
-		JDBCDAOBlog b = new JDBCDAOBlog();
-
 		try {
 
 			PreparedStatement stmt = getConnection().prepareStatement(
@@ -61,7 +59,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(b.consultar(rs.getInt(4)));
+				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
 
 			}
 			stmt.close();
@@ -123,8 +121,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		List<Postagem> po = null;
 		Postagem p = null;
 
-		JDBCDAOBlog b = new JDBCDAOBlog();
-
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
 
@@ -137,7 +133,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(b.consultar(rs.getInt(4)));
+				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
 
 				po.add(p);
 			}
