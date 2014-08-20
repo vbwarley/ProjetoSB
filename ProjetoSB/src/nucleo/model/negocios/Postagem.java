@@ -14,6 +14,7 @@ public class Postagem extends Observable {
 
 	public Postagem() {
 		palavraChaves = new HashSet<PalavraChave>();
+		// aqui sera chamado o update dos observadores
 	}
 
 	public int getCodigo() {
@@ -38,6 +39,7 @@ public class Postagem extends Observable {
 
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
+		// aqui sera chamado o update dos observadores
 	}
 
 	public Blog getBlog() {

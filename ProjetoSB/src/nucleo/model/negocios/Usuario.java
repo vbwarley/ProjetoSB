@@ -123,12 +123,12 @@ public class Usuario implements Observer {
 
 	public void criarAssinatura(Blog blog) {
 		this.assinatura.add(blog);
-		// mais 
+		blog.addObserver(this);
 	}
 	
 	public void excluirAssinatura(Blog blog) {
 		this.assinatura.remove(blog);
-		// mais
+		blog.deleteObserver(this);
 	}
 	
 	public boolean login(String login, String senha) {
@@ -141,8 +141,7 @@ public class Usuario implements Observer {
 	}
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
+		// aqui avisa o usuario das notificaoes
 	}
 
 }

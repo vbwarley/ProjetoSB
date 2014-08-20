@@ -1,8 +1,9 @@
 package nucleo.model.negocios;
 
+import java.util.Observable;
 import java.util.Set;
 
-public class Blog {
+public class Blog extends Observable {
 	
 	private int codigo = 0;
 	private String titulo;
@@ -64,15 +65,12 @@ public class Blog {
 		this.autorizaComentarioAnonimo = autorizaComentarioAnonimo;
 	}
 
-
 	public Set<Usuario> getAssinantes() {
 		return assinantes;
 	}
 
-
 	public void setAssinantes(Set<Usuario> assinantes) {
 		this.assinantes = assinantes;
 	}
-	
 	
 }
