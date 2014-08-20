@@ -12,27 +12,29 @@ public abstract class JDBCDAO {
 		
 	}
 	
-	public void abrirConexao() {
+	protected void abrirConexao() {
 		try {
-			if (connection != null)
-				connection = DriverManager.getConnection("jdbc:mysql://localhost:/banco_sb","","");
+			if (connection == null)
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","warley");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void fecharConexao() {
+	protected void fecharConexao() {
 		try {
-			if (!connection.isClosed())
+			if (!connection.isClosed()) {
 				connection.close();
+				this.connection = null;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public Connection getConnection() {
+	protected Connection getConnection() {
 		return connection;
 	}
 }

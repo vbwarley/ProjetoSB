@@ -11,6 +11,7 @@ public class Usuario implements Observer {
 	private String login;
 	private String nome;
 	private String senha;
+	private char sexo;
 	private String email;
 	private Date dataNascimento;
 	private String endereco;
@@ -18,7 +19,7 @@ public class Usuario implements Observer {
 	private String quemSouEu;
 	private String filmes;
 	private String musicas;
-	private String livro;
+	private String livros;
 	private Set<Blog> assinatura;
 
 	public Usuario() {
@@ -47,6 +48,14 @@ public class Usuario implements Observer {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(char sexo) {
+		this.sexo = sexo;
 	}
 
 	public String getEmail() {
@@ -105,12 +114,12 @@ public class Usuario implements Observer {
 		this.musicas = musicas;
 	}
 
-	public String getLivro() {
-		return livro;
+	public String getLivros() {
+		return livros;
 	}
 
-	public void setLivro(String livro) {
-		this.livro = livro;
+	public void setLivros(String livros) {
+		this.livros = livros;
 	}
 
 	public Set<Blog> getAssinatura() {
@@ -125,23 +134,42 @@ public class Usuario implements Observer {
 		this.assinatura.add(blog);
 		blog.addObserver(this);
 	}
-	
+
 	public void excluirAssinatura(Blog blog) {
 		this.assinatura.remove(blog);
 		blog.deleteObserver(this);
 	}
-	
+
 	public boolean login(String login, String senha) {
 		// ...
 		return true;
 	}
-	
+
 	public void logout() {
 		// ...
 	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		// aqui avisa o usuario das notificaoes
+	}
+
+	public boolean equals(Usuario usuario) {
+
+		if (usuario.getLogin().equals(this.login)
+				&& usuario.getSenha().equals(this.senha)
+				&& usuario.getNome().equals(this.nome)
+				&& usuario.getSexo() == this.sexo
+				&& usuario.getDataNascimento().equals(this.dataNascimento)
+				&& usuario.getEmail().equals(this.email)
+				&& usuario.getQuemSouEu().equals(this.quemSouEu)
+				&& usuario.getInteresses().equals(this.interesses)
+				&& usuario.getEndereco().equals(this.endereco)
+				&& usuario.getFilmes().equals(this.filmes)
+				&& usuario.getLivros().equals(this.livros)
+				&& usuario.getMusicas().equals(this.musicas))
+			return true;
+		return false;
 	}
 
 }

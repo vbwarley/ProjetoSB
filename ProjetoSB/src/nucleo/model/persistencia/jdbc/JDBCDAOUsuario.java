@@ -14,11 +14,12 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		DAOUsuario<Usuario, String> {
 
 	public JDBCDAOUsuario() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(Usuario objeto) {
+		abrirConexao();
 		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		String sqlA = "INSERT INTO assinatura VALUES (?,?)";
 
@@ -29,14 +30,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(1, objeto.getLogin());
 			stmt.setString(2, objeto.getSenha());
 			stmt.setString(3, objeto.getNome());
-			stmt.setString(4, objeto.getEmail());
+			stmt.setString(4, String.valueOf(objeto.getSexo()));
 			stmt.setDate(5, objeto.getDataNascimento());
-			stmt.setString(6, objeto.getEndereco());
-			stmt.setString(7, objeto.getInteresses());
-			stmt.setString(8, objeto.getQuemSouEu());
-			stmt.setString(9, objeto.getFilmes());
-			stmt.setString(10, objeto.getLivro());
-			stmt.setString(11, objeto.getMusicas());
+			stmt.setString(6, objeto.getEmail());
+			stmt.setString(7, objeto.getQuemSouEu());
+			stmt.setString(8, objeto.getInteresses());
+			stmt.setString(9, objeto.getEndereco());
+			stmt.setString(10, objeto.getFilmes());
+			stmt.setString(11, objeto.getLivros());
+			stmt.setString(12, objeto.getMusicas());
 
 			stmt.execute();
 
@@ -51,7 +53,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmtBlog.close();
 
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -59,6 +61,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 	@Override
 	public Usuario consultar(String id) {
+		abrirConexao();
 		String selectSQL = "SELECT * FROM usuario WHERE login = ?";
 		String selectSQLA = "SELECT * FROM assinatura WHERE login=?";
 
@@ -83,14 +86,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				u.setLogin(rs.getString(1));
 				u.setSenha(rs.getString(2));
 				u.setNome(rs.getString(3));
-				u.setEmail(rs.getString(4));
+				u.setSexo(rs.getString(4).toCharArray()[0]);
 				u.setDataNascimento(rs.getDate(5));
-				u.setEndereco(rs.getString(6));
-				u.setInteresses(rs.getString(7));
-				u.setQuemSouEu(rs.getString(8));
-				u.setFilmes(rs.getString(9));
-				u.setLivro(rs.getString(10));
-				u.setMusicas(rs.getString(11));
+				u.setEmail(rs.getString(6));
+				u.setQuemSouEu(rs.getString(7));
+				u.setInteresses(rs.getString(8));
+				u.setEndereco(rs.getString(9));
+				u.setFilmes(rs.getString(10));
+				u.setLivros(rs.getString(11));
+				u.setMusicas(rs.getString(12));
 
 				// recupera as assinaturas
 				while (rsA.next())
@@ -103,7 +107,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			rs.close();
 			rsA.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -112,7 +116,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 	@Override
 	public void alterar(Usuario objeto) {
-		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,data_nascimento=?"
+		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?"
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
 		// exclui os blogs da assinatura do usuario
@@ -163,14 +167,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(1, objeto.getSenha());
 			stmt.setString(2, objeto.getNome());
 			stmt.setString(3, objeto.getEmail());
-			stmt.setDate(4, objeto.getDataNascimento());
-			stmt.setString(5, objeto.getEndereco());
-			stmt.setString(6, objeto.getInteresses());
-			stmt.setString(7, objeto.getQuemSouEu());
-			stmt.setString(8, objeto.getFilmes());
-			stmt.setString(9, objeto.getLivro());
-			stmt.setString(10, objeto.getMusicas());
-			stmt.setString(11, objeto.getLogin());
+			stmt.setString(4, String.valueOf(objeto.getSexo()));
+			stmt.setDate(5, objeto.getDataNascimento());
+			stmt.setString(6, objeto.getEndereco());
+			stmt.setString(7, objeto.getInteresses());
+			stmt.setString(8, objeto.getQuemSouEu());
+			stmt.setString(9, objeto.getFilmes());
+			stmt.setString(10, objeto.getLivros());
+			stmt.setString(11, objeto.getMusicas());
+			stmt.setString(12, objeto.getLogin());
 
 			stmt.executeUpdate();
 			stmt.close();
@@ -226,12 +231,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				u.setSenha(rs.getString(2));
 				u.setNome(rs.getString(3));
 				u.setEmail(rs.getString(4));
+				u.setSexo(rs.getString(5).toCharArray()[1]);
 				u.setDataNascimento(rs.getDate(5));
 				u.setEndereco(rs.getString(6));
 				u.setInteresses(rs.getString(7));
 				u.setQuemSouEu(rs.getString(8));
 				u.setFilmes(rs.getString(9));
-				u.setLivro(rs.getString(10));
+				u.setLivros(rs.getString(10));
 				u.setMusicas(rs.getString(11));
 
 				lu.add(u);
