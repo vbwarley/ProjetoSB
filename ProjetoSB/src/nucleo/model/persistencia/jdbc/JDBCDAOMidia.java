@@ -128,7 +128,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 			while (rs.next()) {
 				m = new Midia();
-				lm = new ArrayList<Midia>();
+				lm = new ArrayList<Midia>(); // pode ser HashSet
 
 				m.setCodigo(rs.getInt(1));
 				m.setNomeArquivo(rs.getString(2));

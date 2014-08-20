@@ -116,7 +116,12 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
 		// exclui os blogs da assinatura do usuario
-		String sqlA = "DELETE FROM assinatura WHERE login=? AND codBlog NOT IN(" + new String(new char[(objeto.getAssinatura().size())]).replace("\0", ",?") + ")";
+		String sqlA = "";
+		
+		if (!objeto.getAssinatura().isEmpty())
+			sqlA = "DELETE FROM assinatura WHERE login=? AND codBlog NOT IN(?" + new String(new char[(objeto.getAssinatura().size() - 1)]).replace("\0", ",?") + ")";
+		else
+			sqlA = "DELETE FROM assinatura WHERE login=?";
 		
 		try {
 			PreparedStatement stmt = getConnection()
@@ -230,5 +235,4 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 		return lu;
 	}
-
 }

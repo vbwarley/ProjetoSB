@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.PalavraChave;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
 public class JDBCDAOPalavraChave extends JDBCDAO implements
@@ -41,25 +39,39 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	@Override
 	public PalavraChave consultar(Integer id) {
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
+		String selectSqlPP = "SELECT * FROM postagem_palavras WHERE codPalavra = ?";
 
 		PalavraChave pc = null;
 
 		try {
+			// recupera palavras-chave
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(selectSql);
 			stmt.setInt(1, id);
-
 			ResultSet rs = stmt.executeQuery();
+
+			// recupera postagens com a palavra-chave pesquisada
+			PreparedStatement stmtPP = getConnection().prepareStatement(
+					selectSqlPP);
+			stmt.setInt(1, id);
+			ResultSet rsPP = stmtPP.executeQuery();
 
 			while (rs.next()) {
 				pc = new PalavraChave();
 
 				pc.setCodigo(id);
 				pc.setNome(rs.getString(2));
+
+				// adiciona as postagens no objeto pc
+				while (rsPP.next())
+					pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
+							.getInt(1)));
 			}
 
 			stmt.close();
+			stmtPP.close();
 			rs.close();
+			rsPP.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
@@ -114,10 +126,16 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
 
+		// recupera as postagens associadas
+		String sqlListPP = "SELECT * FROM postagem_palavras WHERE codPalavra = ?";
+
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
+			PreparedStatement stmtPP = getConnection().prepareStatement(
+					sqlListPP);
 
-			ResultSet rs = stmt.executeQuery(sqlList);
+			ResultSet rs = stmt.executeQuery();
+			ResultSet rsPP = stmtPP.executeQuery();
 
 			while (rs.next()) {
 				pc = new PalavraChave();
@@ -126,11 +144,18 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 				pc.setCodigo(rs.getInt(1));
 				pc.setNome(rs.getString(2));
 
+				// adiciona as postagens (se tiver) à palavra-chave recuperada
+				while (rsPP.next())
+					pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
+							.getInt(1)));
+
 				lpc.add(pc);
 			}
 
 			stmt.close();
+			stmtPP.close();
 			rs.close();
+			rsPP.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {

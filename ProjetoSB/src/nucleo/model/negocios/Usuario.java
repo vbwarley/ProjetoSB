@@ -1,7 +1,6 @@
 package nucleo.model.negocios;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
@@ -123,11 +122,13 @@ public class Usuario implements Observer {
 	}
 
 	public void criarAssinatura(Blog blog) {
-		// ...
+		this.assinatura.add(blog);
+		// mais 
 	}
 	
 	public void excluirAssinatura(Blog blog) {
-		// ...	
+		this.assinatura.remove(blog);
+		// mais
 	}
 	
 	public boolean login(String login, String senha) {

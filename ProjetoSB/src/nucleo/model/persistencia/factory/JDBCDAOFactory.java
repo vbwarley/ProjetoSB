@@ -23,7 +23,7 @@ public class JDBCDAOFactory extends DAOFactory {
 
 	@Override
 	public DAOUsuario<Usuario, String> getDAOUsuario() {
-		DAOUsuario<Usuario, String> usuario = new JDBCDAOUsuario(); 
+		DAOUsuario<Usuario, String> usuario = new JDBCDAOUsuario();
 		return usuario;
 	}
 

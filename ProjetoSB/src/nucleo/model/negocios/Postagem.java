@@ -1,5 +1,6 @@
 package nucleo.model.negocios;
 
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
@@ -9,9 +10,10 @@ public class Postagem extends Observable {
 	private String titulo;
 	private String conteudo;
 	private Blog blog;
+	private Set<PalavraChave> palavraChaves;
 
 	public Postagem() {
-		
+		palavraChaves = new HashSet<PalavraChave>();
 	}
 
 	public int getCodigo() {
@@ -45,7 +47,23 @@ public class Postagem extends Observable {
 	public void setBlog(Blog blog) {
 		this.blog = blog;
 	}
+
+	public Set<PalavraChave> getPalavraChaves() {
+		return palavraChaves;
+	}
+
+	public void setPalavraChaves(Set<PalavraChave> palavraChaves) {
+		this.palavraChaves = palavraChaves;
+	}
 	
+	public void adicionaPalavraChave(PalavraChave palavraChave) {
+		this.palavraChaves.add(palavraChave);
+		// mais
+	}
 	
+	public void removePalavraChave(PalavraChave palavraChave) {
+		this.palavraChaves.remove(palavraChave);
+		// mais
+	}
 
 }

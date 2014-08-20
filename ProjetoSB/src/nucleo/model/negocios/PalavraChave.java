@@ -1,12 +1,16 @@
 package nucleo.model.negocios;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PalavraChave {
 	
 	private Integer codigo;
 	private String nome;
+	private Set<Postagem> postagens;
 	
 	public PalavraChave() {
-		// TODO Auto-generated constructor stub
+		postagens = new HashSet<Postagem>();
 	}
 
 	public Integer getCodigo() {
@@ -24,6 +28,20 @@ public class PalavraChave {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public Set<Postagem> getPostagens() {
+		return postagens;
+	}
+
+	public void setPostagens(Set<Postagem> postagens) {
+		this.postagens = postagens;
+	}
 	
+	public void adicionaPostagem(Postagem postagem) {
+		this.postagens.add(postagem);
+	}
 	
+	public void removePostagem(Postagem postagem) {
+		this.postagens.remove(postagem);
+	}
 }
