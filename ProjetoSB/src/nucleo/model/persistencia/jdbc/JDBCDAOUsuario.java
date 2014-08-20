@@ -117,26 +117,48 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 				+ "WHERE login=?";
 		// exclui os blogs da assinatura do usuario
 		String sqlA = "";
-		
-		if (!objeto.getAssinatura().isEmpty())
-			sqlA = "DELETE FROM assinatura WHERE login=? AND codBlog NOT IN(?" + new String(new char[(objeto.getAssinatura().size() - 1)]).replace("\0", ",?") + ")";
-		else
-			sqlA = "DELETE FROM assinatura WHERE login=?";
-		
+
+		Usuario usuario = consultar(objeto.getLogin());
+		Blog blog = null;
+
+		if (objeto.getAssinatura().size() > usuario.getAssinatura().size()) {
+			for (Blog blogN : objeto.getAssinatura())
+				if (!usuario.getAssinatura().contains(blogN)) {
+					sqlA = "INSERT INTO assinatura VALUES (?,?)";
+					blog = blogN;
+				}
+		} else if (objeto.getAssinatura().size() < usuario.getAssinatura()
+				.size()) {
+			if (!objeto.getAssinatura().isEmpty())
+				sqlA = "DELETE FROM assinatura WHERE login=? AND codBlog NOT IN(?"
+						+ new String(
+								new char[(objeto.getAssinatura().size() - 1)])
+								.replace("\0", ",?") + ")";
+			else
+				sqlA = "DELETE FROM assinatura WHERE login=?";
+		}
+
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 			PreparedStatement stmtBlog = getConnection().prepareStatement(sqlA);
-			
+
 			stmt.setString(1, objeto.getLogin());
-			int c = 0;
-			
-			for (Blog b : objeto.getAssinatura()) {
-				c++;
-				stmtBlog.setInt(c, b.getCodigo());
+
+			if (sqlA.contains("INSERT")) {
+				stmtBlog.setString(1, objeto.getLogin());
+				stmtBlog.setInt(2, blog.getCodigo());
+				stmtBlog.execute();
+			} else if (sqlA.contains("DELETE")) {
+				int c = 0;
+
+				for (Blog b : objeto.getAssinatura()) {
+					c++;
+					stmtBlog.setInt(c, b.getCodigo());
+				}
+
+				stmtBlog.executeUpdate();
 			}
-							
-			stmtBlog.executeQuery();
 
 			stmt.setString(1, objeto.getSenha());
 			stmt.setString(2, objeto.getNome());
@@ -149,7 +171,6 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(9, objeto.getLivro());
 			stmt.setString(10, objeto.getMusicas());
 			stmt.setString(11, objeto.getLogin());
-			
 
 			stmt.executeUpdate();
 			stmt.close();
@@ -193,8 +214,8 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			ResultSet rs = stmt.executeQuery(sqlList);
 
 			// recuperando dados da assinatura do usuario
-			PreparedStatement stmtA = getConnection().prepareStatement(
-					sqlListA);
+			PreparedStatement stmtA = getConnection()
+					.prepareStatement(sqlListA);
 			ResultSet rsA = stmtA.executeQuery();
 
 			while (rs.next()) {
@@ -215,14 +236,16 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 				lu.add(u);
 			}
-			
-			// para cada usuario recuperado, verifica-se se ele é assinante de algum blog
+
+			// para cada usuario recuperado, verifica-se se ele é assinante de
+			// algum blog
 			// caso positivo, o blog é adicionado
 			while (rsA.next())
-				for (Usuario user : lu) 
+				for (Usuario user : lu)
 					if (rsA.getString(1).equals(user.getLogin()))
-						user.getAssinatura().add(new JDBCDAOBlog().consultar(rsA.getInt(2)));
-				
+						user.getAssinatura().add(
+								new JDBCDAOBlog().consultar(rsA.getInt(2)));
+
 			stmt.close();
 			stmtA.close();
 			rs.close();
