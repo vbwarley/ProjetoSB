@@ -5,12 +5,13 @@ import java.util.Set;
 
 public class PalavraChave {
 	
-	private Integer codigo;
+	private Integer codigo = 0;
 	private String nome;
 	private Set<Postagem> postagens;
 	
 	public PalavraChave() {
 		postagens = new HashSet<Postagem>();
+		codigo += 1;
 	}
 
 	public Integer getCodigo() {
