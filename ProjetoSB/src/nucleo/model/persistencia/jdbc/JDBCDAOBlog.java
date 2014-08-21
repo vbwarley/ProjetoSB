@@ -12,11 +12,13 @@ import nucleo.model.persistencia.dao.DAOBlog;
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	public JDBCDAOBlog() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(Blog objeto) {
+		
+		abrirConexao();
 		String sql = "INSERT INTO blog VALUES (?,?,?,?,?,?)";
 
 		try {
@@ -40,6 +42,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public Blog consultar(Integer id) {
+		
+		abrirConexao();
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
 		Blog b = null;
 
@@ -72,6 +76,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public void alterar(Blog objeto) {
+		
+		abrirConexao();
 		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
 				+ "WHERE titulo=?";
 
@@ -95,6 +101,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public void deletar(Blog objeto) {
+		
+		abrirConexao();
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
 		try {
@@ -115,6 +123,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public List<Blog> getList() {
+		
+		abrirConexao();
 		String sqlList = "SELECT * FROM blog";
 
 		List<Blog> bu = null;
