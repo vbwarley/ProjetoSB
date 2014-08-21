@@ -14,14 +14,17 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		DAOPostagem<Postagem, Integer> {
 
 	public JDBCDAOPostagem() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(Postagem objeto) {
-		String sql = "INSERT INTO postagem VALUES (?,?,?,?,?)";
+		
+		abrirConexao();
+		String sql = "INSERT INTO postagem VALUES (?,?,?,?)";
 		String sqlPostagemPalavras = "INSERT INTO postagem_palavras VALUES (?,?)";
 
+		
 		try {
 
 			PreparedStatement stmt = getConnection().prepareStatement(sql);
@@ -46,7 +49,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 			stmtPostPalavras.close();
 
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -55,6 +58,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public Postagem consultar(Integer id) {
+		abrirConexao();
 		String PostagemSQL = "Select * from postagem where codigo = ?";
 		String PalavraSQL = "Select * from postagem_palavras where codPostagem = ?";
 
@@ -95,7 +99,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 			rsPC.close();
 
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
