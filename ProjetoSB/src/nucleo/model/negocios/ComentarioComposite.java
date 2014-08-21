@@ -8,6 +8,7 @@ public class ComentarioComposite {
 	private String titulo;
 	private String conteudo;
 	private Postagem Postagem;
+	private String tipo;
 	private ComentarioComposite comentarioPai;
 	private Usuario usuario;
 	private List<ComentarioComposite> listaComentarios;
@@ -72,6 +73,14 @@ public class ComentarioComposite {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public void addComentario(ComentarioComposite comentario) {
 		// ...
@@ -79,5 +88,22 @@ public class ComentarioComposite {
 	
 	public void removeComentario(ComentarioComposite comentario) {
 		// ...
+	}
+	
+	public boolean equals(ComentarioComposite comentario){
+		
+		if ( comentario.getCodigo() == this.getCodigo() 
+				&& comentario.getComentarioPai() == this.getComentarioPai()
+				&& comentario.getConteudo().equals(this.getConteudo())
+				&& comentario.getListaComentarios() == this.getListaComentarios()
+				&& comentario.getPostagem() == this.getPostagem()
+				&& comentario.getTitulo().equals(this.getTitulo())
+				&& comentario.getUsuario().getLogin().equals(this.getUsuario().getLogin()))
+		{	
+			return true;
+		}
+		
+		
+		return false;
 	}
 }
