@@ -22,7 +22,6 @@ public class TestJDBCDAOPostagem {
 		jdp = new JDBCDAOPostagem();
 	}
 
-	@Ignore
 	@Test
 	public void criar() {
 		
