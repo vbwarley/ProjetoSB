@@ -16,6 +16,11 @@ public abstract class JDBCDAO {
 		try {
 			if (connection == null)
 				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","warley");
+			else
+				if (connection.isClosed()) {
+					connection.close();
+					connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","warley");
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,7 +31,6 @@ public abstract class JDBCDAO {
 		try {
 			if (!connection.isClosed()) {
 				connection.close();
-				this.connection = null;
 			} else {
 				
 			}

@@ -21,7 +21,7 @@ public class TestJDBCDAOUsuario {
 	public void before() {
 		jdu = new JDBCDAOUsuario();
 	}
-
+	
 	@Test
 	public void criar() {
 		Usuario usuario = new Usuario();
@@ -43,7 +43,7 @@ public class TestJDBCDAOUsuario {
 
 		assertEquals(true, jdu.consultar(usuario.getLogin()).equals(usuario));
 	}
-
+	
 	@Test
 	public void consultar() {
 		Usuario usuario = new Usuario();
@@ -64,11 +64,10 @@ public class TestJDBCDAOUsuario {
 		// se já não estiver criado, executa o jdu.criar()
 		jdu.criar(usuario);
 		
-		assertEquals(usuario.getLogin(), jdu.consultar(usuario.getLogin())
-				.getLogin());
+		assertEquals(true, jdu.consultar(usuario.getLogin())
+				.equals(usuario));
 	}
-
-	@Ignore
+	
 	@Test
 	public void alterar() {
 		Usuario usuario = new Usuario();
@@ -104,7 +103,7 @@ public class TestJDBCDAOUsuario {
 
 		assertEquals(true, jdu.consultar(usuario.getLogin()).equals(usuario));
 	}
-
+	
 	@Test
 	public void deletar() {
 		Usuario usuario = new Usuario();
@@ -127,7 +126,7 @@ public class TestJDBCDAOUsuario {
 
 		assertEquals(null, jdu.consultar(usuario.getLogin()));
 	}
-
+	
 	@Test
 	public void getList() {
 		List<Usuario> listaUsuario = new ArrayList<Usuario>();
@@ -200,11 +199,18 @@ public class TestJDBCDAOUsuario {
 		listaUsuario.add(usuario4);
 		
 		List<Usuario> listaUsuarioRetornada = jdu.getList();
+		int iguais = 0;
 		
 		for (Usuario u : listaUsuario)
 			for (Usuario uRetornado : listaUsuarioRetornada)
-				continue;
+				if (u.equals(uRetornado))
+					iguais++;
 		
-		assertEquals(true, false);
+		
+		/* Ao rodar o teste completo, teremos 6 registros no banco. 
+		 * No entanto, precisamos igualar apenas quatro para que seja possível 
+		 * confirmar que o método funciona corretamente. 
+		 */
+		 assertEquals(4, iguais);
 	}
 }

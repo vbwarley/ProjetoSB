@@ -14,7 +14,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		DAOUsuario<Usuario, String> {
 
 	public JDBCDAOUsuario() {
-		
+
 	}
 
 	@Override
@@ -117,9 +117,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 	@Override
 	public void alterar(Usuario objeto) {
 		abrirConexao();
-		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?"
-				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
-				+ "WHERE login=?";
+		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?,endereco=?,interesses=?,quem_sou=?,filmes=?,livros=?,musicas=? WHERE login=?";
 		// exclui os blogs da assinatura do usuario
 		String sqlA = "";
 
@@ -144,6 +142,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		}
 
 		try {
+			abrirConexao();
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 			PreparedStatement stmtBlog = getConnection().prepareStatement(sqlA);
@@ -182,7 +181,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.close();
 			stmtBlog.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -226,22 +225,23 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 					.prepareStatement(sqlListA);
 			ResultSet rsA = stmtA.executeQuery();
 
+			lu = new ArrayList<Usuario>();
+
 			while (rs.next()) {
 				u = new Usuario();
-				lu = new ArrayList<Usuario>();
 
-				u.setLogin(rs.getString(1));
-				u.setSenha(rs.getString(2));
-				u.setNome(rs.getString(3));
-				u.setEmail(rs.getString(4));
-				u.setSexo(rs.getString(5).toCharArray()[1]);
-				u.setDataNascimento(rs.getDate(5));
-				u.setEndereco(rs.getString(6));
-				u.setInteresses(rs.getString(7));
-				u.setQuemSouEu(rs.getString(8));
-				u.setFilmes(rs.getString(9));
-				u.setLivros(rs.getString(10));
-				u.setMusicas(rs.getString(11));
+				u.setLogin(rs.getString("login"));
+				u.setSenha(rs.getString("senha"));
+				u.setNome(rs.getString("nome"));
+				u.setEmail(rs.getString("email"));
+				u.setSexo(rs.getString("sexo").charAt(0));
+				u.setDataNascimento(rs.getDate("data_nascimento"));
+				u.setEndereco(rs.getString("endereco"));
+				u.setInteresses(rs.getString("interesses"));
+				u.setQuemSouEu(rs.getString("quem_sou"));
+				u.setFilmes(rs.getString("filmes"));
+				u.setLivros(rs.getString("livros"));
+				u.setMusicas(rs.getString("musicas"));
 
 				lu.add(u);
 			}
