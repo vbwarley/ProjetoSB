@@ -30,7 +30,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -73,7 +73,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			rs.close();
 			rsPP.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}

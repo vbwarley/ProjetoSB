@@ -32,7 +32,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
