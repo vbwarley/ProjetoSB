@@ -116,6 +116,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 	@Override
 	public void alterar(Usuario objeto) {
+		abrirConexao();
 		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?"
 				+ "endereco=?,interesses=?,quem_sou_eu=?,filmes=?,livros=?,musicas=?"
 				+ "WHERE login=?";
@@ -189,6 +190,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 	@Override
 	public void deletar(Usuario objeto) {
+		abrirConexao();
 		String sqlDelete = "DELETE FROM usuario WHERE login = ?";
 
 		try {
@@ -208,6 +210,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 	@Override
 	public List<Usuario> getList() {
+		abrirConexao();
 		String sqlList = "SELECT * FROM usuario";
 		String sqlListA = "SELECT * FROM assinatura";
 

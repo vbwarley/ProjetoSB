@@ -27,6 +27,8 @@ public abstract class JDBCDAO {
 			if (!connection.isClosed()) {
 				connection.close();
 				this.connection = null;
+			} else {
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
