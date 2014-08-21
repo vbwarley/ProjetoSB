@@ -109,9 +109,8 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public void alterar(Postagem objeto) {
-		abrirConexao();
-		
-		String sqlUpdate = "UPDATE postagem SET titulo=?,conteudo=?,codBlog=? WHERE codigo=?";
+		String sqlUpdate = "UPDATE postagem SET codigo=?,titulo=?,conteudo=?,codBlog"
+				+ "WHERE codigo=?";
 
 		String sqlPost = "";
 
