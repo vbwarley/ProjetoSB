@@ -136,12 +136,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		}
 
 		try {
+			abrirConexao();
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 			PreparedStatement stmtPalavraChave = getConnection()
 					.prepareStatement(sqlPost);
-
-			stmtPalavraChave.setInt(1, objeto.getCodigo());
 
 			if (sqlPost.contains("INSERT")) {
 				stmtPalavraChave.setInt(1, objeto.getCodigo());
@@ -158,16 +157,17 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				stmtPalavraChave.executeUpdate();
 			}
 
-			stmt.setString(1, objeto.getConteudo());
-			stmt.setString(2, objeto.getTitulo());
+			stmt.setString(2, objeto.getConteudo());
+			stmt.setString(1, objeto.getTitulo());
 			stmt.setInt(3, objeto.getBlog().getCodigo());
+			stmt.setInt(4, objeto.getCodigo());
 
 			stmt.executeUpdate();
 			stmt.close();
 			stmtPalavraChave.close();
 
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -175,6 +175,8 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public void deletar(Postagem objeto) {
+		abrirConexao();
+		
 		String sqlDelete = "DELETE FROM postagem WHERE codigo = ?";
 
 		try {
@@ -195,6 +197,8 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public List<Postagem> getList() {
+		abrirConexao();
+		
 		String sqlList = "SELECT * FROM postagem";
 		String sqlListPC = "SELECT * FROM postagem_palavras";
 
