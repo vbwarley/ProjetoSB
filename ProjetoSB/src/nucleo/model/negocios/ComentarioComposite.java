@@ -1,5 +1,6 @@
 package nucleo.model.negocios;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ComentarioComposite {
@@ -11,7 +12,7 @@ public abstract class ComentarioComposite {
 	private String tipo;
 	private ComentarioComposite comentarioPai;
 	private Usuario usuario;
-	private List<ComentarioComposite> listaComentarios;
+	private List<ComentarioComposite> listaComentarios = new ArrayList<ComentarioComposite>();
 
 	public ComentarioComposite() {
 		// TODO Auto-generated constructor stub

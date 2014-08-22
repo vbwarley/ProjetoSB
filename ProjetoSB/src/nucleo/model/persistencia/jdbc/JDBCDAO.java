@@ -18,7 +18,6 @@ public abstract class JDBCDAO {
 				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","mynewpassword");
 			else
 				if (connection.isClosed()) {
-					connection.close();
 					connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","mynewpassword");
 				}
 		} catch (SQLException e) {
@@ -32,7 +31,7 @@ public abstract class JDBCDAO {
 			if (!connection.isClosed()) {
 				connection.close();
 			} else {
-				
+//				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","mynewpassword");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

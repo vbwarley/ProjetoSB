@@ -3,7 +3,7 @@ package nucleo.model.persistencia.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import nucleo.model.negocios.ComentarioNormal;
 import nucleo.model.persistencia.dao.DAOComentario;
 
 public class JDBCDAOComentario extends JDBCDAO implements
-		DAOComentario<ComentarioComposite, Integer> {
+DAOComentario<ComentarioComposite, Integer> {
 
 	public JDBCDAOComentario() {
 
@@ -26,12 +26,13 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 		try {
 
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			PreparedStatement stmt = getConnection().prepareStatement(sql,
+					PreparedStatement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
 			stmt.setString(3, objeto.getTipo());
-			stmt.setInt(4, objeto.getComentarioPai().getCodigo());
+			stmt.setNull(4, Types.NULL);
 			stmt.setInt(5, objeto.getPostagem().getCodigo());
 			stmt.setString(6, objeto.getUsuario().getLogin());
 
@@ -40,7 +41,9 @@ public class JDBCDAOComentario extends JDBCDAO implements
 			ResultSet rs = stmt.getGeneratedKeys();
 
 			if (rs.next())
-				objeto.setCodigo(rs.getInt("codigo"));
+				objeto.setCodigo(rs.getInt(1));
+
+			alterar(objeto);
 
 			for (ComentarioComposite comentario : objeto.getListaComentarios())
 				criar(comentario);
@@ -59,23 +62,29 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 		String sql = "SELECT * FROM comentario WHERE codigo = ?";
 
+		List<ComentarioComposite> listC = null; // lista de comentarios
 		ComentarioComposite comentario = null;
-		// codigo, titulo, conteudo, login, comentarioPai, Postagem
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmtCP = null;
+		ResultSet rsCP = null;
 
 		try {
 
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			stmt = getConnection().prepareStatement(sql);
 			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			// sql para recuperar a lista de comentarios, se existir
-			PreparedStatement stmtCP = getConnection().prepareStatement(
-					"SELECT * FROM comentario WHERE comentarioPai = ?");
-			ResultSet rsCP = null;
-			List<ComentarioComposite> listC = null;
+			stmtCP = getConnection().prepareStatement(
+					"SELECT codigo FROM comentario WHERE comentarioPai = ?");
 
-			while (rs.next()) {
+			stmtCP.setInt(1, id);
+			stmtCP.execute();
+			rsCP = stmtCP.getResultSet();
 
+			if (rs.next()) {
 				if (rs.getString("tipo").equals(
 						ComentarioNormal.class.getSimpleName()))
 					comentario = new ComentarioNormal();
@@ -87,21 +96,19 @@ public class JDBCDAOComentario extends JDBCDAO implements
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setTipo(rs.getString("tipo"));
 
-				stmtCP.setInt(1, id);
-				stmtCP.execute();
-				rsCP = stmtCP.getResultSet();
-
-				// se houver registros, esta será a lista de comentarios
-				listC = new ArrayList<ComentarioComposite>();
-
-				while (rsCP.next())
-					listC.add(consultar(rsCP.getInt("codigo")));
-
 				if (rs.getInt("comentarioPai") == comentario.getCodigo())
 					comentario.setComentarioPai(comentario);
 				else
 					comentario.setComentarioPai(consultar(rs
 							.getInt("comentarioPai")));
+
+				// se houver registros, esta será a lista de comentarios
+				listC = new ArrayList<ComentarioComposite>();
+
+				while (rsCP.next())
+					if (comentario.getCodigo() != comentario.getComentarioPai()
+					.getCodigo())
+						listC.add(consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
 				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
@@ -109,11 +116,16 @@ public class JDBCDAOComentario extends JDBCDAO implements
 				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
 						.getString("login")));
 			}
-
+			stmt.close();
+			rs.close();
+			stmtCP.close();
+			rsCP.close();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
+
 		}
 
 		return comentario;
@@ -121,7 +133,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 	@Override
 	public void alterar(ComentarioComposite objeto) {
-
 		abrirConexao();
 
 		String sql = "UPDATE comentario SET titulo=?,conteudo=?,tipo=?,comentarioPai=?,codPostagem=?,login=? WHERE codigo=?";
@@ -131,10 +142,11 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
-			stmt.setInt(3, objeto.getCodigo());
+			stmt.setString(3, objeto.getTipo());
 			stmt.setInt(4, objeto.getComentarioPai().getCodigo());
 			stmt.setInt(5, objeto.getPostagem().getCodigo());
 			stmt.setString(6, objeto.getUsuario().getLogin());
+			stmt.setInt(7, objeto.getCodigo());
 
 			stmt.executeUpdate();
 			stmt.close();
@@ -170,26 +182,31 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 	@Override
 	public List<ComentarioComposite> getList() {
-
 		abrirConexao();
 
-		List<ComentarioComposite> lista = new ArrayList<ComentarioComposite>();
-
 		String sql = "SELECT * FROM comentario";
+
+		List<ComentarioComposite> listC = null; // lista de comentarios de um
 		ComentarioComposite comentario = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmtCP = null;
+		ResultSet rsCP = null;
+
 		try {
-			Statement stmt = getConnection().createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+
+			stmt = getConnection().prepareStatement(sql);
+			rs = stmt.executeQuery();
 
 			// sql para recuperar a lista de comentarios, se existir
-			PreparedStatement stmtCP = getConnection().prepareStatement(
-					"SELECT * FROM comentario WHERE comentarioPai = ?");
-			ResultSet rsCP = null;
-			List<ComentarioComposite> listC = null;
+			stmtCP = getConnection().prepareStatement(
+					"SELECT codigo FROM comentario WHERE comentarioPai = ?");
 
-			while (rs.next()) {
-
+			// se houver registros, esta será a lista de comentarios
+			listC = new ArrayList<ComentarioComposite>();
+			
+			while (rs.next()) {				
 				if (rs.getString("tipo").equals(
 						ComentarioNormal.class.getSimpleName()))
 					comentario = new ComentarioNormal();
@@ -201,38 +218,41 @@ public class JDBCDAOComentario extends JDBCDAO implements
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setTipo(rs.getString("tipo"));
 
+				if (rs.getInt("comentarioPai") == comentario.getCodigo())
+					comentario.setComentarioPai(comentario);
+				else
+					comentario.setComentarioPai(new JDBCDAOComentario().consultar(rs
+							.getInt("comentarioPai")));
+
 				stmtCP.setInt(1, comentario.getCodigo());
 				stmtCP.execute();
 				rsCP = stmtCP.getResultSet();
 
-				// se houver registros, esta será a lista de comentarios
-				listC = new ArrayList<ComentarioComposite>();
-
 				while (rsCP.next())
-					listC.add(consultar(rsCP.getInt("codigo")));
-
-				if (rs.getInt("comentarioPai") == comentario.getCodigo())
-					comentario.setComentarioPai(comentario);
-				else
-					comentario.setComentarioPai(consultar(rs
-							.getInt("comentarioPai")));
+					if (comentario.getCodigo() != comentario.getComentarioPai()
+					.getCodigo())
+						listC.add(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
 				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
 						.getInt("codPostagem")));
 				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
 						.getString("login")));
-
-				lista.add(comentario);
+				
+				listC.add(comentario);
 			}
-
+			stmt.close();
+			rs.close();
+			stmtCP.close();
+			rsCP.close();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
-		}
 
-		return lista;
+		}
+		return listC;
 	}
 
 	// public List<ComentarioComposite> getListaComentarios(Integer codigo) {
