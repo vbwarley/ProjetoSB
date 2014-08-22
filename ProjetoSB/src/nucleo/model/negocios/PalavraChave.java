@@ -45,4 +45,13 @@ public class PalavraChave {
 	public void removePostagem(Postagem postagem) {
 		this.postagens.remove(postagem);
 	}
+	
+	public boolean equals(PalavraChave palavraChave) {
+
+		if (palavraChave.getCodigo() == this.codigo
+				&& palavraChave.getNome().equals(this.nome)
+				&& palavraChave.getPostagens().equals(this.postagens))
+			return true;
+		return false;
+	}
 }

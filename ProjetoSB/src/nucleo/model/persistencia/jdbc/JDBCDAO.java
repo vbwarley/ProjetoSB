@@ -15,11 +15,11 @@ public abstract class JDBCDAO {
 	protected void abrirConexao() {
 		try {
 			if (connection == null)
-				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","mynewpassword");
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","minhasenha123");
 			else
 				if (connection.isClosed()) {
 					connection.close();
-					connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","mynewpassword");
+					connection = DriverManager.getConnection("jdbc:mysql://localhost/SuperBlogs","root","minhasenha123");
 				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
