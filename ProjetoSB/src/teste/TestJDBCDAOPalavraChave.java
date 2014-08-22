@@ -2,16 +2,13 @@ package teste;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.PalavraChave;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.jdbc.JDBCDAOPalavraChave;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOPalavraChave {
@@ -34,6 +31,7 @@ public class TestJDBCDAOPalavraChave {
 		assertEquals(true, jdpc.consultar(pc.getCodigo()).equals(pc));
 	}
 
+	
 	@Test
 	public void consultar() {
 		PalavraChave pc = new PalavraChave();
@@ -44,7 +42,7 @@ public class TestJDBCDAOPalavraChave {
 
 		assertEquals(true, jdpc.consultar(pc.getCodigo()).equals(pc));
 	}
-
+	
 	@Test
 	public void alterar() {
 		PalavraChave pc = new PalavraChave();
@@ -59,7 +57,7 @@ public class TestJDBCDAOPalavraChave {
 
 		assertEquals(true, jdpc.consultar(pc.getCodigo()).equals(pc));
 	}
-
+	
 	@Test
 	public void deletar() {
 		PalavraChave pc = new PalavraChave();
@@ -72,9 +70,30 @@ public class TestJDBCDAOPalavraChave {
 		assertEquals(null, jdpc.consultar(pc.getCodigo()));
 	}
 
-	@Ignore
 	@Test
 	public void getList() {
+		List<PalavraChave> listPC = new ArrayList<PalavraChave>();
 		
+		PalavraChave pc1 = new PalavraChave();
+		PalavraChave pc2 = new PalavraChave();
+		PalavraChave pc3 = new PalavraChave();
+		
+		pc1.setNome("P1");
+		pc2.setNome("P2");
+		pc3.setNome("P3");
+		
+		listPC.add(pc1);
+		listPC.add(pc2);
+		listPC.add(pc3);
+		
+		List<PalavraChave> listaPCRetornada = jdpc.getList();
+		int iguais = 0;
+		
+		for (PalavraChave pc : listPC)
+			for (PalavraChave pcRetornada : listaPCRetornada)
+				if (pc.equals(pcRetornada))
+					iguais++;
+
+		 assertEquals(3, iguais);		
 	}
 }

@@ -11,7 +11,6 @@ public class PalavraChave {
 	
 	public PalavraChave() {
 		postagens = new HashSet<Postagem>();
-		codigo += 1;
 	}
 
 	public Integer getCodigo() {

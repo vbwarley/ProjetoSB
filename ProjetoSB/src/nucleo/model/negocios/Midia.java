@@ -52,4 +52,11 @@ public class Midia {
 		this.postagem = postagem;
 	}
 	
+	public boolean equals(Midia midia) {
+		
+		if (midia.getCodigo() == this.codigo)
+			return true;		
+		return false;
+	}
+	
 }

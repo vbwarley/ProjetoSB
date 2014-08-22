@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import nucleo.model.negocios.PalavraChave;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
@@ -13,19 +15,24 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		DAOPalavraChave<PalavraChave, Integer> {
 
 	public JDBCDAOPalavraChave() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(PalavraChave objeto) {
-		String insertSql = "INSERT INTO palavras_chave VALUES (?,?)";
+		abrirConexao();
+		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
 
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(insertSql);
 
-			stmt.setInt(1, objeto.getCodigo());
-			stmt.setString(2, objeto.getNome());
+			stmt.setString(1, objeto.getNome());
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(codigo) FROM palavras_chave");
+			
+			if (rs.next())
+				objeto.setCodigo(rs.getInt(1));
 
 			stmt.execute();
 			stmt.close();
@@ -38,6 +45,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 	@Override
 	public PalavraChave consultar(Integer id) {
+		abrirConexao();
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
 		String selectSqlPP = "SELECT * FROM postagem_palavras WHERE codPalavra = ?";
 
@@ -53,7 +61,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			// recupera postagens com a palavra-chave pesquisada
 			PreparedStatement stmtPP = getConnection().prepareStatement(
 					selectSqlPP);
-			stmt.setInt(1, id);
+			stmtPP.setInt(1, id);
 			ResultSet rsPP = stmtPP.executeQuery();
 
 			while (rs.next()) {
@@ -83,6 +91,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 	@Override
 	public void alterar(PalavraChave objeto) {
+		abrirConexao();
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
 
 		try {
@@ -95,7 +104,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -103,6 +112,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 	@Override
 	public void deletar(PalavraChave objeto) {
+		abrirConexao();
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
 
 		try {
@@ -122,6 +132,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 	@Override
 	public List<PalavraChave> getList() {
+		abrirConexao();
 		String sqlList = "SELECT * FROM palavras_chave";
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
@@ -133,7 +144,8 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
 			PreparedStatement stmtPP = getConnection().prepareStatement(
 					sqlListPP);
-
+			
+			stmtPP.setInt(1, x);
 			ResultSet rs = stmt.executeQuery();
 			ResultSet rsPP = stmtPP.executeQuery();
 
@@ -143,6 +155,8 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 				pc.setCodigo(rs.getInt(1));
 				pc.setNome(rs.getString(2));
+				
+				stmt
 
 				// adiciona as postagens (se tiver) à palavra-chave recuperada
 				while (rsPP.next())
@@ -157,7 +171,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 			rs.close();
 			rsPP.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
