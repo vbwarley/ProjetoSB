@@ -12,11 +12,13 @@ import nucleo.model.persistencia.dao.DAOBlog;
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	public JDBCDAOBlog() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(Blog objeto) {
+		
+		abrirConexao();
 		String sql = "INSERT INTO blog VALUES (?,?,?,?,?,?)";
 
 		try {

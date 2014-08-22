@@ -73,4 +73,10 @@ public class Blog extends Observable {
 		this.assinantes = assinantes;
 	}
 	
+	public boolean equals(Blog blog) {
+		if (blog.getCodigo() == (this.codigo) && blog.getTitulo().equals(this.titulo)
+				&& blog.getDescricao().equals(this.descricao) && blog.getImagemFundo().equals(this.imagemFundo))
+				return true;
+		return false;
+	}
 }
