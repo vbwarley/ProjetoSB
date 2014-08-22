@@ -47,9 +47,7 @@ public class PalavraChave {
 	
 	public boolean equals(PalavraChave palavraChave) {
 
-		if (palavraChave.getCodigo() == this.codigo
-				&& palavraChave.getNome().equals(this.nome)
-				&& palavraChave.getPostagens().equals(this.postagens))
+		if (palavraChave.getCodigo() == this.codigo)
 			return true;
 		return false;
 	}

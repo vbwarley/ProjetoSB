@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Statement;
-
 import nucleo.model.negocios.PalavraChave;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
@@ -15,7 +13,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		DAOPalavraChave<PalavraChave, Integer> {
 
 	public JDBCDAOPalavraChave() {
-		
+
 	}
 
 	@Override
@@ -28,9 +26,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 					.prepareStatement(insertSql);
 
 			stmt.setString(1, objeto.getNome());
-			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(codigo) FROM palavras_chave");
-			
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT MAX(codigo) FROM palavras_chave");
+
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
 
@@ -138,33 +137,33 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		PalavraChave pc = null;
 
 		// recupera as postagens associadas
-		String sqlListPP = "SELECT * FROM postagem_palavras WHERE codPalavra = ?";
+		String sqlListPP = "SELECT * FROM postagem_palavras";
 
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
 			PreparedStatement stmtPP = getConnection().prepareStatement(
 					sqlListPP);
-			
-			stmtPP.setInt(1, x);
+
 			ResultSet rs = stmt.executeQuery();
 			ResultSet rsPP = stmtPP.executeQuery();
-
+			lpc = new ArrayList<PalavraChave>();
+			
 			while (rs.next()) {
 				pc = new PalavraChave();
-				lpc = new ArrayList<PalavraChave>();
+				
 
 				pc.setCodigo(rs.getInt(1));
 				pc.setNome(rs.getString(2));
-				
-				stmt
-
-				// adiciona as postagens (se tiver) à palavra-chave recuperada
-				while (rsPP.next())
-					pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
-							.getInt(1)));
 
 				lpc.add(pc);
 			}
+
+			// adiciona as postagens (se tiver) à palavra-chave recuperada
+			while (rsPP.next())
+				for (PalavraChave palavraChave : lpc)
+					if (rsPP.getInt(2) == palavraChave.getCodigo())
+						pc.adicionaPostagem(new JDBCDAOPostagem()
+								.consultar(rsPP.getInt(1)));
 
 			stmt.close();
 			stmtPP.close();

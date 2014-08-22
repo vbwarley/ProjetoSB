@@ -6,6 +6,7 @@ import nucleo.model.negocios.TipoMidia;
 import nucleo.model.persistencia.jdbc.JDBCDAOMidia;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOMidia {
@@ -29,7 +30,8 @@ public class TestJDBCDAOMidia {
 
 		assertEquals(true, jdm.consultar(midia.getCodigo()).equals(midia));
 	}
-
+	
+	@Ignore
 	@Test
 	public void consultar() {
 		Midia midia = new Midia();

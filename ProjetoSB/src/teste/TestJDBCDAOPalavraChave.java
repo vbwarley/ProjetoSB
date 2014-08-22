@@ -82,6 +82,10 @@ public class TestJDBCDAOPalavraChave {
 		pc2.setNome("P2");
 		pc3.setNome("P3");
 		
+		jdpc.criar(pc1);
+		jdpc.criar(pc2);
+		jdpc.criar(pc3);
+		
 		listPC.add(pc1);
 		listPC.add(pc2);
 		listPC.add(pc3);

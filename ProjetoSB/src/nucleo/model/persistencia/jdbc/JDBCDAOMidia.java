@@ -23,20 +23,22 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlCriar);
 
-			stmt.setString(2, objeto.getNomeArquivo());
-			stmt.setInt(3, objeto.getTipo().getId());
-			stmt.setInt(4, objeto.getComentario().getCodigo());
-			stmt.setInt(5, objeto.getPostagem().getCodigo());
+			stmt.setString(1, objeto.getNomeArquivo());
+			stmt.setInt(2, objeto.getTipo().getId());
+			stmt.setInt(3, objeto.getComentario().getCodigo());
+			stmt.setInt(4, objeto.getPostagem().getCodigo());
+		
+			stmt.execute();
 
 			ResultSet rs = stmt.getGeneratedKeys();
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
 
-			stmt.execute();
 			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}

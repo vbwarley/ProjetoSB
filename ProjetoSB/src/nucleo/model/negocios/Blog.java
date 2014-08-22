@@ -4,18 +4,19 @@ import java.util.Observable;
 import java.util.Set;
 
 public class Blog extends Observable {
-	
+
 	private int codigo = 0;
 	private String titulo;
 	private String descricao;
 	private String imagemFundo;
 	private boolean autorizaComentario;
 	private boolean autorizaComentarioAnonimo;
+	private Usuario usuario;
 	private Set<Usuario> assinantes;
-	
+
 	public Blog() {
 		codigo += 1;
-	}	
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -65,6 +66,14 @@ public class Blog extends Observable {
 		this.autorizaComentarioAnonimo = autorizaComentarioAnonimo;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public Set<Usuario> getAssinantes() {
 		return assinantes;
 	}
@@ -72,11 +81,10 @@ public class Blog extends Observable {
 	public void setAssinantes(Set<Usuario> assinantes) {
 		this.assinantes = assinantes;
 	}
-	
+
 	public boolean equals(Blog blog) {
-		if (blog.getCodigo() == (this.codigo) && blog.getTitulo().equals(this.titulo)
-				&& blog.getDescricao().equals(this.descricao) && blog.getImagemFundo().equals(this.imagemFundo))
-				return true;
+		if (blog.getCodigo() == this.codigo)
+			return true;
 		return false;
 	}
 }

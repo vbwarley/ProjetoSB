@@ -156,18 +156,7 @@ public class Usuario implements Observer {
 
 	public boolean equals(Usuario usuario) {
 
-		if (usuario.getLogin().equals(this.login)
-				&& usuario.getSenha().equals(this.senha)
-				&& usuario.getNome().equals(this.nome)
-				&& usuario.getSexo() == this.sexo
-				&& usuario.getDataNascimento().equals(this.dataNascimento)
-				&& usuario.getEmail().equals(this.email)
-				&& usuario.getQuemSouEu().equals(this.quemSouEu)
-				&& usuario.getInteresses().equals(this.interesses)
-				&& usuario.getEndereco().equals(this.endereco)
-				&& usuario.getFilmes().equals(this.filmes)
-				&& usuario.getLivros().equals(this.livros)
-				&& usuario.getMusicas().equals(this.musicas))
+		if (usuario.getLogin().equals(this.login))
 			return true;
 		return false;
 	}

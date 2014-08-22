@@ -21,23 +21,27 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	public void criar(Postagem objeto) {
 		
 		abrirConexao();
-		String sql = "INSERT INTO postagem VALUES (?,?,?,?)";
+		String sql = "INSERT INTO postagem (titulo,conteudo,codBlog) VALUES (?,?,?)";
 		String sqlPostagemPalavras = "INSERT INTO postagem_palavras VALUES (?,?)";
 
 		
 		try {
 
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			PreparedStatement stmt = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			PreparedStatement stmtPostPalavras = getConnection()
 					.prepareStatement(sqlPostagemPalavras);
 
-			stmt.setInt(1, objeto.getCodigo());
-			stmt.setString(2, objeto.getTitulo());
-			stmt.setString(3, objeto.getConteudo());
-			stmt.setInt(4, objeto.getBlog().getCodigo());
-
+			stmt.setString(1, objeto.getTitulo());
+			stmt.setString(2, objeto.getConteudo());
+			stmt.setInt(3, objeto.getBlog().getCodigo());
+			
 			stmt.execute();
 
+			ResultSet rs = stmt.getGeneratedKeys();
+
+			if (rs.next())
+				objeto.setCodigo(rs.getInt(1));
+			
 			for (PalavraChave palavraChave : objeto.getPalavraChaves()) {
 				stmtPostPalavras.setInt(1, objeto.getCodigo());
 				stmtPostPalavras.setInt(2, palavraChave.getCodigo());
@@ -47,8 +51,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 			stmt.close();
 			stmtPostPalavras.close();
+			rs.close();
 
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
@@ -109,9 +115,8 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	@Override
 	public void alterar(Postagem objeto) {
-		String sqlUpdate = "UPDATE postagem SET codigo=?,titulo=?,conteudo=?,codBlog"
-				+ "WHERE codigo=?";
-
+		abrirConexao();
+		String sqlUpdate = "UPDATE postagem SET titulo=?,conteudo=?,codBlog=? WHERE codigo=?";
 		String sqlPost = "";
 
 		Postagem postagem = consultar(objeto.getCodigo());
@@ -137,6 +142,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 		try {
 			abrirConexao();
+			
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 			PreparedStatement stmtPalavraChave = getConnection()
@@ -157,8 +163,8 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 				stmtPalavraChave.executeUpdate();
 			}
 
-			stmt.setString(2, objeto.getConteudo());
 			stmt.setString(1, objeto.getTitulo());
+			stmt.setString(2, objeto.getConteudo());
 			stmt.setInt(3, objeto.getBlog().getCodigo());
 			stmt.setInt(4, objeto.getCodigo());
 
@@ -212,10 +218,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 			PreparedStatement stmtPC = getConnection().prepareStatement(
 					sqlListPC);
 			ResultSet rsPC = stmtPC.executeQuery();
-
+			po = new ArrayList<Postagem>();
+			
 			while (rs.next()) {
 				p = new Postagem();
-				po = new ArrayList<Postagem>();
+				
 
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));

@@ -2,8 +2,8 @@ package nucleo.model.negocios;
 
 import java.util.List;
 
-public class ComentarioComposite {
-	
+public abstract class ComentarioComposite {
+
 	private int codigo;
 	private String titulo;
 	private String conteudo;
@@ -12,7 +12,7 @@ public class ComentarioComposite {
 	private ComentarioComposite comentarioPai;
 	private Usuario usuario;
 	private List<ComentarioComposite> listaComentarios;
-	
+
 	public ComentarioComposite() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,8 +48,7 @@ public class ComentarioComposite {
 	public void setListaComentarios(List<ComentarioComposite> list) {
 		this.listaComentarios = list;
 	}
-		
-	
+
 	public Postagem getPostagem() {
 		return Postagem;
 	}
@@ -73,7 +72,7 @@ public class ComentarioComposite {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	public String getTipo() {
 		return tipo;
 	}
@@ -85,25 +84,15 @@ public class ComentarioComposite {
 	public void addComentario(ComentarioComposite comentario) {
 		// ...
 	}
-	
+
 	public void removeComentario(ComentarioComposite comentario) {
 		// ...
 	}
-	
-	public boolean equals(ComentarioComposite comentario){
-		
-		if ( comentario.getCodigo() == this.getCodigo() 
-				&& comentario.getComentarioPai() == this.getComentarioPai()
-				&& comentario.getConteudo().equals(this.getConteudo())
-				&& comentario.getListaComentarios() == this.getListaComentarios()
-				&& comentario.getPostagem() == this.getPostagem()
-				&& comentario.getTitulo().equals(this.getTitulo())
-				&& comentario.getUsuario().getLogin().equals(this.getUsuario().getLogin()))
-		{	
+
+	public boolean equals(ComentarioComposite comentario) {
+
+		if (comentario.getCodigo() == this.getCodigo())
 			return true;
-		}
-		
-		
 		return false;
 	}
 }

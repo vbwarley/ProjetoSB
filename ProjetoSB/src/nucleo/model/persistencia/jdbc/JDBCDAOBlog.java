@@ -12,27 +12,35 @@ import nucleo.model.persistencia.dao.DAOBlog;
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	public JDBCDAOBlog() {
-		
+
 	}
 
 	@Override
 	public void criar(Blog objeto) {
-		
+
 		abrirConexao();
-		String sql = "INSERT INTO blog VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO blog (titulo,descricao,imagemFundo,autorizacaoNormal,autorizacaoAnonimo,login) VALUES (?,?,?,?,?,?)";
 
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			PreparedStatement stmt = getConnection().prepareStatement(sql,
+					PreparedStatement.RETURN_GENERATED_KEYS);
 
-			stmt.setInt(1, objeto.getCodigo());
-			stmt.setString(2, objeto.getTitulo());
-			stmt.setString(3, objeto.getDescricao());
-			stmt.setString(4, objeto.getImagemFundo());
-			stmt.setBoolean(5, objeto.isAutorizaComentario());
-			stmt.setBoolean(6, objeto.isAutorizaComentarioAnonimo());
+			stmt.setString(1, objeto.getTitulo());
+			stmt.setString(2, objeto.getDescricao());
+			stmt.setString(3, objeto.getImagemFundo());
+			stmt.setBoolean(4, objeto.isAutorizaComentario());
+			stmt.setBoolean(5, objeto.isAutorizaComentarioAnonimo());
+			stmt.setString(6, objeto.getUsuario().getLogin());
 
 			stmt.execute();
+			
+			ResultSet rs = stmt.getGeneratedKeys();
+
+			if (rs.next())
+				objeto.setCodigo(rs.getInt(1));
+			
 			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -42,7 +50,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public Blog consultar(Integer id) {
-		
+
 		abrirConexao();
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
 		Blog b = null;
@@ -76,24 +84,26 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public void alterar(Blog objeto) {
-		
-		abrirConexao();
-		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizaComentario=?,autorizaComentarioAnonimo=?"
-				+ "WHERE titulo=?";
 
+		abrirConexao();
+		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizacaoNormal=?,autorizacaoAnonimo=? WHERE codigo=?";
+		
 		try {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlUpdate);
 
-			stmt.setInt(1, objeto.getCodigo());
-			stmt.setString(2, objeto.getTitulo());
-			stmt.setString(3, objeto.getDescricao());
-			stmt.setString(4, objeto.getImagemFundo());
-
+			
+			stmt.setString(1, objeto.getTitulo());
+			stmt.setString(2, objeto.getDescricao());
+			stmt.setString(3, objeto.getImagemFundo());
+			stmt.setBoolean(4, objeto.isAutorizaComentario());
+			stmt.setBoolean(5, objeto.isAutorizaComentarioAnonimo());
+			stmt.setInt(6, objeto.getCodigo());
+			
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -101,7 +111,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public void deletar(Blog objeto) {
-		
+
 		abrirConexao();
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
@@ -109,7 +119,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			PreparedStatement stmt = getConnection()
 					.prepareStatement(sqlDelete);
 
-			stmt.setString(1, objeto.getTitulo());
+			stmt.setInt(1, objeto.getCodigo());
 
 			stmt.executeUpdate();
 			stmt.close();
@@ -123,7 +133,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	@Override
 	public List<Blog> getList() {
-		
+
 		abrirConexao();
 		String sqlList = "SELECT * FROM blog";
 
@@ -133,10 +143,11 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
 			ResultSet rs = stmt.executeQuery(sqlList);
-
+			bu = new ArrayList<Blog>();
+			
 			while (rs.next()) {
 				b = new Blog();
-				bu = new ArrayList<Blog>();
+			
 
 				b.setCodigo(rs.getInt(1));
 				b.setTitulo(rs.getString(2));

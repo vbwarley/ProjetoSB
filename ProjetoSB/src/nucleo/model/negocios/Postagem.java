@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Postagem extends Observable {
 
-	private int codigo = 0;
+	private int codigo;
 	private String titulo;
 	private String conteudo;
 	private Blog blog;
@@ -15,8 +15,6 @@ public class Postagem extends Observable {
 	public Postagem() {
 		palavraChaves = new HashSet<PalavraChave>();
 		// aqui sera chamado o update dos observadores
-
-		codigo++;
 	}
 
 	public int getCodigo() {
@@ -71,8 +69,7 @@ public class Postagem extends Observable {
 	}
 
 	public boolean equals(Postagem postagem) {
-		if (postagem.getCodigo() == (this.codigo) && postagem.getConteudo().equals(this.conteudo)
-				&& postagem.getTitulo().equals(this.titulo) && postagem.getBlog().getCodigo() == this.blog.getCodigo())
+		if (postagem.getCodigo() == this.codigo) 
 				return true;
 		return false;
 	}
