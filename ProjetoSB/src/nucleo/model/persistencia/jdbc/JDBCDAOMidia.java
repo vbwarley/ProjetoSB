@@ -3,6 +3,7 @@ package nucleo.model.persistencia.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +14,42 @@ import nucleo.model.persistencia.dao.DAOMidia;
 public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 	public JDBCDAOMidia() {
-		abrirConexao();
+		
 	}
 
 	@Override
 	public void criar(Midia objeto) {
-		String sqlCriar = "INSERT INTO midia VALUES (?,?,?,?)";
-
+		abrirConexao();
+		String sqlCriar = "INSERT INTO midia(nome,codTipo,codComentario,codPostagem) VALUES (?,?,?,?)";
+		String sqlCriarTM = "INSERT INTO tipo_midia VALUES (?,?)";
+		String sqlVerificaTM = "SELECT * FROM tipo_midia";
+		
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sqlCriar);
-
+			PreparedStatement stmt = getConnection().prepareStatement(sqlCriar, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement stmtTM = getConnection().prepareStatement(sqlCriarTM);
+			PreparedStatement stmtVTM = getConnection().prepareStatement(sqlVerificaTM);
+			
+			ResultSet rsVTM = stmtVTM.executeQuery();
+			
+			if (!rsVTM.next())
+				for (TipoMidia tipoMidia : TipoMidia.values()) {
+					stmtTM.setInt(1, tipoMidia.getId());
+					stmtTM.setString(2, tipoMidia.toString());
+					stmtTM.execute();
+				}
+					
 			stmt.setString(1, objeto.getNomeArquivo());
 			stmt.setInt(2, objeto.getTipo().getId());
-			stmt.setInt(3, objeto.getComentario().getCodigo());
-			stmt.setInt(4, objeto.getPostagem().getCodigo());
+			
+			if (objeto.getComentario() == null)
+				stmt.setNull(3, Types.NULL);
+			else
+				stmt.setInt(3, objeto.getComentario().getCodigo());
+			
+			if (objeto.getPostagem() == null)
+				stmt.setNull(4, Types.NULL);
+			else
+				stmt.setInt(4, objeto.getPostagem().getCodigo());
 		
 			stmt.execute();
 
@@ -46,6 +69,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 	@Override
 	public Midia consultar(Integer id) {
+		abrirConexao();
 		String selectSQL = "SELECT * FROM midia WHERE codigo = ?";
 
 		Midia m = null;
@@ -57,10 +81,10 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 
-			while (rs.next()) {
+			if (rs.next()) {
 				m = new Midia();
 
-				m.setCodigo(id);
+				m.setCodigo(rs.getInt(1));
 				m.setNomeArquivo(rs.getString(2));
 				m.setTipo(TipoMidia.porId(rs.getInt(3)));
 				m.setComentario(new JDBCDAOComentario().consultar(rs.getInt(4)));
@@ -70,7 +94,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
@@ -80,6 +104,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 	@Override
 	public void alterar(Midia objeto) {
+		abrirConexao();
 		String sqlUpdate = "UPDATE midia SET nome=?,codTipo=?,codComentario=?,codPostagem=? WHERE codigo=?";
 
 		try {
@@ -103,6 +128,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 	@Override
 	public void deletar(Midia objeto) {
+		abrirConexao();
 		String sqlDelete = "DELETE FROM midia WHERE codigo = ?";
 
 		try {
@@ -123,7 +149,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	@Override
 	public List<Midia> getList() {
 		abrirConexao();
-		String sqlList = "SELECT * FROM usuario";
+		String sqlList = "SELECT * FROM midia";
 		List<Midia> lm = null;
 		Midia m = null;
 
@@ -131,11 +157,11 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
 
 			ResultSet rs = stmt.executeQuery();
-
+			lm = new ArrayList<Midia>(); // pode ser HashSet
+			
 			while (rs.next()) {
 				m = new Midia();
-				lm = new ArrayList<Midia>(); // pode ser HashSet
-
+				
 				m.setCodigo(rs.getInt(1));
 				m.setNomeArquivo(rs.getString(2));
 				m.setTipo(TipoMidia.porId(rs.getInt(3)));
@@ -147,7 +173,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new RuntimeException();
+			throw new RuntimeException(e);
 		} finally {
 			fecharConexao();
 		}
