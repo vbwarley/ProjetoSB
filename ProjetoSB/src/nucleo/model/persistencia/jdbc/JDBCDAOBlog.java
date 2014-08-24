@@ -53,6 +53,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 		abrirConexao();
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
+		String selectSQLAssinantes = "SELECT * FROM assinatura WHERE codBlog = ?";
 		Blog b = null;
 
 		try {
@@ -62,7 +63,11 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 
-			while (rs.next()) {
+			PreparedStatement stmtAssinantes = getConnection().prepareStatement(selectSQLAssinantes);
+			stmtAssinantes.setInt(1, id);
+			ResultSet rsA = stmtAssinantes.executeQuery();
+			
+			if (rs.next()) {
 				b = new Blog();
 
 				b.setCodigo(rs.getInt(1));
@@ -71,6 +76,8 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
+//				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				
 			}
 			stmt.close();
 			rs.close();

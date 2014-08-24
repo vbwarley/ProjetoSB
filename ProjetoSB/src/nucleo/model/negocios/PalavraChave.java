@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class PalavraChave {
 	
-	private Integer codigo = 0;
+	private Integer codigo;
 	private String nome;
 	private Set<Postagem> postagens;
 	
@@ -46,9 +46,17 @@ public class PalavraChave {
 	}
 	
 	public boolean equals(PalavraChave palavraChave) {
-
-		if (palavraChave.getCodigo() == this.codigo)
-			return true;
+		int iguais = 0;
+		
+		if (palavraChave.getCodigo() == this.codigo
+				&& palavraChave.getNome().equals(this.nome)) {
+			for (Postagem postagemP : palavraChave.getPostagens())
+				for (Postagem postagem : this.getPostagens())
+					if (postagemP.getCodigo() == postagem.getCodigo())
+						iguais++;
+			if (iguais == this.getPostagens().size() && this.getPostagens().size() == palavraChave.getPostagens().size())
+				return true;
+		}
 		return false;
 	}
 }

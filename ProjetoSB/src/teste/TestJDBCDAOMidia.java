@@ -122,7 +122,7 @@ public class TestJDBCDAOMidia {
 
 		jdm.criar(midia);
 
-		assertEquals(true, jdm.consultar(midia.getCodigo()).equals(midia));
+		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
 
 	@Test
@@ -206,7 +206,7 @@ public class TestJDBCDAOMidia {
 
 		jdm.criar(midia);
 
-		assertEquals(true, jdm.consultar(midia.getCodigo()).equals(midia));
+		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
 
 	@Test
@@ -294,7 +294,7 @@ public class TestJDBCDAOMidia {
 
 		jdm.alterar(midia);
 
-		assertEquals(true, jdm.consultar(midia.getCodigo()).equals(midia));
+		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
 
 	@Test

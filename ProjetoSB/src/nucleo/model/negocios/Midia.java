@@ -1,7 +1,7 @@
 package nucleo.model.negocios;
 
 public class Midia {
-	
+
 	private int codigo;
 	private TipoMidia tipo;
 	private String nomeArquivo;
@@ -35,7 +35,7 @@ public class Midia {
 	public void setNomeArquivo(String nomeArquivo) {
 		this.nomeArquivo = nomeArquivo;
 	}
-	
+
 	public ComentarioComposite getComentario() {
 		return comentario;
 	}
@@ -51,12 +51,16 @@ public class Midia {
 	public void setPostagem(Postagem postagem) {
 		this.postagem = postagem;
 	}
-	
+
 	public boolean equals(Midia midia) {
-		
-		if (midia.getCodigo() == this.codigo)
-			return true;		
+
+		if (midia.getCodigo() == this.codigo
+				&& midia.getTipo().getId() == this.tipo.getId()
+				&& midia.getNomeArquivo().equals(this.nomeArquivo)
+				&& (midia.getComentario() != null ? midia.getComentario().equals(this.comentario) : midia.getComentario() == this.comentario)
+				&& (midia.getPostagem() != null ? midia.getComentario().equals(this.postagem) : midia.getPostagem() == this.postagem))
+			return true;
 		return false;
 	}
-	
+
 }

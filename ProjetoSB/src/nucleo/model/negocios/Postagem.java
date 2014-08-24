@@ -69,8 +69,19 @@ public class Postagem extends Observable {
 	}
 
 	public boolean equals(Postagem postagem) {
-		if (postagem.getCodigo() == this.codigo) 
+		int iguais = 0;
+		
+		if (postagem.getCodigo() == (this.codigo) 
+				&& postagem.getConteudo().equals(this.conteudo)
+				&& postagem.getTitulo().equals(this.titulo)
+				&& postagem.getBlog().getCodigo() == this.blog.getCodigo()) {
+			for (PalavraChave pcP : postagem.getPalavraChaves())
+				for (PalavraChave pc : this.getPalavraChaves())
+					if (pcP.getCodigo() == pc.getCodigo())
+						iguais++;
+			if (iguais == this.getPalavraChaves().size() && this.getPalavraChaves().size() == postagem.getPalavraChaves().size())
 				return true;
+		}
 		return false;
 	}
 }

@@ -91,9 +91,21 @@ public abstract class ComentarioComposite {
 	}
 
 	public boolean equals(ComentarioComposite comentario) {
-
-		if (comentario.getCodigo() == this.getCodigo())
-			return true;
+		int iguais = 0;
+		 
+		if (comentario.getCodigo() == this.getCodigo() 
+				&& comentario.getTitulo().equals(this.getTitulo())
+				&& comentario.getConteudo().equals(this.getConteudo())
+				&& comentario.getPostagem().equals(this.getPostagem())
+				&& comentario.getComentarioPai() == this.getComentarioPai()
+				&& comentario.getUsuario().equals(this.getUsuario())) {
+			for (ComentarioComposite comentarioP : comentario.getListaComentarios())
+				for (ComentarioComposite comentarioT : this.getListaComentarios())
+					if (comentarioP.equals(comentarioT))
+						iguais++;
+			if (iguais == this.getListaComentarios().size() && this.getListaComentarios().size() == comentario.getListaComentarios().size())
+				return true;
+		}
 		return false;
 	}
 }

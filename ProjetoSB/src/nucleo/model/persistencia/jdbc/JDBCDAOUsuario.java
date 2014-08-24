@@ -4,7 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
@@ -119,17 +122,22 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 		abrirConexao();
 		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?,endereco=?,interesses=?,quem_sou=?,filmes=?,livros=?,musicas=? WHERE login=?";
 		// exclui os blogs da assinatura do usuario
-		String sqlA = "";
+		String sqlA = "INSERT INTO assinatura VALUES (?,?)";
 
 		Usuario usuario = consultar(objeto.getLogin());
-		Blog blog = null;
-
+		Set<Blog> setBlog = new HashSet<Blog>();
+		
+		Iterator<Blog> iterator = objeto.getAssinatura().iterator();
+		while (iterator.hasNext())
+			setBlog.add((Blog)iterator.next());
+		
 		if (objeto.getAssinatura().size() > usuario.getAssinatura().size()) {
-			for (Blog blogN : objeto.getAssinatura())
-				if (!usuario.getAssinatura().contains(blogN)) {
-					sqlA = "INSERT INTO assinatura VALUES (?,?)";
-					blog = blogN;
-				}
+			if (!usuario.getAssinatura().isEmpty())
+				for (Blog blogV : usuario.getAssinatura())
+					for (Blog blogN : objeto.getAssinatura())
+						if (blogN.getCodigo() == blogV.getCodigo())
+							setBlog.remove(blogN);
+			
 		} else if (objeto.getAssinatura().size() < usuario.getAssinatura()
 				.size()) {
 			if (!objeto.getAssinatura().isEmpty())
@@ -150,15 +158,17 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 			stmt.setString(1, objeto.getLogin());
 
 			if (sqlA.contains("INSERT")) {
-				stmtBlog.setString(1, objeto.getLogin());
-				stmtBlog.setInt(2, blog.getCodigo());
-				stmtBlog.execute();
+				for (Blog b : setBlog) {
+					stmtBlog.setString(1, objeto.getLogin());
+					stmtBlog.setInt(2, b.getCodigo());
+					stmtBlog.execute();
+				}
 			} else if (sqlA.contains("DELETE")) {
-				int c = 0;
-
+				int posicao = 1;
+				stmtBlog.setString(1, objeto.getLogin());
 				for (Blog b : objeto.getAssinatura()) {
-					c++;
-					stmtBlog.setInt(c, b.getCodigo());
+					posicao++;
+					stmtBlog.setInt(posicao, b.getCodigo());
 				}
 
 				stmtBlog.executeUpdate();

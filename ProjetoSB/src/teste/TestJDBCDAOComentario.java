@@ -110,7 +110,7 @@ public class TestJDBCDAOComentario {
 		jdc.criar(comentario);
 
 		assertEquals(true,
-				jdc.consultar(comentario.getCodigo()).equals(comentario));
+				comentario.equals(jdc.consultar(comentario.getCodigo())));
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class TestJDBCDAOComentario {
 		jdc.criar(comentario);
 
 		assertEquals(true,
-				jdc.consultar(comentario.getCodigo()).equals(comentario));
+				comentario.equals(jdc.consultar(comentario.getCodigo())));
 	}
 
 	@Test
@@ -267,7 +267,7 @@ public class TestJDBCDAOComentario {
 		jdc.alterar(comentario);
 
 		assertEquals(true,
-				jdc.consultar(comentario.getCodigo()).equals(comentario));
+				comentario.equals(jdc.consultar(comentario.getCodigo())));
 	}
 
 	@Test

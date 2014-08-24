@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.PalavraChave;
+import nucleo.model.negocios.Postagem;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
 public class JDBCDAOPalavraChave extends JDBCDAO implements
@@ -20,21 +21,20 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	public void criar(PalavraChave objeto) {
 		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
-
+		
 		try {
 			PreparedStatement stmt = getConnection()
-					.prepareStatement(insertSql);
-
-			stmt.setString(1, objeto.getNome());
-
-			ResultSet rs = stmt
-					.executeQuery("SELECT MAX(codigo) FROM palavras_chave");
+					.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, objeto.getNome());			
+			stmt.execute();
+		
+			ResultSet rs = stmt.getGeneratedKeys();
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
 
-			stmt.execute();
 			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {

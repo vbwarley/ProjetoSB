@@ -67,7 +67,7 @@ public class TestJDBCDAOPostagem {
 
 		jdp.criar(postagem);
 
-		assertEquals(true, jdp.consultar(postagem.getCodigo()).equals(postagem));
+		assertEquals(true, postagem.equals(jdp.consultar(postagem.getCodigo())));
 
 	}
 
@@ -108,7 +108,7 @@ public class TestJDBCDAOPostagem {
 
 		jdp.criar(postagem);
 
-		assertEquals(true, jdp.consultar(postagem.getCodigo()).equals(postagem));
+		assertEquals(true, postagem.equals(jdp.consultar(postagem.getCodigo())));
 	}
 
 	@Test
@@ -162,7 +162,7 @@ public class TestJDBCDAOPostagem {
 
 		jdp.alterar(postagem);
 
-		assertEquals(true, jdp.consultar(postagem.getCodigo()).equals(postagem));
+		assertEquals(true, postagem.equals(jdp.consultar(postagem.getCodigo())));
 	}
 
 	@Test

@@ -56,7 +56,7 @@ public class TestJDBCDAOBlog {
 
 		jdb.criar(blog);
 
-		assertEquals(true, jdb.consultar(blog.getCodigo()).equals(blog));
+		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class TestJDBCDAOBlog {
 
 		jdb.criar(blog);
 
-		assertEquals(true, jdb.consultar(blog.getCodigo()).equals(blog));
+		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
 
 	@Test
@@ -129,7 +129,7 @@ public class TestJDBCDAOBlog {
 
 		jdb.alterar(blog);
 
-		assertEquals(true, jdb.consultar(blog.getCodigo()).equals(blog));
+		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
 
 	@Test

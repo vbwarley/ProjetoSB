@@ -155,9 +155,26 @@ public class Usuario implements Observer {
 	}
 
 	public boolean equals(Usuario usuario) {
-
-		if (usuario.getLogin().equals(this.login))
-			return true;
+		int iguais = 0;
+		if (usuario.getLogin().equals(this.login)
+				&& usuario.getSenha().equals(this.senha)
+				&& usuario.getNome().equals(this.nome)
+				&& usuario.getSexo() == this.sexo
+				&& usuario.getDataNascimento().equals(this.dataNascimento)
+				&& usuario.getEmail().equals(this.email)
+				&& usuario.getQuemSouEu().equals(this.quemSouEu)
+				&& usuario.getInteresses().equals(this.interesses)
+				&& usuario.getEndereco().equals(this.endereco)
+				&& usuario.getFilmes().equals(this.filmes)
+				&& usuario.getLivros().equals(this.livros)
+				&& usuario.getMusicas().equals(this.musicas)) {
+			for (Blog blogP : usuario.getAssinatura())
+				for (Blog blog : this.getAssinatura())
+					if (blogP.getCodigo() == blog.getCodigo())
+						iguais++;
+			if (iguais == this.getAssinatura().size() && this.getAssinatura().size() == usuario.getAssinatura().size())
+				return true;
+		}
 		return false;
 	}
 

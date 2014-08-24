@@ -1,11 +1,12 @@
 package nucleo.model.negocios;
 
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
 public class Blog extends Observable {
 
-	private int codigo = 0;
+	private int codigo;
 	private String titulo;
 	private String descricao;
 	private String imagemFundo;
@@ -15,7 +16,7 @@ public class Blog extends Observable {
 	private Set<Usuario> assinantes;
 
 	public Blog() {
-		codigo += 1;
+		assinantes = new HashSet<Usuario>();
 	}
 
 	public int getCodigo() {
@@ -83,8 +84,21 @@ public class Blog extends Observable {
 	}
 
 	public boolean equals(Blog blog) {
-		if (blog.getCodigo() == this.codigo)
-			return true;
+		int iguais = 0;
+		if (blog.getCodigo() == this.codigo
+				&& blog.getTitulo().equals(this.titulo)
+				&& blog.getDescricao().equals(this.descricao)
+				&& blog.getImagemFundo().equals(this.imagemFundo)
+				&& blog.isAutorizaComentario() == this.autorizaComentario
+				&& blog.isAutorizaComentarioAnonimo() == this.autorizaComentarioAnonimo
+				&& blog.getUsuario().equals(this.usuario)) {
+			for (Usuario usuarioP : blog.getAssinantes())
+				for (Usuario usuario : this.getAssinantes())
+					if (usuarioP.equals(usuario))
+						iguais++;
+			if (iguais == this.getAssinantes().size() && this.getAssinantes().size() == blog.getAssinantes().size())
+				return true;
+		}
 		return false;
 	}
 }
