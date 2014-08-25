@@ -105,9 +105,8 @@ DAOComentario<ComentarioComposite, Integer> {
 				// se houver registros, esta será a lista de comentarios
 				listC = new ArrayList<ComentarioComposite>();
 
-				while (rsCP.next())
-					if (comentario.getCodigo() != comentario.getComentarioPai()
-					.getCodigo())
+				while (rsCP.next()) // aqui está o problema
+					if (rsCP.getInt(1) != comentario.getComentarioPai().getCodigo())
 						listC.add(consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
