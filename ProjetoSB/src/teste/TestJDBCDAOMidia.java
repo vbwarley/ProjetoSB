@@ -40,7 +40,7 @@ public class TestJDBCDAOMidia {
 		jdp = new JDBCDAOPostagem();
 		jdc = new JDBCDAOComentario();
 	}
-
+	@Ignore
 	@Test
 	public void criar() {
 
@@ -124,7 +124,7 @@ public class TestJDBCDAOMidia {
 
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
-
+	@Ignore
 	@Test
 	public void consultar() {
 
@@ -208,7 +208,7 @@ public class TestJDBCDAOMidia {
 
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
-
+	@Ignore
 	@Test
 	public void alterar() {
 
@@ -296,7 +296,8 @@ public class TestJDBCDAOMidia {
 
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
-
+	
+	@Ignore
 	@Test
 	public void deletar() {
 

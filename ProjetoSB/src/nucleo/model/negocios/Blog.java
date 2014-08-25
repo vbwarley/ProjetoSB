@@ -13,10 +13,9 @@ public class Blog extends Observable {
 	private boolean autorizaComentario;
 	private boolean autorizaComentarioAnonimo;
 	private Usuario usuario;
-	private Set<Usuario> assinantes;
 
 	public Blog() {
-		assinantes = new HashSet<Usuario>();
+
 	}
 
 	public int getCodigo() {
@@ -75,30 +74,16 @@ public class Blog extends Observable {
 		this.usuario = usuario;
 	}
 
-	public Set<Usuario> getAssinantes() {
-		return assinantes;
-	}
-
-	public void setAssinantes(Set<Usuario> assinantes) {
-		this.assinantes = assinantes;
-	}
-
 	public boolean equals(Blog blog) {
-		int iguais = 0;
+		
 		if (blog.getCodigo() == this.codigo
 				&& blog.getTitulo().equals(this.titulo)
 				&& blog.getDescricao().equals(this.descricao)
 				&& blog.getImagemFundo().equals(this.imagemFundo)
 				&& blog.isAutorizaComentario() == this.autorizaComentario
 				&& blog.isAutorizaComentarioAnonimo() == this.autorizaComentarioAnonimo
-				&& blog.getUsuario().equals(this.usuario)) {
-			for (Usuario usuarioP : blog.getAssinantes())
-				for (Usuario usuario : this.getAssinantes())
-					if (usuarioP.equals(usuario))
-						iguais++;
-			if (iguais == this.getAssinantes().size() && this.getAssinantes().size() == blog.getAssinantes().size())
-				return true;
-		}
+				&& blog.getUsuario().equals(this.usuario)) 
+			return true;
 		return false;
 	}
 }

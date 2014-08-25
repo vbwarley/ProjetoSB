@@ -20,10 +20,9 @@ public class Usuario implements Observer {
 	private String filmes;
 	private String musicas;
 	private String livros;
-	private Set<Blog> assinatura;
 
 	public Usuario() {
-		assinatura = new HashSet<>();
+	
 	}
 
 	public String getLogin() {
@@ -122,21 +121,11 @@ public class Usuario implements Observer {
 		this.livros = livros;
 	}
 
-	public Set<Blog> getAssinatura() {
-		return assinatura;
-	}
-
-	public void setAssinatura(Set<Blog> assinatura) {
-		this.assinatura = assinatura;
-	}
-
 	public void criarAssinatura(Blog blog) {
-		this.assinatura.add(blog);
 		blog.addObserver(this);
 	}
 
 	public void excluirAssinatura(Blog blog) {
-		this.assinatura.remove(blog);
 		blog.deleteObserver(this);
 	}
 
@@ -155,7 +144,7 @@ public class Usuario implements Observer {
 	}
 
 	public boolean equals(Usuario usuario) {
-		int iguais = 0;
+//		int iguais = 0;
 		if (usuario.getLogin().equals(this.login)
 				&& usuario.getSenha().equals(this.senha)
 				&& usuario.getNome().equals(this.nome)
@@ -168,11 +157,11 @@ public class Usuario implements Observer {
 				&& usuario.getFilmes().equals(this.filmes)
 				&& usuario.getLivros().equals(this.livros)
 				&& usuario.getMusicas().equals(this.musicas)) {
-			for (Blog blogP : usuario.getAssinatura())
-				for (Blog blog : this.getAssinatura())
-					if (blogP.getCodigo() == blog.getCodigo())
-						iguais++;
-			if (iguais == this.getAssinatura().size() && this.getAssinatura().size() == usuario.getAssinatura().size())
+//			for (Blog blogP : usuario.getAssinatura())
+//				for (Blog blog : this.getAssinatura())
+//					if (blogP.getCodigo() == blog.getCodigo())
+//						iguais++;
+//			if (iguais == this.getAssinatura().size() && this.getAssinatura().size() == usuario.getAssinatura().size())
 				return true;
 		}
 		return false;

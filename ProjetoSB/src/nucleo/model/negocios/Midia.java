@@ -57,10 +57,10 @@ public class Midia {
 		if (midia.getCodigo() == this.codigo
 				&& midia.getTipo().getId() == this.tipo.getId()
 				&& midia.getNomeArquivo().equals(this.nomeArquivo)
-				&& (midia.getComentario() != null ? midia.getComentario().equals(this.comentario) : midia.getComentario() == this.comentario)
-				&& (midia.getPostagem() != null ? midia.getComentario().equals(this.postagem) : midia.getPostagem() == this.postagem))
+				&& (midia.getComentario() != null ? midia.getComentario().equals(this.comentario) : true)
+				&& (midia.getPostagem() != null ? midia.getComentario().equals(
+						this.postagem) : true))
 			return true;
 		return false;
 	}
-
 }

@@ -11,13 +11,16 @@ import java.util.Set;
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.PalavraChave;
 import nucleo.model.negocios.Postagem;
+import nucleo.model.negocios.PostagemPalavra;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.jdbc.JDBCDAOBlog;
 import nucleo.model.persistencia.jdbc.JDBCDAOPalavraChave;
 import nucleo.model.persistencia.jdbc.JDBCDAOPostagem;
+import nucleo.model.persistencia.jdbc.JDBCDAOPostagemPalavras;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOPalavraChave {
@@ -26,6 +29,7 @@ public class TestJDBCDAOPalavraChave {
 	private JDBCDAOPostagem jdp;
 	private JDBCDAOBlog jdb;
 	private JDBCDAOUsuario jdu;
+	private JDBCDAOPostagemPalavras jdpp;
 
 	@Before
 	public void before() {
@@ -33,6 +37,7 @@ public class TestJDBCDAOPalavraChave {
 		jdp = new JDBCDAOPostagem();
 		jdb = new JDBCDAOBlog();
 		jdu = new JDBCDAOUsuario();
+		jdpp = new JDBCDAOPostagemPalavras();
 	}
 
 	@Test
@@ -43,6 +48,9 @@ public class TestJDBCDAOPalavraChave {
 		Blog blog = new Blog();
 		Usuario usuario = new Usuario();
 		PalavraChave palavraChave = new PalavraChave();
+		PostagemPalavra postagemPalavra1 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra2 = new PostagemPalavra();
+
 
 		usuario.setLogin("UP1");
 		usuario.setSenha("11211");
@@ -76,19 +84,23 @@ public class TestJDBCDAOPalavraChave {
 		postagem2.setConteudo("gerfdte");
 		postagem2.setBlog(blog);
 
-		jdp.criar(postagem1);
-		jdp.criar(postagem2);
-
 		palavraChave.setNome("revolucao");
-		palavraChave.adicionaPostagem(postagem1);
-		palavraChave.adicionaPostagem(postagem2);
+		postagemPalavra1.setPalavraChave(palavraChave);
+		postagemPalavra1.setPostagem(postagem1);
+		postagemPalavra2.setPalavraChave(palavraChave);
+		postagemPalavra2.setPostagem(postagem2);
 		
 		jdpc.criar(palavraChave);
+		jdp.criar(postagem1);
+		jdp.criar(postagem2);
+		
+		jdpp.criar(postagemPalavra1);
+		
 
 		assertEquals(true,
 				palavraChave.equals(jdpc.consultar(palavraChave.getCodigo())));
 	}
-
+	
 	@Test
 	public void consultar() {
 
@@ -97,6 +109,8 @@ public class TestJDBCDAOPalavraChave {
 		Blog blog = new Blog();
 		Usuario usuario = new Usuario();
 		PalavraChave palavraChave = new PalavraChave();
+		PostagemPalavra postagemPalavra1 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra2 = new PostagemPalavra();
 
 		usuario.setLogin("UP2");
 		usuario.setSenha("112211");
@@ -134,15 +148,17 @@ public class TestJDBCDAOPalavraChave {
 		jdp.criar(postagem2);
 
 		palavraChave.setNome("revolucao poxinha nenhuma");
-		palavraChave.adicionaPostagem(postagem1);
-		palavraChave.adicionaPostagem(postagem2);
+		postagemPalavra1.setPalavraChave(palavraChave);
+		postagemPalavra1.setPostagem(postagem2);
+		postagemPalavra2.setPalavraChave(palavraChave);
+		postagemPalavra2.setPostagem(postagem2);
 		
 		jdpc.criar(palavraChave);
 
 		assertEquals(true,
 				palavraChave.equals(jdpc.consultar(palavraChave.getCodigo())));
 	}
-
+	
 	@Test
 	public void alterar() {
 
@@ -151,6 +167,8 @@ public class TestJDBCDAOPalavraChave {
 		Blog blog = new Blog();
 		Usuario usuario = new Usuario();
 		PalavraChave palavraChave = new PalavraChave();
+		PostagemPalavra postagemPalavra1 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra2 = new PostagemPalavra();
 
 		usuario.setLogin("UP3");
 		usuario.setSenha("112211");
@@ -187,9 +205,11 @@ public class TestJDBCDAOPalavraChave {
 		jdp.criar(postagem1);
 		jdp.criar(postagem2);
 
-		palavraChave.setNome("revolucaoéfurada");	
-		palavraChave.adicionaPostagem(postagem1);
-		palavraChave.adicionaPostagem(postagem2);
+		palavraChave.setNome("revolucaoéfurada");
+		postagemPalavra1.setPalavraChave(palavraChave);
+		postagemPalavra1.setPostagem(postagem1);
+		postagemPalavra2.setPalavraChave(palavraChave);
+		postagemPalavra2.setPostagem(postagem2);
 		
 		jdpc.criar(palavraChave);
 
@@ -200,7 +220,7 @@ public class TestJDBCDAOPalavraChave {
 		assertEquals(true,
 				palavraChave.equals(jdpc.consultar(palavraChave.getCodigo())));
 	}
-
+	
 	@Test
 	public void deletar() {
 
@@ -209,6 +229,8 @@ public class TestJDBCDAOPalavraChave {
 		Blog blog = new Blog();
 		Usuario usuario = new Usuario();
 		PalavraChave palavraChave = new PalavraChave();
+		PostagemPalavra postagemPalavra1 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra2 = new PostagemPalavra();
 
 		usuario.setLogin("UP4");
 		usuario.setSenha("112211");
@@ -246,17 +268,20 @@ public class TestJDBCDAOPalavraChave {
 		jdp.criar(postagem2);
 
 		palavraChave.setNome("ahaha");
-		palavraChave.adicionaPostagem(postagem1);
-		palavraChave.adicionaPostagem(postagem2);
-
+		
+		postagemPalavra1.setPalavraChave(palavraChave);
+		postagemPalavra1.setPostagem(postagem1);
+		postagemPalavra2.setPalavraChave(palavraChave);
+		postagemPalavra2.setPostagem(postagem2);
+		
 		jdpc.criar(palavraChave);
 		jdpc.deletar(palavraChave);
 
-		assertEquals(true,
+		assertEquals(null,
 				jdpc.consultar(palavraChave.getCodigo()));	
 
 	}
-
+	
 	@Test
 	public void getList() {
 		
@@ -268,6 +293,10 @@ public class TestJDBCDAOPalavraChave {
 		PalavraChave palavraChave1 = new PalavraChave();
 		PalavraChave palavraChave2 = new PalavraChave();
 		PalavraChave palavraChave3 = new PalavraChave();
+		PostagemPalavra postagemPalavra1 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra2 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra3 = new PostagemPalavra();
+		PostagemPalavra postagemPalavra4 = new PostagemPalavra();
 		
 		usuario.setLogin("UP5");
 		usuario.setSenha("112211");
@@ -305,16 +334,26 @@ public class TestJDBCDAOPalavraChave {
 		jdp.criar(postagem2);
 		
 		palavraChave1.setNome("P1");
-		palavraChave1.adicionaPostagem(postagem1);
 		palavraChave2.setNome("P2");
-		palavraChave2.adicionaPostagem(postagem2);
 		palavraChave3.setNome("P3");
-		palavraChave3.adicionaPostagem(postagem2);
-		palavraChave3.adicionaPostagem(postagem1);
-
+	
 		jdpc.criar(palavraChave1);
 		jdpc.criar(palavraChave2);
 		jdpc.criar(palavraChave3);
+		
+		postagemPalavra1.setPalavraChave(palavraChave1);
+		postagemPalavra1.setPostagem(postagem1);
+		postagemPalavra2.setPalavraChave(palavraChave2);
+		postagemPalavra2.setPostagem(postagem2);
+		postagemPalavra3.setPalavraChave(palavraChave3);
+		postagemPalavra3.setPostagem(postagem2);
+		postagemPalavra4.setPalavraChave(palavraChave3);
+		postagemPalavra4.setPostagem(postagem1);
+		
+		jdpp.criar(postagemPalavra1);
+		jdpp.criar(postagemPalavra2);
+		jdpp.criar(postagemPalavra3);
+		jdpp.criar(postagemPalavra4);
 
 		listPC.add(palavraChave1);
 		listPC.add(palavraChave2);

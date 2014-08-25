@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.PalavraChave;
-import nucleo.model.negocios.Postagem;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
 public class JDBCDAOPalavraChave extends JDBCDAO implements
@@ -21,13 +20,13 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	public void criar(PalavraChave objeto) {
 		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
-		
+
 		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, objeto.getNome());			
+			PreparedStatement stmt = getConnection().prepareStatement(
+					insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, objeto.getNome());
 			stmt.execute();
-		
+
 			ResultSet rs = stmt.getGeneratedKeys();
 
 			if (rs.next())
@@ -70,9 +69,9 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 				pc.setNome(rs.getString(2));
 
 				// adiciona as postagens no objeto pc
-				while (rsPP.next())
-					pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
-							.getInt(1)));
+				// while (rsPP.next())
+				// pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
+				// .getInt(1)));
 			}
 
 			stmt.close();
@@ -136,21 +135,14 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
 
-		// recupera as postagens associadas
-		String sqlListPP = "SELECT * FROM postagem_palavras";
-
 		try {
 			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
-			PreparedStatement stmtPP = getConnection().prepareStatement(
-					sqlListPP);
-
 			ResultSet rs = stmt.executeQuery();
-			ResultSet rsPP = stmtPP.executeQuery();
+
 			lpc = new ArrayList<PalavraChave>();
-			
+
 			while (rs.next()) {
 				pc = new PalavraChave();
-				
 
 				pc.setCodigo(rs.getInt(1));
 				pc.setNome(rs.getString(2));
@@ -158,17 +150,8 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 				lpc.add(pc);
 			}
 
-			// adiciona as postagens (se tiver) à palavra-chave recuperada
-			while (rsPP.next())
-				for (PalavraChave palavraChave : lpc)
-					if (rsPP.getInt(2) == palavraChave.getCodigo())
-						pc.adicionaPostagem(new JDBCDAOPostagem()
-								.consultar(rsPP.getInt(1)));
-
 			stmt.close();
-			stmtPP.close();
 			rs.close();
-			rsPP.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {

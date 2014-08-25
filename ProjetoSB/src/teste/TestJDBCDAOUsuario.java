@@ -6,11 +6,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import nucleo.model.negocios.Assinatura;
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
+import nucleo.model.persistencia.jdbc.JDBCDAOAssinatura;
 import nucleo.model.persistencia.jdbc.JDBCDAOBlog;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
+import org.apache.catalina.valves.JDBCAccessLogValve;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,18 +22,25 @@ public class TestJDBCDAOUsuario {
 
 	private JDBCDAOUsuario jdu;
 	private JDBCDAOBlog jdb;
+	private JDBCDAOAssinatura jda;
 
 	@Before
 	public void before() {
 		jdu = new JDBCDAOUsuario();
 		jdb = new JDBCDAOBlog();
+		jda = new JDBCDAOAssinatura();
 	}
 	
 	@Test
 	public void criar() {
 		Usuario usuarioCriador = new Usuario();
 		Usuario usuarioAssinante = new Usuario();
+		Usuario usuarioAssinante2 = new Usuario();
+		Assinatura assinatura1 = new Assinatura();
+		Assinatura assinatura2 = new Assinatura();
+		Assinatura assinatura3 = new Assinatura();
 		Blog blog = new Blog();
+		Blog blog2 = new Blog();
 		
 		usuarioCriador.setLogin("warley criador");
 		usuarioCriador.setSenha("9010");
@@ -69,10 +79,49 @@ public class TestJDBCDAOUsuario {
 		usuarioAssinante.setLivros("O Mínimo");
 		usuarioAssinante.setMusicas("Poxa...");
 		usuarioAssinante.criarAssinatura(blog);
-
+		
 		jdu.criar(usuarioAssinante);
+		
+		assinatura1.setBlog(blog);
+		assinatura1.setUsuario(usuarioAssinante);
+		jda.criar(assinatura1);
 
-		assertEquals(true, usuarioAssinante.equals(jdu.consultar(usuarioAssinante.getLogin())));
+		usuarioAssinante2.setLogin("warley assinant 2");
+		usuarioAssinante2.setSenha("9010");
+		usuarioAssinante2.setNome("Warley Vital");
+		usuarioAssinante2.setSexo('M');
+		usuarioAssinante2.setEmail("v@gmail.com");
+		usuarioAssinante2.setDataNascimento(Date.valueOf("2014-01-14"));
+		usuarioAssinante2.setEndereco("Povoado Novo Rio");
+		usuarioAssinante2.setInteresses("Fazer nada");
+		usuarioAssinante2.setQuemSouEu("Warley, o Vital");
+		usuarioAssinante2.setFilmes("The Godfather");
+		usuarioAssinante2.setLivros("O Mínimo");
+		usuarioAssinante2.setMusicas("Poxa...");
+		usuarioAssinante2.criarAssinatura(blog);
+		
+		jdu.criar(usuarioAssinante2);
+	
+		assinatura2.setBlog(blog);
+		assinatura2.setUsuario(usuarioAssinante2);
+		jda.criar(assinatura2);
+		
+		blog2.setTitulo("Aques");
+		blog2.setDescricao("lá");
+		blog2.setImagemFundo("sabe.jpg");
+		blog2.setAutorizaComentario(true);
+		blog2.setAutorizaComentarioAnonimo(true);
+		blog2.setUsuario(usuarioAssinante2);
+		
+		jdb.criar(blog2);
+		
+		usuarioCriador.criarAssinatura(blog2);
+		
+		assinatura3.setBlog(blog2);
+		assinatura3.setUsuario(usuarioCriador);
+		jda.criar(assinatura3);
+
+		assertEquals(true, usuarioCriador.equals(jdu.consultar(usuarioCriador.getLogin())));
 	}
 	
 	@Test
@@ -103,6 +152,8 @@ public class TestJDBCDAOUsuario {
 		Usuario usuarioCriador1 = new Usuario();
 		Usuario usuarioCriador2 = new Usuario();
 		Usuario usuarioAssinante = new Usuario();
+		Assinatura assinatura1 = new Assinatura();
+		Assinatura assinatura2 = new Assinatura();
 		Blog blog1 = new Blog();
 		Blog blog2 = new Blog();
 		
@@ -167,11 +218,21 @@ public class TestJDBCDAOUsuario {
 		usuarioAssinante.setLivros("O Mínimo");
 		usuarioAssinante.setMusicas("Poxa...");
 		usuarioAssinante.criarAssinatura(blog1);
-		usuarioAssinante.criarAssinatura(blog2);
+		usuarioAssinante.criarAssinatura(blog2); 
 		
+
 		jdu.criar(usuarioAssinante);
+		
+		assinatura1.setBlog(blog1);
+		assinatura1.setUsuario(usuarioAssinante);
+		assinatura2.setBlog(blog2);
+		assinatura2.setUsuario(usuarioAssinante);
+		
+		jda.criar(assinatura1);
+		jda.criar(assinatura2);
+		
 		usuarioAssinante.excluirAssinatura(blog2);
-		jdu.alterar(usuarioAssinante);
+		jda.deletar(assinatura2);
 
 		assertEquals(true, usuarioAssinante.equals(jdu.consultar(usuarioAssinante.getLogin())));
 	}
@@ -207,6 +268,11 @@ public class TestJDBCDAOUsuario {
 		Usuario usuario2 = new Usuario();
 		Usuario usuario3 = new Usuario();
 		Usuario usuario4 = new Usuario();
+		Assinatura assinatura1 = new Assinatura();
+		Assinatura assinatura2 = new Assinatura();
+		Assinatura assinatura3 = new Assinatura();			
+		Assinatura assinatura4 = new Assinatura();			
+		Assinatura assinatura5 = new Assinatura();			
 		Blog blog2 = new Blog();
 		Blog blog1 = new Blog();
 		
@@ -264,7 +330,6 @@ public class TestJDBCDAOUsuario {
 		usuario3.setLivros("Oymo");
 		usuario3.setMusicas("Aboxa...");
 		usuario3.criarAssinatura(blog1);
-		
 				
 		jdu.criar(usuario3);
 		
@@ -292,11 +357,27 @@ public class TestJDBCDAOUsuario {
 		blog2.setUsuario(usuario4);
 		
 		jdb.criar(blog2);
+		
 		usuario1.criarAssinatura(blog2);
 		usuario3.criarAssinatura(blog2);
-		jdu.alterar(usuario1);
-		jdu.alterar(usuario3);
-			
+				
+		assinatura1.setBlog(blog1);
+		assinatura1.setUsuario(usuario2);
+		assinatura2.setBlog(blog1);
+		assinatura2.setUsuario(usuario3);
+		assinatura3.setBlog(blog1);
+		assinatura3.setUsuario(usuario4);
+		assinatura4.setBlog(blog2);
+		assinatura4.setUsuario(usuario1);
+		assinatura5.setBlog(blog2);
+		assinatura5.setUsuario(usuario3);
+		
+		jda.criar(assinatura1);
+		jda.criar(assinatura2);
+		jda.criar(assinatura3);
+		jda.criar(assinatura4);
+		jda.criar(assinatura5);
+		
 		listaUsuario.add(usuario1);
 		listaUsuario.add(usuario2);
 		listaUsuario.add(usuario3);
@@ -304,7 +385,7 @@ public class TestJDBCDAOUsuario {
 		
 		List<Usuario> listaUsuarioRetornada = jdu.getList();
 		int iguais = 0;
-		
+	
 		for (Usuario u : listaUsuario)
 			for (Usuario uRetornado : listaUsuarioRetornada)
 				if (u.equals(uRetornado))

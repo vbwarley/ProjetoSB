@@ -14,7 +14,6 @@ import nucleo.model.persistencia.jdbc.JDBCDAOPostagem;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOPostagem {
