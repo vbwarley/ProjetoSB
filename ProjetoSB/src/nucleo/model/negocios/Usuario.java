@@ -146,17 +146,17 @@ public class Usuario implements Observer {
 	public boolean equals(Usuario usuario) {
 //		int iguais = 0;
 		if (usuario.getLogin().equals(this.login)
-				&& usuario.getSenha().equals(this.senha)
-				&& usuario.getNome().equals(this.nome)
+				&& (usuario.getSenha() == null ? (usuario.getSenha() == this.senha) : usuario.getSenha().equals(this.senha))
+				&& (usuario.getNome() == null ? (usuario.getNome() == this.nome) : usuario.getNome().equals(this.nome))
 				&& usuario.getSexo() == this.sexo
-				&& usuario.getDataNascimento().equals(this.dataNascimento)
-				&& usuario.getEmail().equals(this.email)
-				&& usuario.getQuemSouEu().equals(this.quemSouEu)
-				&& usuario.getInteresses().equals(this.interesses)
-				&& usuario.getEndereco().equals(this.endereco)
-				&& usuario.getFilmes().equals(this.filmes)
-				&& usuario.getLivros().equals(this.livros)
-				&& usuario.getMusicas().equals(this.musicas)) {
+				&& (usuario.getDataNascimento() == null ? (usuario.getDataNascimento() == this.dataNascimento) : usuario.getDataNascimento().equals(this.dataNascimento))
+				&& (usuario.getEmail() == null ? (usuario.getDataNascimento() == this.dataNascimento) : usuario.getEmail().equals(this.email))
+				&& (usuario.getQuemSouEu() == null ? (usuario.getQuemSouEu() == this.quemSouEu) : usuario.getQuemSouEu().equals(this.quemSouEu))
+				&& (usuario.getInteresses() == null ? (usuario.getInteresses() == this.interesses) :usuario.getInteresses().equals(this.interesses))
+				&& (usuario.getEndereco() == null ? (usuario.getEndereco() == this.endereco) : usuario.getEndereco().equals(this.endereco))
+				&& (usuario.getFilmes() == null ? (usuario.getFilmes() == this.filmes) : usuario.getFilmes().equals(this.filmes))
+				&& (usuario.getLivros() == null ? (usuario.getLivros() == this.livros) : usuario.getLivros().equals(this.livros))
+				&& (usuario.getMusicas() == null ? (usuario.getMusicas() == this.livros) : usuario.getMusicas().equals(this.musicas))) {
 //			for (Blog blogP : usuario.getAssinatura())
 //				for (Blog blog : this.getAssinatura())
 //					if (blogP.getCodigo() == blog.getCodigo())

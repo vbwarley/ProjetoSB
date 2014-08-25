@@ -83,11 +83,11 @@ public abstract class ComentarioComposite {
 	}
 
 	public void addComentario(ComentarioComposite comentario) {
-		// ...
+		this.listaComentarios.add(comentario);
 	}
 
 	public void removeComentario(ComentarioComposite comentario) {
-		// ...
+		this.listaComentarios.remove(comentario);
 	}
 
 	public boolean equals(ComentarioComposite comentario) {
@@ -97,7 +97,7 @@ public abstract class ComentarioComposite {
 				&& comentario.getTitulo().equals(this.getTitulo())
 				&& comentario.getConteudo().equals(this.getConteudo())
 				&& comentario.getPostagem().equals(this.getPostagem())
-				&& comentario.getComentarioPai().getCodigo() == this.getComentarioPai().getCodigo()
+//				&& comentario.getComentarioPai().getCodigo() == this.getComentarioPai().getCodigo()
 				&& comentario.getUsuario().equals(this.getUsuario())) {
 			for (ComentarioComposite comentarioP : comentario.getListaComentarios())
 				for (ComentarioComposite comentarioT : this.getListaComentarios())

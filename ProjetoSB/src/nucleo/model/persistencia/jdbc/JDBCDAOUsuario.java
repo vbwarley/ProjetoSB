@@ -102,7 +102,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements
 
 			stmt.close();
 //			stmtA.close();
-//			rs.close();
+			rs.close();
 //			rsA.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

@@ -21,7 +21,6 @@ import nucleo.model.persistencia.jdbc.JDBCDAOPostagem;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOMidia {
@@ -40,11 +39,10 @@ public class TestJDBCDAOMidia {
 		jdp = new JDBCDAOPostagem();
 		jdc = new JDBCDAOComentario();
 	}
-	@Ignore
+	
 	@Test
 	public void criar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -54,7 +52,7 @@ public class TestJDBCDAOMidia {
 		ComentarioComposite comentarioA = new ComentarioAnonimo();
 		Midia midia = new Midia();
 
-		usuario.setLogin("warlyo");
+		usuario.setLogin("warlyos");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
 		usuario.setSexo('M');
@@ -67,8 +65,8 @@ public class TestJDBCDAOMidia {
 		usuario.setLivros("O Mínimo");
 		usuario.setMusicas("Poxa...");
 
-		usuarioA.setLogin("Anônimo 100100");
-		usuarioA.setNome("Anônimo 100100");
+		usuarioA.setLogin("Anônimo 2000100");
+		usuarioA.setNome("Anônimo 2000100");
 
 		jdu.criar(usuario);
 		jdu.criar(usuarioA);
@@ -88,7 +86,7 @@ public class TestJDBCDAOMidia {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("O marxismo cultural é um perigo.");
 		comentario.setPostagem(postagem);
@@ -109,26 +107,26 @@ public class TestJDBCDAOMidia {
 		comentarioN.setTitulo("Postagem NOK");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentario.addComentario(comentarioN);		
 
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
 		midia.setComentario(comentario);
-		midia.setPostagem(postagem);
+		midia.setPostagem(null);
 
 		jdm.criar(midia);
 
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
-	@Ignore
+	
 	@Test
 	public void consultar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -172,7 +170,7 @@ public class TestJDBCDAOMidia {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("O marxismo cultural é um perigo.");
 		comentario.setPostagem(postagem);
@@ -193,33 +191,30 @@ public class TestJDBCDAOMidia {
 		comentarioN.setTitulo("Postagem NOK");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentario.addComentario(comentarioN);
 
 		jdc.criar(comentario);
-
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
+		
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
-		midia.setComentario(comentario);
-		midia.setPostagem(postagem);
+		midia.setComentario(comentarioA);
+		midia.setPostagem(null);
 
 		jdm.criar(midia);
 
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
-	@Ignore
+	
 	@Test
 	public void alterar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
 		Blog blog = new Blog();
-		ComentarioComposite comentario = new ComentarioNormal();
-		ComentarioComposite comentarioN = new ComentarioNormal();
-		ComentarioComposite comentarioA = new ComentarioAnonimo();
 		Midia midia = new Midia();
 
 		usuario.setLogin("varly");
@@ -255,37 +250,10 @@ public class TestJDBCDAOMidia {
 		postagem.setBlog(blog);
 
 		jdp.criar(postagem);
-
-		comentario.setComentarioPai(comentario);
-		comentario.setTipo(comentario.getClass().getSimpleName());
-		comentario.setConteudo("O marxismo cultural é um perigo.");
-		comentario.setPostagem(postagem);
-		comentario.setTitulo("Marximos Cultural");
-		comentario.setUsuario(usuario);
-
-		comentarioA.setComentarioPai(comentario);
-		comentarioA.setTipo(comentario.getClass().getSimpleName());
-		comentarioA.setConteudo("Conteudo sem");
-		comentarioA.setPostagem(postagem);
-		comentarioA.setTitulo("Postagem OK");
-		comentarioA.setUsuario(usuarioA);
-
-		comentarioN.setComentarioPai(comentario);
-		comentarioN.setTipo(comentario.getClass().getSimpleName());
-		comentarioN.setConteudo("Conteudo D");
-		comentarioN.setPostagem(postagem);
-		comentarioN.setTitulo("Postagem NOK");
-		comentarioN.setUsuario(usuario);
-
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
-
-		jdc.criar(comentario);
-
+		
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
-		midia.setComentario(comentario);
+		midia.setComentario(null);
 		midia.setPostagem(postagem);
 
 		jdm.criar(midia);
@@ -297,18 +265,14 @@ public class TestJDBCDAOMidia {
 		assertEquals(true, midia.equals(jdm.consultar(midia.getCodigo())));
 	}
 	
-	@Ignore
+	
 	@Test
 	public void deletar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
 		Blog blog = new Blog();
-		ComentarioComposite comentario = new ComentarioNormal();
-		ComentarioComposite comentarioN = new ComentarioNormal();
-		ComentarioComposite comentarioA = new ComentarioAnonimo();
 		Midia midia = new Midia();
 
 		usuario.setLogin("warlzy");
@@ -345,36 +309,9 @@ public class TestJDBCDAOMidia {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
-		comentario.setTipo(comentario.getClass().getSimpleName());
-		comentario.setConteudo("O marxismo cultural é um perigo.");
-		comentario.setPostagem(postagem);
-		comentario.setTitulo("Marximos Cultural");
-		comentario.setUsuario(usuario);
-
-		comentarioA.setComentarioPai(comentario);
-		comentarioA.setTipo(comentario.getClass().getSimpleName());
-		comentarioA.setConteudo("Conteudo sem");
-		comentarioA.setPostagem(postagem);
-		comentarioA.setTitulo("Postagem OK");
-		comentarioA.setUsuario(usuarioA);
-
-		comentarioN.setComentarioPai(comentario);
-		comentarioN.setTipo(comentario.getClass().getSimpleName());
-		comentarioN.setConteudo("Conteudo D");
-		comentarioN.setPostagem(postagem);
-		comentarioN.setTitulo("Postagem NOK");
-		comentarioN.setUsuario(usuario);
-
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
-
-		jdc.criar(comentario);
-
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
-		midia.setComentario(comentario);
+		midia.setComentario(null);
 		midia.setPostagem(postagem);
 
 		jdm.criar(midia);
@@ -382,11 +319,10 @@ public class TestJDBCDAOMidia {
 
 		assertEquals(null, jdm.consultar(midia.getCodigo()));
 	}
-
+	
 	@Test
 	public void getList() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -433,7 +369,7 @@ public class TestJDBCDAOMidia {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("O marxismo cultural é um perigo.");
 		comentario.setPostagem(postagem);
@@ -454,11 +390,12 @@ public class TestJDBCDAOMidia {
 		comentarioN.setTitulo("Postagem NOK");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentario.addComentario(comentarioN);
 
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo W");

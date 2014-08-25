@@ -13,7 +13,7 @@ import nucleo.model.negocios.ComentarioNormal;
 import nucleo.model.persistencia.dao.DAOComentario;
 
 public class JDBCDAOComentario extends JDBCDAO implements
-DAOComentario<ComentarioComposite, Integer> {
+		DAOComentario<ComentarioComposite, Integer> {
 
 	public JDBCDAOComentario() {
 
@@ -32,7 +32,10 @@ DAOComentario<ComentarioComposite, Integer> {
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
 			stmt.setString(3, objeto.getTipo());
-			stmt.setNull(4, Types.NULL);
+			if (objeto.getComentarioPai() == null)
+				stmt.setNull(4, Types.NULL);
+			else
+				stmt.setInt(4, objeto.getComentarioPai().getCodigo());
 			stmt.setInt(5, objeto.getPostagem().getCodigo());
 			stmt.setString(6, objeto.getUsuario().getLogin());
 
@@ -42,12 +45,9 @@ DAOComentario<ComentarioComposite, Integer> {
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
-
-			alterar(objeto);
-
-			for (ComentarioComposite comentario : objeto.getListaComentarios())
-				criar(comentario);
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -71,7 +71,6 @@ DAOComentario<ComentarioComposite, Integer> {
 		ResultSet rsCP = null;
 
 		try {
-
 			stmt = getConnection().prepareStatement(sql);
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
@@ -96,25 +95,20 @@ DAOComentario<ComentarioComposite, Integer> {
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setTipo(rs.getString("tipo"));
 
-				if (rs.getInt("comentarioPai") == comentario.getCodigo())
-					comentario.setComentarioPai(comentario);
-				else
-					comentario.setComentarioPai(consultar(rs
-							.getInt("comentarioPai")));
-
 				// se houver registros, esta será a lista de comentarios
 				listC = new ArrayList<ComentarioComposite>();
 
-				while (rsCP.next()) // aqui está o problema
-					if (rsCP.getInt(1) != comentario.getComentarioPai().getCodigo())
-						listC.add(consultar(rsCP.getInt("codigo")));
+				while (rsCP.next())
+					listC.add(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
 				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
 						.getInt("codPostagem")));
 				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
 						.getString("login")));
+
 			}
+
 			stmt.close();
 			rs.close();
 			stmtCP.close();
@@ -142,7 +136,10 @@ DAOComentario<ComentarioComposite, Integer> {
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
 			stmt.setString(3, objeto.getTipo());
-			stmt.setInt(4, objeto.getComentarioPai().getCodigo());
+			if (objeto.getComentarioPai() == null)
+				stmt.setNull(4, Types.NULL);
+			else
+				stmt.setInt(4, objeto.getComentarioPai().getCodigo());
 			stmt.setInt(5, objeto.getPostagem().getCodigo());
 			stmt.setString(6, objeto.getUsuario().getLogin());
 			stmt.setInt(7, objeto.getCodigo());
@@ -181,11 +178,12 @@ DAOComentario<ComentarioComposite, Integer> {
 
 	@Override
 	public List<ComentarioComposite> getList() {
+		
 		abrirConexao();
 
 		String sql = "SELECT * FROM comentario";
 
-		List<ComentarioComposite> listC = null; // lista de comentarios de um
+		List<ComentarioComposite> listC = null; 
 		ComentarioComposite comentario = null;
 
 		PreparedStatement stmt = null;
@@ -194,18 +192,17 @@ DAOComentario<ComentarioComposite, Integer> {
 		ResultSet rsCP = null;
 
 		try {
-
+				
 			stmt = getConnection().prepareStatement(sql);
 			rs = stmt.executeQuery();
 
-			// sql para recuperar a lista de comentarios, se existir
 			stmtCP = getConnection().prepareStatement(
 					"SELECT codigo FROM comentario WHERE comentarioPai = ?");
-
-			// se houver registros, esta será a lista de comentarios
-			listC = new ArrayList<ComentarioComposite>();
 			
-			while (rs.next()) {				
+			
+			listC = new ArrayList<ComentarioComposite>();
+
+			while (rs.next()) {
 				if (rs.getString("tipo").equals(
 						ComentarioNormal.class.getSimpleName()))
 					comentario = new ComentarioNormal();
@@ -216,28 +213,20 @@ DAOComentario<ComentarioComposite, Integer> {
 				comentario.setTitulo(rs.getString("titulo"));
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setTipo(rs.getString("tipo"));
-
-				if (rs.getInt("comentarioPai") == comentario.getCodigo())
-					comentario.setComentarioPai(comentario);
-				else
-					comentario.setComentarioPai(new JDBCDAOComentario().consultar(rs
-							.getInt("comentarioPai")));
-
+				
 				stmtCP.setInt(1, comentario.getCodigo());
 				stmtCP.execute();
 				rsCP = stmtCP.getResultSet();
 
 				while (rsCP.next())
-					if (comentario.getCodigo() != comentario.getComentarioPai()
-					.getCodigo())
-						listC.add(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
+					comentario.addComentario(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
 
-				comentario.setListaComentarios(listC);
 				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
 						.getInt("codPostagem")));
 				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
 						.getString("login")));
-				
+
+
 				listC.add(comentario);
 			}
 			stmt.close();
@@ -253,43 +242,4 @@ DAOComentario<ComentarioComposite, Integer> {
 		}
 		return listC;
 	}
-
-	// public List<ComentarioComposite> getListaComentarios(Integer codigo) {
-	//
-	// String sql = "SELECT * FROM comentario WHERE comentarioPai = " + codigo;
-	//
-	// List<ComentarioComposite> lista = new ArrayList<ComentarioComposite>();
-	//
-	// // codigo, titulo, conteudo, login, comentarioPai, Postagem
-	// try {
-	//
-	// Statement stmt = getConnection().createStatement();
-	// ResultSet rs = stmt.executeQuery(sql);
-	//
-	// while (rs.next()) {
-	// ComentarioComposite comentario = new ComentarioComposite();
-	//
-	// comentario.setCodigo(rs.getInt("codigo"));
-	// comentario.setTitulo(rs.getString("titulo"));
-	// comentario.setConteudo(rs.getString("conteudo"));
-	// comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
-	// .getString("login")));
-	// comentario.setComentarioPai(new JDBCDAOComentario()
-	// .consultar(codigo));
-	// comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
-	// .getInt("postagem")));
-	//
-	// lista.add(comentario);
-	//
-	// }
-	//
-	// } catch (Exception e) {
-	// throw new RuntimeException(e);
-	// } finally {
-	// fecharConexao();
-	// }
-	//
-	// return lista;
-	// }
-
 }

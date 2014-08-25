@@ -113,7 +113,16 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 			stmt.setString(1, objeto.getNomeArquivo());
 			stmt.setInt(2, objeto.getTipo().getId());
-			stmt.setInt(3, objeto.getComentario().getCodigo());
+			if (objeto.getComentario() == null)
+				stmt.setNull(3, Types.NULL);
+			else
+				stmt.setInt(3, objeto.getComentario().getCodigo());
+			
+			if (objeto.getPostagem() == null)
+				stmt.setNull(4, Types.NULL);
+			else
+				stmt.setInt(4, objeto.getPostagem().getCodigo());
+		
 			stmt.setInt(4, objeto.getPostagem().getCodigo());
 			stmt.setInt(5, objeto.getCodigo());
 

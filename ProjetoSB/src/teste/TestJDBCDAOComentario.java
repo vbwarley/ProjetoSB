@@ -18,7 +18,6 @@ import nucleo.model.persistencia.jdbc.JDBCDAOPostagem;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOComentario {
@@ -39,7 +38,6 @@ public class TestJDBCDAOComentario {
 	@Test
 	public void criar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -82,41 +80,41 @@ public class TestJDBCDAOComentario {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
-		comentario.setConteudo("Conteudo");
+		comentario.setConteudo("Conteudo 1");
 		comentario.setPostagem(postagem);
 		comentario.setTitulo("Postagem linda");
 		comentario.setUsuario(usuario);
 
 		comentarioA.setComentarioPai(comentario);
 		comentarioA.setTipo(comentario.getClass().getSimpleName());
-		comentarioA.setConteudo("Conteudo");
+		comentarioA.setConteudo("Conteudo 2");
 		comentarioA.setPostagem(postagem);
 		comentarioA.setTitulo("Postagem linda2");
 		comentarioA.setUsuario(usuarioA);
 
 		comentarioN.setComentarioPai(comentario);
 		comentarioN.setTipo(comentario.getClass().getSimpleName());
-		comentarioN.setConteudo("Conteudo2");
+		comentarioN.setConteudo("Conteudo 3");
 		comentarioN.setPostagem(postagem);
 		comentarioN.setTitulo("Postagem linda3");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentario.addComentario(comentarioN);
 
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		assertEquals(true,
 				comentario.equals(jdc.consultar(comentario.getCodigo())));
 	}
-
+	
 	@Test
 	public void consultar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -159,7 +157,7 @@ public class TestJDBCDAOComentario {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("Conteudo");
 		comentario.setPostagem(postagem);
@@ -173,27 +171,27 @@ public class TestJDBCDAOComentario {
 		comentarioA.setTitulo("Postagem linda2");
 		comentarioA.setUsuario(usuarioA);
 
-		comentarioN.setComentarioPai(comentario);
+		comentarioN.setComentarioPai(comentarioA);
 		comentarioN.setTipo(comentario.getClass().getSimpleName());
 		comentarioN.setConteudo("Conteudo2");
 		comentarioN.setPostagem(postagem);
 		comentarioN.setTitulo("Postagem linda3");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
-
+		comentario.addComentario(comentarioA);
+		comentarioA.addComentario(comentarioN);
+		
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		assertEquals(true,
 				comentario.equals(jdc.consultar(comentario.getCodigo())));
 	}
-
+	
 	@Test
 	public void alterar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -236,7 +234,7 @@ public class TestJDBCDAOComentario {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("Conteudo");
 		comentario.setPostagem(postagem);
@@ -250,30 +248,33 @@ public class TestJDBCDAOComentario {
 		comentarioA.setTitulo("Postagem linda2");
 		comentarioA.setUsuario(usuarioA);
 
-		comentarioN.setComentarioPai(comentario);
+		comentarioN.setComentarioPai(comentarioA);
 		comentarioN.setTipo(comentario.getClass().getSimpleName());
 		comentarioN.setConteudo("Conteudo2");
 		comentarioN.setPostagem(postagem);
 		comentarioN.setTitulo("Postagem linda3");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentarioA.addComentario(comentarioN);
 
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		comentario.setConteudo("Bla blax");
+		comentarioA.setTitulo("Conteudo alterado");
+		
 		jdc.alterar(comentario);
-
+		jdc.alterar(comentarioA);
+		
 		assertEquals(true,
-				comentario.equals(jdc.consultar(comentario.getCodigo())));
+				(comentario.equals(jdc.consultar(comentario.getCodigo())) && comentarioA.equals(jdc.consultar(comentarioA.getCodigo()))));
 	}
-
+	
 	@Test
 	public void deletar() {
 
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
@@ -316,7 +317,7 @@ public class TestJDBCDAOComentario {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("Conteudo");
 		comentario.setPostagem(postagem);
@@ -330,28 +331,29 @@ public class TestJDBCDAOComentario {
 		comentarioA.setTitulo("Postagem linda2");
 		comentarioA.setUsuario(usuarioA);
 
-		comentarioN.setComentarioPai(comentario);
+		comentarioN.setComentarioPai(comentarioA);
 		comentarioN.setTipo(comentario.getClass().getSimpleName());
 		comentarioN.setConteudo("Conteudo2");
 		comentarioN.setPostagem(postagem);
 		comentarioN.setTitulo("Postagem linda3");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
-
+		comentario.addComentario(comentarioA);
+		comentarioA.addComentario(comentarioN);
+		
 		jdc.criar(comentario);
-		jdc.deletar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
+		
+		jdc.deletar(comentarioA);
 
-		assertEquals(null, jdc.consultar(comentario.getCodigo()));
+		assertEquals(true, (jdc.consultar(comentarioA.getCodigo()) == null && jdc.consultar(comentarioN.getCodigo()) == null));
 	}
-
+	
 	@Test
 	public void getList() {
 
 		List<ComentarioComposite> listaComentario = new ArrayList<ComentarioComposite>(); //
-		List<ComentarioComposite> listaCC = new ArrayList<ComentarioComposite>();
 
 		Usuario usuario = new Usuario();
 		Usuario usuarioA = new Usuario();
@@ -395,7 +397,7 @@ public class TestJDBCDAOComentario {
 
 		jdp.criar(postagem);
 
-		comentario.setComentarioPai(comentario);
+		comentario.setComentarioPai(null);
 		comentario.setTipo(comentario.getClass().getSimpleName());
 		comentario.setConteudo("Conteudo");
 		comentario.setPostagem(postagem);
@@ -409,18 +411,19 @@ public class TestJDBCDAOComentario {
 		comentarioA.setTitulo("Postagem linda2");
 		comentarioA.setUsuario(usuarioA);
 
-		comentarioN.setComentarioPai(comentario);
+		comentarioN.setComentarioPai(comentarioA);
 		comentarioN.setTipo(comentario.getClass().getSimpleName());
 		comentarioN.setConteudo("Conteudo2");
 		comentarioN.setPostagem(postagem);
 		comentarioN.setTitulo("Postagem linda3");
 		comentarioN.setUsuario(usuario);
 
-		listaCC.add(comentarioA);
-		listaCC.add(comentarioN);
-		comentario.setListaComentarios(listaCC);
+		comentario.addComentario(comentarioA);
+		comentarioA.addComentario(comentarioN);
 
 		jdc.criar(comentario);
+		jdc.criar(comentarioA);
+		jdc.criar(comentarioN);
 
 		listaComentario.add(comentario);
 		listaComentario.add(comentarioA);

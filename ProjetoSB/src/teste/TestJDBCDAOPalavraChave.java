@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.PalavraChave;
@@ -20,7 +18,6 @@ import nucleo.model.persistencia.jdbc.JDBCDAOPostagemPalavras;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOPalavraChave {
