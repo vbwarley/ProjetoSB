@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class PalavraChave {
 	
-	private Integer codigo;
+	private int codigo;
 	private String nome;
 	
 	public PalavraChave() {
