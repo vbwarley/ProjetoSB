@@ -25,7 +25,7 @@ public class TestJDBCDAOBlog {
 		jdb = new JDBCDAOBlog();
 		jdu = new JDBCDAOUsuario();
 	}
-	@Ignore
+	
 	@Test
 	public void criar() {
 
@@ -58,7 +58,7 @@ public class TestJDBCDAOBlog {
 
 		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
-	@Ignore
+	
 	@Test
 	public void Consultar() {
 		Usuario usuario = new Usuario();
@@ -90,7 +90,7 @@ public class TestJDBCDAOBlog {
 
 		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
-	@Ignore
+	
 	@Test
 	public void alterar() {
 		Usuario usuario = new Usuario();
@@ -131,7 +131,7 @@ public class TestJDBCDAOBlog {
 
 		assertEquals(true, blog.equals(jdb.consultar(blog.getCodigo())));
 	}
-	@Ignore
+	
 	@Test
 	public void deletar() {
 

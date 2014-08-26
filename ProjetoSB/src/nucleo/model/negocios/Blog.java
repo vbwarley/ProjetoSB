@@ -1,8 +1,6 @@
 package nucleo.model.negocios;
 
-import java.util.HashSet;
 import java.util.Observable;
-import java.util.Set;
 
 public class Blog extends Observable {
 

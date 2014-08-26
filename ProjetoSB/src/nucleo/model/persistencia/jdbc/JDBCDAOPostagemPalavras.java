@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.geometry.Pos;
-import nucleo.model.negocios.Assinatura;
 import nucleo.model.negocios.PostagemPalavra;
 import nucleo.model.persistencia.dao.DAOPostagemPalavra;
 
