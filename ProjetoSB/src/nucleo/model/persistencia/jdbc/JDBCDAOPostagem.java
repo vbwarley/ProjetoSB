@@ -9,14 +9,27 @@ import java.util.List;
 import nucleo.model.negocios.Postagem;
 import nucleo.model.persistencia.dao.DAOPostagem;
 
+/**
+ * Classe para objetos do tipo postagem, onde serão contidos, valores e métodos para o mesmo.
+ * @author Nathalia
+ */
 public class JDBCDAOPostagem extends JDBCDAO implements
 		DAOPostagem<Postagem, Integer> {
-
+	
+	/**
+	 * Método construtor da classe JDBCDAOPostagem
+	 * @author nathalia
+	 */
 	public JDBCDAOPostagem() {
 
 	}
 
 	@Override
+	/**
+	 * Método que cria uma postagem
+	 * @param objeto Postagem - parâmetro passado ao método correspondente
+	 * @author Nathalia
+	 */
 	public void criar(Postagem objeto) {
 		abrirConexao();
 		String sql = "INSERT INTO postagem (titulo,conteudo,codBlog) VALUES (?,?,?)";
@@ -50,6 +63,12 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	}
 
 	@Override
+	/**
+	 * Método que consulta uma postagem
+	 * @param id Integer - identificador de uma postagem
+	 * @return Postagem p - retorna uma postagem
+	 * @author nathalia
+	 */
 	public Postagem consultar(Integer id) {
 		abrirConexao();
 		String PostagemSQL = "Select * from postagem where codigo = ?";
@@ -88,6 +107,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	}
 
 	@Override
+	/**
+	 * Método que altera uma postagem
+	 * @param objeto Postagem - parâmetro passado ao método alterar
+	 * @author Nathalia
+	 */
 	public void alterar(Postagem objeto) {
 		abrirConexao();
 		String sqlUpdate = "UPDATE postagem SET titulo=?,conteudo=?,codBlog=? WHERE codigo=?";
@@ -114,6 +138,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	}
 
 	@Override
+	/**
+	 * Método que exclui uma postagem
+	 * @param objeto Postagem - parâmetro passado ao método deletar
+	 * @author nathalia
+	 */
 	public void deletar(Postagem objeto) {
 		abrirConexao();
 
@@ -136,6 +165,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	}
 
 	@Override
+	/**
+	 * Método que cria uma lista de postagens
+	 * @return List<Postagem> po - retorna uma lista de postagens criadas
+	 * @author nathalia
+	 */
 	public List<Postagem> getList() {
 		abrirConexao();
 
