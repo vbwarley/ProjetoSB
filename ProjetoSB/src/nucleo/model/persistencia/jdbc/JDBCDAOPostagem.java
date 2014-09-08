@@ -11,7 +11,7 @@ import nucleo.model.persistencia.dao.DAOPostagem;
 
 /**
  * Classe para objetos do tipo postagem, onde serão contidos, valores e métodos para o mesmo.
- * @author Nathalia
+ * @author nathalia
  */
 public class JDBCDAOPostagem extends JDBCDAO implements
 		DAOPostagem<Postagem, Integer> {
@@ -28,7 +28,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	/**
 	 * Método que cria uma postagem
 	 * @param objeto Postagem - parâmetro passado ao método correspondente
-	 * @author Nathalia
+	 * @author nathalia
 	 */
 	public void criar(Postagem objeto) {
 		abrirConexao();
@@ -66,7 +66,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	/**
 	 * Método que consulta uma postagem
 	 * @param id Integer - identificador de uma postagem
-	 * @return Postagem p - retorna uma postagem
+	 * @return Postagem p - retorna os dados de uma postagem
 	 * @author nathalia
 	 */
 	public Postagem consultar(Integer id) {
@@ -110,7 +110,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	/**
 	 * Método que altera uma postagem
 	 * @param objeto Postagem - parâmetro passado ao método alterar
-	 * @author Nathalia
+	 * @author nathalia
 	 */
 	public void alterar(Postagem objeto) {
 		abrirConexao();
