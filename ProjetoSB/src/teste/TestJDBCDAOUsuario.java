@@ -13,9 +13,7 @@ import nucleo.model.persistencia.jdbc.JDBCDAOAssinatura;
 import nucleo.model.persistencia.jdbc.JDBCDAOBlog;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
-import org.apache.catalina.valves.JDBCAccessLogValve;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOUsuario {
