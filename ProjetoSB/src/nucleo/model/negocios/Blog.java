@@ -21,7 +21,7 @@ public class Blog extends Observable {
 	}
 
 	/**
-	 * Método que recupera um código do Blog
+	 * Método que recupera o código do Blog
 	 * @return Int codigo - retorna o codigo do Blog
 	 * @author raiane
 	 */
@@ -39,7 +39,9 @@ public class Blog extends Observable {
 	}
 
 	/**
-	 * @return
+	 * Método que recupera o título do Blog
+	 * @return String titulo - retorna o titulo do blog
+	 * @author raiane
 	 */
 	public String getTitulo() {
 		return titulo;
@@ -87,6 +89,7 @@ public class Blog extends Observable {
 	}
 
 	/**
+	 * Método que retorna uma autorização de comentário ao assinante
 	 * @return Boolean isAutorizaComentario - retorna uma autorização do comentário
 	 * @author raiane
 	 */
@@ -95,6 +98,7 @@ public class Blog extends Observable {
 	}
 
 	/**
+	 * Método que atribui um coméntario ao blog
 	 * @param autorizaComentario Boolean - parâmetro passado ao método setAutorizaComentario
 	 * @author raiane
 	 */
@@ -103,6 +107,7 @@ public class Blog extends Observable {
 	}
 
 	/**
+	 *Método que retorna uma autorização de comentário anônimo ao assinante
 	 * @return Boolean isAutorizaComentarioAnonimo - retorna uma autorização para comentário anônimo.
 	 * @author raiane
 	 */
@@ -120,6 +125,7 @@ public class Blog extends Observable {
 	}
 
 	/**
+	 * Método que retorna um usuário que assina o blog
 	 * @return Usuario Usuario - retorna um usuário assinante do blog
 	 * @author raiane
 	 */
