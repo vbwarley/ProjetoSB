@@ -13,17 +13,64 @@ import nucleo.model.persistencia.dao.DAOPalavraChave;
 import nucleo.model.persistencia.dao.DAOPostagem;
 import nucleo.model.persistencia.dao.DAOUsuario;
 
+/**
+ * Fábrica abstrata de DAOs que tem como função a criação de uma familía de DAOs.
+ * @author Warley Vital
+ */
 public abstract class DAOFactory {
 	
+	/**
+	 * Instância da classe filha de DAOFactory, JDBCDAOFactory.
+	 */
 	private static final Class<JDBCDAOFactory> FACTORY_CLASS = JDBCDAOFactory.class;
 	
+	/**
+	 * Método que retorna uma instância de DAOUsuario.
+	 * 
+	 * @return
+	 */
 	public abstract DAOUsuario<Usuario, String> getDAOUsuario();
+
+	/**
+	 * Método que retorna uma instância de DAOBlog.
+	 *
+	 * @return
+	 */
 	public abstract DAOBlog<Blog, Integer> getDAOBlog();
+	
+	/**
+	 * Método que retorna uma instância de DAOPostagem.
+	 * 
+	 * @return
+	 */
 	public abstract DAOPostagem<Postagem, Integer> getDAOPostagem();
+	
+	/**
+	 * Método que retorna uma instância de DAOMidia.
+	 * 
+	 * @return
+	 */
 	public abstract DAOMidia<Midia, Integer> getDAOMidia();
+	
+	/**
+	 * Método que retorna uma instância de DAOPalavraChave.
+	 * 
+	 * @return
+	 */
 	public abstract DAOPalavraChave<PalavraChave, Integer> getDAOPalavraChave();
+	
+	/**
+	 * Método que retorna uma instância de DAOComentario.
+	 * 
+	 * @return
+	 */
 	public abstract DAOComentario<ComentarioComposite, Integer> getDAOComentario();
 	
+	/**
+	 * Método que retorna uma instância de DAOFactory, onde conterá a referência de sua classe filha, JDBCDAOFactory.
+	 * 
+	 * @return um objeto de DAOFactory
+	 */
 	public static DAOFactory getDAOFactory() {
 		try {
 			return (DAOFactory) FACTORY_CLASS.newInstance();
