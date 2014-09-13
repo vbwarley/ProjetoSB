@@ -19,7 +19,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que recupera o código de uma postagem.
+	 * Retorna o código de uma postagem.
 	 * @return int codigo - retorna o código de uma postagem.
 	 * @author nathalia
 	 */
@@ -28,7 +28,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que atribui um código a uma postagem.
+	 * Método que seta o código de uma postagem.
 	 * @param codigo int 
 	 * @author nathalia
 	 */
@@ -37,7 +37,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que recupera o título de uma postagem.
+	 * Retorna o título de uma postagem.
 	 * @return String titulo 
 	 * @author nathalia
 	 */
@@ -46,7 +46,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que atribui um título a uma postagem.
+	 * Método que seta o título de uma postagem.
 	 * @param titulo String 
 	 * @author nathalia
 	 */
@@ -55,7 +55,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que recupera o conteúdo de uma postagem.
+	 * Retorna o conteúdo de uma postagem.
 	 * @return String conteudo
 	 * @author nathalia
 	 */
@@ -64,7 +64,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que atribui dados ao conteúdo de uma postagem.
+	 * Método que seta o conteúdo de uma postagem.
 	 * @param conteudo String
 	 * @author nathalia
 	 */
@@ -74,7 +74,7 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que recupera um blog. (Chave estrangeira na classe Postagem)
+	 * Método que retorna o blog associado à postagem.
 	 * @return Blog blog
 	 * @author nathalia
 	 */
@@ -83,8 +83,8 @@ public class Postagem extends Observable {
 	}
 
 	/**
-	 * Método que atribui um código a um blog
-	 * @param blog Blog
+	 * Método que seta o blog referente à postagem.
+	 * @param blog Blog - Uma instância de blog
 	 * @author nathalia
 	 */
 	public void setBlog(Blog blog) {
