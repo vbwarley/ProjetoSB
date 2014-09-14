@@ -28,9 +28,9 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	@Override
 	
 	/**
-	 * Método que cria um blog
-	 * @param objeto Blog - parâmetro passado ao método correspondente
-	 * @author Raiane
+	 * Método para criação de um blog
+	 * @param objeto Blog - parâmetro passado ao método blog
+	 * @author raiane
 	 */
 
 	public void criar(Blog objeto) {
@@ -68,10 +68,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	@Override
 	
 	/**
-	 * Método que consulta um Blog
+	 * Método para consulta de um Blog
 	 * @param id Integer - identificador de um Blog
 	 * @return Blog b - retorna os dados de um Blog
-	 * @author Raiane
+	 * @author raiane
 	 */
 	
 	public Blog consultar(Integer id) {
@@ -119,7 +119,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	/**
 	 * Método que altera os dados de um Blog
 	 * @param objeto Blog - parâmetro passado ao método alterar
-	 * @author Raiane
+	 * @author raiane
 	 */
 	
 	public void alterar(Blog objeto) {
@@ -151,9 +151,9 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	@Override
 	
 	/**
-	 * Método que exclui um Blog
+	 * Método para exclusão de um blog
 	 * @param objeto Blog - parâmetro passado ao método deletar
-	 * @author Raiane
+	 * @author raiane
 	 */
 	
 	public void deletar(Blog objeto) {
@@ -180,9 +180,9 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	@Override
 	
 	/**
-	 * Método que cria uma lista de Blogs
+	 * Método para criação de uma lista de blogs
 	 * @return List<Blog> bu - retorna uma lista de blogs
-	 * @author Raiane
+	 * @author raiane
 	 */
 	
 	public List<Blog> getList() {
