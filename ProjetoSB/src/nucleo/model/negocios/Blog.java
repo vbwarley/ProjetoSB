@@ -145,7 +145,7 @@ public class Blog extends Observable {
 	/**
 	 * O método verifica se o blog que foi passado como parâmetro é igual a este blog.
 	 * @param blog Blog - parâmetro passado ao método equals
-	 * @return Boolean equals - retorna uma condição verdadeira ou falsa
+	 * @return Boolean equals - retorna uma condição verdadeira se todos os campos para a criação de um blog estiver preenchidos corretamente, casso contrário retorna um false
 	 * @author raiane
 	 */
 	public boolean equals(Blog blog) {

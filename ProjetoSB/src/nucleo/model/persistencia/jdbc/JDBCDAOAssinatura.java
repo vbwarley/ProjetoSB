@@ -10,12 +10,16 @@ import nucleo.model.negocios.Assinatura;
 import nucleo.model.persistencia.dao.DAOAssinatura;
 
 public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
-	
+
 	public JDBCDAOAssinatura() {
 		// TODO Auto-generated constructor stub
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
+	 */
 	@Override
+	
 	public void criar(Assinatura objeto) {
 		abrirConexao();
 		String insetSql = "INSERT INTO assinatura VALUES (?,?)";
@@ -36,6 +40,9 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
+	 */
 	@Override
 	public Assinatura consultar(Assinatura id) {
 		abrirConexao();
@@ -65,12 +72,19 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 		return a;
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
+	 */
 	@Override
 	public void alterar(Assinatura objeto) {
 		throw new RuntimeException();		
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
+	 */
 	@Override
+	
 	public void deletar(Assinatura objeto) {
 		abrirConexao();
 		String updateSql = "DELETE FROM assinatura WHERE login=? AND codBlog=?";
@@ -89,7 +103,11 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 		}
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#getList()
+	 */
+	@Override	
+	
 	public List<Assinatura> getList() {
 		abrirConexao();
 		String selectList = "SELECT * FROM assinatura";
