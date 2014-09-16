@@ -2,6 +2,7 @@ package teste;
 
 import static org.junit.Assert.*;
 
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import nucleo.model.persistencia.jdbc.JDBCDAOBlog;
 import nucleo.model.persistencia.jdbc.JDBCDAOUsuario;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestJDBCDAOBlog {
