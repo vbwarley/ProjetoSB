@@ -29,7 +29,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	
 	/**
 	 * Método para criação de um blog
-	 * @param objeto Blog - parâmetro passado ao método blog
+	 * @param objeto Blog - parâmetro passado ao método criar
 	 * @author raiane
 	 */
 
