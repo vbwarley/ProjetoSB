@@ -9,14 +9,31 @@ import java.util.List;
 import nucleo.model.negocios.PalavraChave;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 
+/**
+ * Classe para criacao de Palavras Chaves
+ * @author Raiane
+ */
+
 public class JDBCDAOPalavraChave extends JDBCDAO implements
 		DAOPalavraChave<PalavraChave, Integer> {
 
+	/**
+	 * Método construtor da classe JDBCDAOPalavraChave
+	 * @author Raiane
+	 */
+	
 	public JDBCDAOPalavraChave() {
 
 	}
 
 	@Override
+	
+	/**
+	 * Método para criação de palavras chaves em um blog
+	 * @param objeto PalavraChave - parâmetro passado ao método criar
+	 * @author raiane
+	 */
+	
 	public void criar(PalavraChave objeto) {
 		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
@@ -42,6 +59,14 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	}
 
 	@Override
+	
+	/**
+	 * Método para consulta de palavras chaves de um blog
+	 * @param id Integer - identificador de uma palavra chave
+	 * @return PalavraChave pc - retorna os dados de palavras chaves
+	 * @author raiane
+	 */
+	
 	public PalavraChave consultar(Integer id) {
 		abrirConexao();
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
@@ -88,6 +113,14 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	}
 
 	@Override
+	
+	/**
+	 * Método que altera palavras chaves
+	 * @param objeto PalavraChave - parâmetro passado ao método alterar
+	 * @author raiane
+	 */
+	
+	
 	public void alterar(PalavraChave objeto) {
 		abrirConexao();
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
@@ -109,6 +142,13 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	}
 
 	@Override
+	
+	/**
+	 * Método que exclui palavras chaves de um blog
+	 * @param objeto PalavraChave - parâmetro passado ao método deletar
+	 * @author raiane
+	 */
+	
 	public void deletar(PalavraChave objeto) {
 		abrirConexao();
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
@@ -129,6 +169,13 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 	}
 
 	@Override
+	
+	/**
+	 * Método para criação de uma lista de palavras chaves de um blog
+	 * @return List<PalavraChave> lpc - retorna uma lista de palavras chaves de um blog
+	 * @author raiane
+	 */
+	
 	public List<PalavraChave> getList() {
 		abrirConexao();
 		String sqlList = "SELECT * FROM palavras_chave";
