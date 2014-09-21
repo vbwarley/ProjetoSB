@@ -19,20 +19,15 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 	
 	/**
 	 * Método construtor da classe JDBCDAOBlog
-	 * @author Raiane
 	 */
 	public JDBCDAOBlog() {
 
 	}
 
-	@Override
-	
-	/**
-	 * Método para criação de um blog
-	 * @param objeto Blog - parâmetro passado ao método criar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
-
+	@Override
 	public void criar(Blog objeto) {
 
 		abrirConexao();
@@ -65,20 +60,14 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 		}
 	}
 
-	@Override
-	
-	/**
-	 * Método para consulta de um Blog
-	 * @param id Integer - identificador de um Blog
-	 * @return Blog b - retorna os dados de um Blog
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
-	
+	@Override
 	public Blog consultar(Integer id) {
 
 		abrirConexao();
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
-//		String selectSQLAssinantes = "SELECT * FROM assinatura WHERE codBlog = ?";
 		Blog b = null;
 
 		try {
@@ -88,10 +77,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 
-//			PreparedStatement stmtAssinantes = getConnection().prepareStatement(selectSQLAssinantes);
-//			stmtAssinantes.setInt(1, id);
-//			ResultSet rsA = stmtAssinantes.executeQuery();
-			
 			if (rs.next()) {
 				b = new Blog();
 
@@ -114,14 +99,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 		return b;
 	}
 
-	@Override
-	
-	/**
-	 * Método que altera os dados de um Blog
-	 * @param objeto Blog - parâmetro passado ao método alterar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
-	
+	@Override
 	public void alterar(Blog objeto) {
 
 		abrirConexao();
@@ -148,14 +129,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 		}
 	}
 
-	@Override
-	
-	/**
-	 * Método para exclusão de um blog
-	 * @param objeto Blog - parâmetro passado ao método deletar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
-	
+	@Override	
 	public void deletar(Blog objeto) {
 
 		abrirConexao();
@@ -177,14 +154,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	}
 
-	@Override
-	
-	/**
-	 * Método para criação de uma lista de blogs
-	 * @return List<Blog> bu - retorna uma lista de blogs
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
-	
+	@Override
 	public List<Blog> getList() {
 
 		abrirConexao();

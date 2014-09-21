@@ -21,7 +21,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 	/**
 	 * Método construtor da classe JDBCDAOComentario
-	 * @author Douglas
 	 */
 	public JDBCDAOComentario() {
 
@@ -31,13 +30,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método responsável por salvar no banco de dados um comentário
-	 * @param objeto ComentarioComposite - parâmetro passado ao método criar
-	 * @author Douglas
-	 */
-	
 	public void criar(ComentarioComposite objeto) {
 		abrirConexao();
 		String sql = "INSERT INTO comentario (titulo,conteudo,tipo,comentarioPai,codPostagem,login) VALUES (?,?,?,?,?,?)";
@@ -77,15 +69,7 @@ public class JDBCDAOComentario extends JDBCDAO implements
 	/* (non-Javadoc)
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
-	@Override
-	
-	/**
-	 * Método para consulta de um comentário
-	 * @param id Integer - identificador de um comentário
-	 * @return Comentario listC - retorna os dados de um comentário
-	 * @author Douglas
-	 */
-	
+	@Override	
 	public ComentarioComposite consultar(Integer id) {
 		abrirConexao();
 
@@ -157,13 +141,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método que altera os dados de um comentário
-	 * @param objeto ComentarioComposite - parâmetro passado ao método alterar
-	 * @author Douglas
-	 */
-	
 	public void alterar(ComentarioComposite objeto) {
 		abrirConexao();
 
@@ -197,13 +174,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método que exclue um comentário
-	 * @param objeto ComentarioComposite - parâmetro passado ao método deletar
-	 * @author Douglas
-	 */
-	
 	public void deletar(ComentarioComposite objeto) {
 
 		abrirConexao();
@@ -229,14 +199,6 @@ public class JDBCDAOComentario extends JDBCDAO implements
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override
-	
-
-	/**
-	 * Método que retorna uma lista de comentários filhos, caso este (this) seja um comentário pai.
-	 * @return List<ComentarioComposite> listC - retorna uma lista de comentários do blog
-	 * @author Douglas
-	 */
-	
 	public List<ComentarioComposite> getList() {
 		
 		abrirConexao();

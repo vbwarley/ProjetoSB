@@ -11,29 +11,22 @@ import nucleo.model.persistencia.dao.DAOPalavraChave;
 
 /**
  * Classe para criacao de Palavras Chaves
- * @author Raiane
+ * @author Warley Vital
  */
-
 public class JDBCDAOPalavraChave extends JDBCDAO implements
 		DAOPalavraChave<PalavraChave, Integer> {
 
 	/**
 	 * Método construtor da classe JDBCDAOPalavraChave
-	 * @author Raiane
 	 */
-	
 	public JDBCDAOPalavraChave() {
 
 	}
 
-	@Override
-	
-	/**
-	 * Método para criação de palavras chaves em um blog
-	 * @param objeto PalavraChave - parâmetro passado ao método criar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
-	
+	@Override
 	public void criar(PalavraChave objeto) {
 		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
@@ -58,15 +51,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		}
 	}
 
-	@Override
-	
-	/**
-	 * Método para consulta de palavras chaves de um blog
-	 * @param id Integer - identificador de uma palavra chave
-	 * @return PalavraChave pc - retorna os dados de palavras chaves
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
-	
+	@Override	
 	public PalavraChave consultar(Integer id) {
 		abrirConexao();
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
@@ -93,10 +81,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 				pc.setCodigo(id);
 				pc.setNome(rs.getString(2));
 
-				// adiciona as postagens no objeto pc
-				// while (rsPP.next())
-				// pc.adicionaPostagem(new JDBCDAOPostagem().consultar(rsPP
-				// .getInt(1)));
 			}
 
 			stmt.close();
@@ -112,15 +96,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		return pc;
 	}
 
-	@Override
-	
-	/**
-	 * Método que altera palavras chaves
-	 * @param objeto PalavraChave - parâmetro passado ao método alterar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
-	
-	
+	@Override
 	public void alterar(PalavraChave objeto) {
 		abrirConexao();
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
@@ -141,14 +120,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		}
 	}
 
-	@Override
-	
-	/**
-	 * Método que exclui palavras chaves de um blog
-	 * @param objeto PalavraChave - parâmetro passado ao método deletar
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
-	
+	@Override
 	public void deletar(PalavraChave objeto) {
 		abrirConexao();
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
@@ -168,14 +143,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		}
 	}
 
-	@Override
-	
-	/**
-	 * Método para criação de uma lista de palavras chaves de um blog
-	 * @return List<PalavraChave> lpc - retorna uma lista de palavras chaves de um blog
-	 * @author raiane
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
-	
+	@Override
 	public List<PalavraChave> getList() {
 		abrirConexao();
 		String sqlList = "SELECT * FROM palavras_chave";

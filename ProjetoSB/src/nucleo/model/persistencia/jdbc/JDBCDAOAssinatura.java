@@ -12,14 +12,13 @@ import nucleo.model.persistencia.dao.DAOAssinatura;
 
 /**
  * Classe para criacao de assinantes de um blog.
- * @author Raiane
+ * @author Warley Vital
  */
 
 public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 	/**
 	 * Método construtor da classe JDBCDAOAssinatura
-	 * @author Raiane
 	 */
 	public JDBCDAOAssinatura() {
 		// TODO Auto-generated constructor stub
@@ -29,14 +28,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método para criação de  assinante de um blog
-	 * @param objeto Assinatura - parâmetro passado ao método Assinatura
-	 * @author raiane
-	 */
-
-	
 	public void criar(Assinatura objeto) {
 		abrirConexao();
 		String insetSql = "INSERT INTO assinatura VALUES (?,?)";
@@ -61,14 +52,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método para consulta de um assinante
-	 * @param id Assinatura - identificador de um assinante
-	 * @return Assinatura a  - retorna os dados de um assinante
-	 * @author raiane
-	 */
-	
 	public Assinatura consultar(Assinatura id) {
 		abrirConexao();
 		String selectSql = "SELECT * FROM assinatura WHERE login=? AND codBlog=?";
@@ -101,13 +84,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método para alteração de dados de um assinante
-	 * @param objeto Assinatura - parâmetro passado ao método alterar
-	 * @author raiane
-	 */
-	
 	public void alterar(Assinatura objeto) {
 		throw new RuntimeException();		
 	}
@@ -116,13 +92,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método que exclui assinante
-	 * @param objeto Assinatura - parâmetro passado ao método deletar
-	 * @author raiane
-	 */
-	
 	public void deletar(Assinatura objeto) {
 		abrirConexao();
 		String updateSql = "DELETE FROM assinatura WHERE login=? AND codBlog=?";
@@ -145,13 +114,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override	
-	
-	/**
-	 * Método para criação de uma lista de assinantes de um blog
-	 * @return List<Assinatura> listaA - retorna uma lista de assinantes
-	 * @author raiane
-	 */
-	
 	public List<Assinatura> getList() {
 		abrirConexao();
 		String selectList = "SELECT * FROM assinatura";

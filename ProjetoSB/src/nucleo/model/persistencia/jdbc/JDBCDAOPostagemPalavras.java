@@ -9,13 +9,24 @@ import java.util.List;
 import nucleo.model.negocios.PostagemPalavra;
 import nucleo.model.persistencia.dao.DAOPostagemPalavra;
 
+/**
+ * Classe para objetos do tipo postagem e palavra-chave.
+ * @author nathalia
+ *
+ */
 public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		DAOPostagemPalavra {
 
+	/**
+	 * Construtor da classe.
+	 */
 	public JDBCDAOPostagemPalavras() {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
+	 */
 	@Override
 	public void criar(PostagemPalavra objeto) {
 		abrirConexao();
@@ -36,6 +47,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
+	 */
 	@Override
 	public PostagemPalavra consultar(PostagemPalavra id) {
 		abrirConexao();
@@ -66,11 +80,17 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		return pp;
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
+	 */
 	@Override
 	public void alterar(PostagemPalavra objeto) {
 		throw new RuntimeException();
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
+	 */
 	@Override
 	public void deletar(PostagemPalavra objeto) {
 		abrirConexao();
@@ -91,6 +111,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#getList()
+	 */
 	@Override
 	public List<PostagemPalavra> getList() {
 		abrirConexao();

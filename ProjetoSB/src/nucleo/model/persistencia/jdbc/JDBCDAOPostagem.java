@@ -18,18 +18,15 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 	
 	/**
 	 * Método construtor da classe JDBCDAOPostagem
-	 * @author nathalia
 	 */
 	public JDBCDAOPostagem() {
 
 	}
 
-	@Override
-	/**
-	 * Método que cria uma postagem
-	 * @param objeto Postagem - parâmetro passado ao método correspondente
-	 * @author nathalia
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
+	@Override
 	public void criar(Postagem objeto) {
 		abrirConexao();
 		String sql = "INSERT INTO postagem (titulo,conteudo,codBlog) VALUES (?,?,?)";
@@ -62,13 +59,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 
 	}
 
-	@Override
-	/**
-	 * Método que consulta uma postagem
-	 * @param id Integer - identificador de uma postagem
-	 * @return Postagem p - retorna os dados de uma postagem
-	 * @author nathalia
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
+	@Override
 	public Postagem consultar(Integer id) {
 		abrirConexao();
 		String PostagemSQL = "Select * from postagem where codigo = ?";
@@ -106,12 +100,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		return p;
 	}
 
-	@Override
-	/**
-	 * Método que altera uma postagem
-	 * @param objeto Postagem - parâmetro passado ao método alterar
-	 * @author nathalia
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
+	@Override
 	public void alterar(Postagem objeto) {
 		abrirConexao();
 		String sqlUpdate = "UPDATE postagem SET titulo=?,conteudo=?,codBlog=? WHERE codigo=?";
@@ -137,12 +129,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		}
 	}
 
-	@Override
-	/**
-	 * Método que exclui uma postagem
-	 * @param objeto Postagem - parâmetro passado ao método deletar
-	 * @author nathalia
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
+	@Override
 	public void deletar(Postagem objeto) {
 		abrirConexao();
 
@@ -164,12 +154,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements
 		}
 	}
 
-	@Override
-	/**
-	 * Método que cria uma lista de postagens
-	 * @return List<Postagem> po - retorna uma lista de postagens criadas
-	 * @author nathalia
+	/* (non-Javadoc)
+	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
+	@Override
 	public List<Postagem> getList() {
 		abrirConexao();
 

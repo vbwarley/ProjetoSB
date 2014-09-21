@@ -12,15 +12,14 @@ import nucleo.model.negocios.TipoMidia;
 import nucleo.model.persistencia.dao.DAOMidia;
 
 /**
- * Classe para criacao de Midia
- * @author Raiane
+ * Classe para criaçãoo de uma Mídia.
+ * @author Warley Vital
  */
 
 public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 
 	/**
 	 * Método construtor da classe JDBCDAOMidia
-	 * @author Raiane
 	 */
 	public JDBCDAOMidia() {
 		
@@ -30,13 +29,6 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método para criação de uma midia
-	 * @param objeto Midia - parâmetro passado ao método criar
-	 * @author raiane
-	 */
-	
 	public void criar(Midia objeto) {
 		abrirConexao();
 		String sqlCriar = "INSERT INTO midia(nome,codTipo,codComentario,codPostagem) VALUES (?,?,?,?)";
@@ -90,14 +82,6 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método para consulta de uma midia
-	 * @param id Integer - identificador de uma midia
-	 * @return Midia m - retorna os dados de uma midia
-	 * @author raiane
-	 */
-	
 	public Midia consultar(Integer id) {
 		abrirConexao();
 		String selectSQL = "SELECT * FROM midia WHERE codigo = ?";
@@ -136,13 +120,6 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método que altera os dados de uma midia
-	 * @param objeto Midia - parâmetro passado ao método alterar
-	 * @author raiane
-	 */
-	
 	public void alterar(Midia objeto) {
 		abrirConexao();
 		String sqlUpdate = "UPDATE midia SET nome=?,codTipo=?,codComentario=?,codPostagem=? WHERE codigo=?";
@@ -179,13 +156,6 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
-	
-	/**
-	 * Método que exclui uma midia
-	 * @param objeto Midia - parâmetro passado ao método deletar
-	 * @author raiane
-	 */
-	
 	public void deletar(Midia objeto) {
 		abrirConexao();
 		String sqlDelete = "DELETE FROM midia WHERE codigo = ?";
@@ -209,13 +179,6 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia<Midia, Integer> {
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override
-	
-	/**
-	 * Método para criação de uma lista de midias
-	 * @return List<Midia> lm - retorna uma lista de midias do blog
-	 * @author raiane
-	 */
-	
 	public List<Midia> getList() {
 		abrirConexao();
 		String sqlList = "SELECT * FROM midia";
