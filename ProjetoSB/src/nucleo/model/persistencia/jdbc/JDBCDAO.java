@@ -2,6 +2,7 @@ package nucleo.model.persistencia.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -45,11 +46,25 @@ public abstract class JDBCDAO {
 	 */
 	protected void fecharConexao() {
 		try {
-			if (!connection.isClosed()) 
+			if (!connection.isClosed())
 				connection.close();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void resetarBD() {
+		abrirConexao();
+		String sql = "DROP DATABASE SuperBlogs";
+
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement(sql);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+
 		}
 	}
 

@@ -1,0 +1,173 @@
+########################################################################################
+#User Story-- Pesquisa de usuários
+#Este User story tem como objetivo permitir a buscas em geral no blog. Alguns exemplos de buscas são:
+#*Buscar por todos os blogs de um usuários;
+#*Buscar por todos post onde um dado usuário postou;
+#*Buscar todos os posts que contiver um texto especificado.
+########################################################################################
+
+
+
+#Limpa quaisquer dados pre-existentes
+resetDatabase
+
+createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1990 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=mariarocha senha=senhagrande nome_exibicao="Maria Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/10/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="João de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/09/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca2 senha=senhagrande2 nome_exibicao="João do Caminhão" email=joao2@hotmail.com sexo=Masculino data_nasc=20/01/1983 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca3 senha=senhagrande2 nome_exibicao="João da Carroça" email=joao3@hotmail.com sexo=Masculino data_nasc=20/01/1987 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca4 senha=senhagrande2 nome_exibicao="João Simão" email=joao4@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca5 senha=senhagrande2 nome_exibicao="João Beltrão" email=joao5@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca6 senha=senhagrande2 nome_exibicao= email=joao6@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca7 senha=senhagrande2 nome_exibicao="João Beltrão" email=joao7@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+#A busca deve ser realizada sobre os nomes de exibição dos usuários(obs.: se o nome do usuário nao estiver disponível, entao usa-se o login). 
+#Deve ser retornado os logins dos usuários ordenados no formato [login1, login2, login3, loginN]. A busca não pode ser case sensitive
+#A ordem do resultado é definida através do campo order com o valor asc ou desc
+#A quantidade de resultados retornados será definido a partir do campo maxEntries
+#O campo offset define a partir de qual registro será o início dos resultados 
+
+# Exemplo: findProfileByName match=maria order=asc offset=5 maxentries=10
+# Suponha que a busca retorne 100 registros, ele irá ordená-lo, e retornar 10 registros a partir do 5º registro 
+#A ordem de ordenação é Nome > Email. Caso o usuário não possua o nome de exibição deve ser jogado para o final do registro
+#Order de filtragem; 1) offset 2) order
+
+expectError "Campo inválido: match" findProfileByName match= order=asc offset=10 maxentries=10
+expectError "Campo inválido: match" findProfileByName match="" order=asc offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByName match=maria order= offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByName match=maria order="" offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByName match=maria order=wer offset=10 maxentries=10
+expectError "Campo inválido: offset" findProfileByName match=maria order=asc offset= maxentries=10
+expectError "Campo inválido: offset" findProfileByName match=maria order=asc offset="" maxentries=10
+expectError "Campo inválido: offset" findProfileByName match=maria order=asc offset=rew maxentries=10
+expectError "Campo inválido: offset" findProfileByName match=maria order=asc offset=-1 maxentries=10
+expectError "Campo inválido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=
+expectError "Campo inválido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=""
+expectError "Campo inválido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=-1
+expectError "Campo inválido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=sdf
+
+
+expect "[joaotapioca4]" findProfileByName match="João Simão" order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7]" findProfileByName match="João Beltrão" order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="João" order=asc offset=0 maxentries=10
+
+#Recupera os 3 primeiros registros
+expect "[joaotapioca5, joaotapioca7, joaotapioca3]" findProfileByName match="João" order=asc offset=0 maxentries=3
+
+#Recupera os 4 registros a partir do terceiro (0 <= offset < maxentries)
+expect "[joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="João" order=asc offset=2 maxentries=10
+
+#Recupera os registros com ordenação invertida
+expect "[joaotapioca4, joaotapioca2, joaotapioca, joaotapioca3, joaotapioca7, joaotapioca5]" findProfileByName match="João" order=desc offset=0 maxentries=10
+
+expectError "Campo inválido: match" findProfileByLogin match= order=asc offset=10 maxentries=10
+expectError "Campo inválido: match" findProfileByLogin match="" order=asc offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByLogin match=maria order= offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByLogin match=maria order="" offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByLogin match=maria order=wer offset=10 maxentries=10
+expectError "Campo inválido: offset" findProfileByLogin match=maria order=asc offset= maxentries=10
+expectError "Campo inválido: offset" findProfileByLogin match=maria order=asc offset="" maxentries=10
+expectError "Campo inválido: offset" findProfileByLogin match=maria order=asc offset=rew maxentries=10
+expectError "Campo inválido: offset" findProfileByLogin match=maria order=asc offset=-1 maxentries=10
+expectError "Campo inválido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=
+expectError "Campo inválido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=""
+expectError "Campo inválido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=-1
+expectError "Campo inválido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=sdf
+
+
+
+expect "[joaotapioca5]" findProfileByLogin match=joao order=asc offset=0 maxentries=1
+expect "[joaotapioca4]" findProfileByLogin match=joao order=desc offset=0 maxentries=1
+
+#O email informado deve estar no formato válido
+expectError "Campo inválido: match" findProfileByEmail match= 
+expectError "Campo inválido: match" findProfileByEmail match="" 
+expectError "Campo inválido: match" findProfileByEmail match=maria
+expectError "Campo inválido: match" findProfileByEmail match=maria@@
+
+expect "" findProfileByEmail match="qualquercoisa@teste.com"
+expect joaotapioca4 findProfileByEmail match="joao4@hotmail.com"
+
+#A busca por data irá incluir o início e fim
+expectError "Campo inválido: from" findProfileByDateInterval from= to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inválido: from" findProfileByDateInterval from="" to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inválido: from" findProfileByDateInterval from=32f to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inválido: to" findProfileByDateInterval from=01/01/1980 to= order=asc offset=10 maxentries=10
+expectError "Campo inválido: to" findProfileByDateInterval from=01/01/1980 to="" order=asc offset=10 maxentries=10
+expectError "Campo inválido: to" findProfileByDateInterval from=01/01/1980 to=fsdf order=asc offset=10 maxentries=10
+
+#Validação de data: a data de início não pode ser posterior a data de fim
+expectError "Campo inválido: intervalo inconsistente" findProfileByDateInterval from=01/01/1990 to=01/01/1980 order=asc offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order= offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order="" offset=10 maxentries=10
+expectError "Campo inválido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=wer offset=10 maxentries=10
+expectError "Campo inválido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset= maxentries=10
+expectError "Campo inválido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset="" maxentries=10
+expectError "Campo inválido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=rew maxentries=10
+expectError "Campo inválido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=-1 maxentries=10
+expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=
+expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=""
+expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=-1
+expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=sdf
+
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, mariarocha, mariasilva]" findProfileByDateInterval from=01/01/1980 to=01/01/1995 order=asc offset=0 maxentries=10
+expect "[]" findProfileByDateInterval from=01/01/1950 to=01/01/1960 order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca, joaotapioca4, mariarocha, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1981 order=asc offset=0 maxentries=10
+
+
+Buscar blog por parte do título
+Buscar blog por palavra-chave da descrição
+
+ 
+
+
+
+sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
+blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
+blogId2=createBlog sessionId=${sessionId1} titulo="Meu segundo blog" descricao="Tudo que é dito em latim soa profundo" background="imagem.png" autz_comment=true autz_comment_annon=true
+
+
+expectError "Campo inválido: match" findBlogByName match= order=asc offset=5 maxentries=10
+expectError "Campo inválido: match" findBlogByName match="" order=asc offset=5 maxentries=10
+expectError "Campo inválido: order" findBlogByName match="Blog" order= offset=5 maxentries=10
+expectError "Campo inválido: order" findBlogByName match="Blog" order="" offset=5 maxentries=10
+expectError "Campo inválido: offset" findBlogByName match="Blog" order=asc offset= maxentries=10
+expectError "Campo inválido: offset" findBlogByName match="Blog" order=asc offset="" maxentries=10
+expectError "Campo inválido: offset" findBlogByName match="Blog" order=asc offset=df maxentries=10
+expectError "Campo inválido: offset" findBlogByName match="Blog" order=asc offset=2df maxentries=10
+expectError "Campo inválido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=
+expectError "Campo inválido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=""
+expectError "Campo inválido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=sdf
+expectError "Campo inválido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=123ds
+
+expect [${blogId1}, ${blogId2}] findBlogByName match="blog" order=asc offset=0 maxentries=10
+expect [${blogId1}] findBlogByName match="Meu primeiro blog" order=asc offset=0 maxentries=10
+
+
+expectError "Campo inválido: match" findBlogByDescription match= order=asc offset=5 maxentries=10
+expectError "Campo inválido: match" findBlogByDescription match="" order=asc offset=5 maxentries=10
+expectError "Campo inválido: order" findBlogByDescription match="Blog" order= offset=5 maxentries=10
+expectError "Campo inválido: order" findBlogByDescription match="Blog" order="" offset=5 maxentries=10
+expectError "Campo inválido: offset" findBlogByDescription match="Blog" order=asc offset= maxentries=10
+expectError "Campo inválido: offset" findBlogByDescription match="Blog" order=asc offset="" maxentries=10
+expectError "Campo inválido: offset" findBlogByDescription match="Blog" order=asc offset=df maxentries=10
+expectError "Campo inválido: offset" findBlogByDescription match="Blog" order=asc offset=2df maxentries=10
+expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=
+expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=""
+expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=sdf
+expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=123ds
+
+expect [${blogId1}] findBlogByName match="Quidquid latine" order=asc offset=0 maxentries=10
+expect [${blogId2}] findBlogByName match="latim" order=asc offset=0 maxentries=10
+
+
+
+

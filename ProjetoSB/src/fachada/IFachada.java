@@ -1,14 +1,12 @@
 package fachada;
 
-import nucleo.model.negocios.Usuario;
-
 public interface IFachada {
 	
 	void createProfile(String login, String senha, String nome_exibicao, String email, String sexo, String data_nasc, String endereco, String interesses, String quem_sou_eu, String filmes, String musicas, String livros);
 	String getProfileInformation(String atributo);
 	Long doLogin(String login, String senha);
 	boolean isUserLogged(String login);
-	Usuario getProfileInformationBySessionId(Long sessionId, String atributo);
+	String getProfileInformationBySessionId(Long sessionId, String atributo);
 	void logoff(Long sessionId);
 	void changeProfileInformation(Long sessionId, String atributo, String valor);
 	int createBlog(Long sessionId, String titulo, String descricao, String background, boolean autz_comment, boolean autz_comment_annon);

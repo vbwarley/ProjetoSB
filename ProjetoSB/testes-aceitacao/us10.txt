@@ -1,0 +1,46 @@
+###############################################################################
+#User Story-- Deletar blog
+#Permite a deleção de de um blog. Todos os posts e comentários pertencentes aquele blog serão deletados
+#Restrições
+#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+################################################################################
+
+#Limpa quaisquer dados pre-existentes
+resetDatabase
+
+createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="João de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+
+#Efetua login do usuário
+sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
+
+sessionId2=doLogin login=mariarocha senha=senhagrande
+
+sessionId3=doLogin login=joaotapioca senha=senhagrande2
+
+#Criação de um blog
+blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
+
+postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
+
+
+idComentario1=addComment sessionId=${sessionId2} postId=${postId1} texto="que massa esse seu novo post"
+
+
+
+blogId1=getBlogByLogin login=mariasilva index=0
+
+deleteBlog sessionId=${sessionId1} blodId=${blogId1}
+expectError "Blog inválido" deleteBlog sessionId=${sessionId1} blodId=${blogId1}
+
+#Validação: os posts devem ser deletados
+expectError "Post inválido" getPostInformation id=${postId1} atributo=titulo
+
+#Desloga usuarios
+logoff sessionId=${sessionId1}
+
+

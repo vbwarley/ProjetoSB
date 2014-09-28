@@ -14,7 +14,7 @@ public class Usuario implements Observer {
 	private String login;
 	private String nome;
 	private String senha;
-	private char sexo;
+	private String sexo;
 	private String email;
 	private Date dataNascimento;
 	private String endereco;
@@ -93,7 +93,7 @@ public class Usuario implements Observer {
 	 * 
 	 * @return M se masculino, F se feminino
 	 */
-	public char getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
@@ -103,7 +103,7 @@ public class Usuario implements Observer {
 	 * @param sexo
 	 *            a ser setado: M se masculino, F se feminino
 	 */
-	public void setSexo(char sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 
