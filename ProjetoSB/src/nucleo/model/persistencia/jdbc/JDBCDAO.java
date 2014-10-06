@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe abstrata responsável pela conexão com o banco.
@@ -12,7 +14,8 @@ import java.sql.SQLException;
  */
 public abstract class JDBCDAO {
 
-	private Connection connection;
+	private static Connection connection;
+	
 
 	/**
 	 * Construtor da classe.
@@ -25,46 +28,93 @@ public abstract class JDBCDAO {
 	 * Este método abre a conexão com banco.
 	 * 
 	 */
-	protected void abrirConexao() {
+	protected static void abrirConexao() {
+		
 		try {
-			if (connection == null)
-				connection = DriverManager.getConnection(
-						"jdbc:mysql://localhost/SuperBlogs", "root",
-						"mynewpassword");
-			else if (connection.isClosed())
-				connection = DriverManager.getConnection(
-						"jdbc:mysql://localhost/SuperBlogs", "root",
-						"mynewpassword");
+			Class.forName("com.mysql.jdbc.Driver");
+//			if (connection == null)
+//				connection = DriverManager.getConnection(
+//						"jdbc:mysql://localhost:3306/SuperBlogs", "root",
+//						"mynewpassword");
+//			else if (connection.isClosed())
+//				connection = DriverManager.getConnection(
+//						"jdbc:mysql://localhost:3306/SuperBlogs", "root",
+//						"mynewpassword");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/SuperBlogs", "root", "mynewpassword");
+//            statement = connection.createStatement();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			
 		}
 	}
 
 	/**
 	 * Este método fecha a conexão com o banco.
 	 */
-	protected void fecharConexao() {
+	protected static void fecharConexao() {
 		try {
-			if (!connection.isClosed())
-				connection.close();
+			if (connection != null)
+				connection.close();				
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void resetarBD() {
-		abrirConexao();
-		String sql = "DROP DATABASE SuperBlogs";
+	public static void resetarBD() {
 
-		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+		List<String> entidades = new ArrayList<String>();
+		entidades.add("usuario");
+		entidades.add("blog");
+		entidades.add("postagem");
+		entidades.add("palavras_chave");
+		entidades.add("postagem_palavras");
+		entidades.add("comentario");
+		entidades.add("assinatura");
+		entidades.add("tipo_midia");
+		entidades.add("midia");
 
-		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
+		for (String entidade : entidades) {
+			abrirConexao();
+			PreparedStatement stm = null;
 
+			String sql = "DELETE FROM " + entidade;
+
+			try {
+				stm = getConnection().prepareStatement(sql);
+				stm.execute();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				fecharConexao();
+			}
+		}
+
+		entidades.clear();
+		entidades.add("blog");
+		entidades.add("comentario");
+		entidades.add("midia");
+		entidades.add("palavras_chave");
+		entidades.add("postagem");
+
+		for (String entidade : entidades) {
+			abrirConexao();
+			PreparedStatement stm = null;
+
+			String sql = "ALTER TABLE " + entidade + " AUTO_INCREMENT = 1";
+
+			try {
+				stm = getConnection().prepareStatement(sql);
+				stm.execute();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				fecharConexao();
+			}
 		}
 	}
 
@@ -73,7 +123,7 @@ public abstract class JDBCDAO {
 	 * 
 	 * @return conexão atual, ou null se não houver
 	 */
-	protected Connection getConnection() {
+	protected static Connection getConnection() {
 		return connection;
 	}
 }

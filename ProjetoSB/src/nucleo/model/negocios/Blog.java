@@ -150,13 +150,7 @@ public class Blog extends Observable {
 	 */
 	public boolean equals(Blog blog) {
 		
-		if (blog.getCodigo() == this.codigo
-				&& blog.getTitulo().equals(this.titulo)
-				&& blog.getDescricao().equals(this.descricao)
-				&& blog.getImagemFundo().equals(this.imagemFundo)
-				&& blog.isAutorizaComentario() == this.autorizaComentario
-				&& blog.isAutorizaComentarioAnonimo() == this.autorizaComentarioAnonimo
-				&& blog.getUsuario().equals(this.usuario)) 
+		if (blog.getCodigo() == this.codigo)
 			return true;
 		return false;
 	}

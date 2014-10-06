@@ -1,6 +1,6 @@
 #################################################################################
-#User Story-- CriaÁ„o de coment·rios de coment·rios 
-# O usu·rio poder· adicionar coment·rios de coment·rios, atÈ o limite de 3 nÌveis
+#User Story-- Cria√ß√£o de coment√°rios de coment√°rios 
+# O usu√°rio poder√° adicionar coment√°rios de coment√°rios, at√© o limite de 3 n√≠veis
 ##################################################################################
 
 #Limpa quaisquer dados pre-existentes
@@ -10,22 +10,22 @@ createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" emai
 
 createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo„o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo√£o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
 
-#Efetua login do usu·rio
+#Efetua login do usu√°rio
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 
 sessionId2=doLogin login=mariarocha senha=senhagrande
 
 sessionId3=doLogin login=joaotapioca senha=senhagrande2
 
-#CriaÁ„o de um blog
+#Cria√ß√£o de um blog
 blogId=createBlog idSession=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
 
 postId1=createPost sessionId=${sessionId1} blogId=${blogId} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
 
-postId2=createPost sessionId=${sessionId1} blogId=${blogId} titulo="Meu segundo post" texto="A resposta para tudo È 42"
+postId2=createPost sessionId=${sessionId1} blogId=${blogId} titulo="Meu segundo post" texto="A resposta para tudo √© 42"
 
 #Retorna o numero de posts apenas do blog pai. 
 expect 2 getNumberOfPosts blogId=${blogId}
@@ -44,13 +44,13 @@ addComment sessionId=${sessionId2} postId=${postId2} texto="Post 2 -- Comentario
 addComment sessionId=${sessionId2} postId=${postId2} texto="Post 2 -- Comentario 4"
 addComment sessionId=${sessionId2} postId=${postId2} texto="Post 2 -- Comentario 5"
 
-expectError "Campo inv·lido: sessionId" addSubComment sessionId= parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
-expectError "Campo inv·lido: sessionId" addSubComment sessionId="" parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
-expectError "Campo inv·lido: sessionId" addSubComment sessionId=234dsg parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: sessionId" addSubComment sessionId= parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: sessionId" addSubComment sessionId="" parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: sessionId" addSubComment sessionId=234dsg parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
 
-expectError "Campo inv·lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId= texto="Post 1 -- Comentario 1 -- Subcomentario 1"
-expectError "Campo inv·lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId="" texto="Post 1 -- Comentario 1 -- Subcomentario 1"
-expectError "Campo inv·lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId=sdf texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId= texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId="" texto="Post 1 -- Comentario 1 -- Subcomentario 1"
+expectError "Campo inv√°lido: parentCommentId" addSubComment sessionId=${sessionId2} parentCommentId=sdf texto="Post 1 -- Comentario 1 -- Subcomentario 1"
 
 subcomentarioId1=addSubComment sessionId=${sessionId2} parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1"
 subcomentarioId2=addSubComment sessionId=${sessionId2} parentCommentId=${comentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 2"
@@ -62,12 +62,12 @@ subsubcomentario2=addSubComment sessionId=${sessionId2} parentCommentId=${subcom
 subsubcomentario3=addSubComment sessionId=${sessionId2} parentCommentId=${subcomentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1 -- Subsubcomentario3"
 subsubcomentario4=addSubComment sessionId=${sessionId2} parentCommentId=${subcomentarioId1} texto="Post 1 -- Comentario 1 -- Subcomentario 1 -- Subsubcomentario4"
 
-expectError "Cadeia m·xima de subcoment·rios excedida" addSubComment sessionId=${sessionId2} parentCommentId=${subsubcomentario1} texto="Post 1 -- Comentario 1 -- Subcomentario 1 -- Subsubcomentario1 -- Subsubsubcomentario 1"
+expectError "Cadeia m√°xima de subcoment√°rios excedida" addSubComment sessionId=${sessionId2} parentCommentId=${subsubcomentario1} texto="Post 1 -- Comentario 1 -- Subcomentario 1 -- Subsubcomentario1 -- Subsubsubcomentario 1"
 
 
 #Deve ser possivel recuperar o id do comentario pai. Caso o comentario nao possua um comentario pai retorna vazio
-expectError "Campo inv·lido: commentId" getParentComment commentId=
-expectError "Campo inv·lido: commentId" getParentComment commentId=""
+expectError "Campo inv√°lido: commentId" getParentComment commentId=
+expectError "Campo inv√°lido: commentId" getParentComment commentId=""
 
 expect "" getParentComment commentId=${comentarioId1}
 expect "" getParentComment commentId=${comentarioId2}
@@ -82,9 +82,9 @@ expect ${subcomentarioId1} getParentComment commentId=${subsubcomentario2}
 expect ${subcomentarioId1} getParentComment commentId=${subsubcomentario3}
 expect ${subcomentarioId1} getParentComment commentId=${subsubcomentario4}
 
-#Deve ser possÌvel recuperar o post pai independentemente do nÌvel do comentario
-expectError "Campo inv·lido: commentId" getParentPost commentId=
-expectError "Campo inv·lido: commentId" getParentPost commentId=""
+#Deve ser poss√≠vel recuperar o post pai independentemente do n√≠vel do comentario
+expectError "Campo inv√°lido: commentId" getParentPost commentId=
+expectError "Campo inv√°lido: commentId" getParentPost commentId=""
 
 expect ${postId1} getParentPost commentId=${comentarioId1}
 expect ${postId1} getParentPost commentId=${comentarioId2}
@@ -100,26 +100,26 @@ expect ${postId1} getParentPost commentId=${subsubcomentario4}
 
 #recuperacoes
 #getNumberOfCommentsByBlog recupera o conjunto total de comentarios e subcomentarios em um blog
-expectError "Campo inv·lido: blogId" getNumberOfCommentsByBlog blogId=
-expectError "Campo inv·lido: blogId" getNumberOfCommentsByBlog blogId=""
+expectError "Campo inv√°lido: blogId" getNumberOfCommentsByBlog blogId=
+expectError "Campo inv√°lido: blogId" getNumberOfCommentsByBlog blogId=""
 expect 19 getNumberOfCommentsByBlog blogId=${blogId}
 
 #getNumberOfCommentsByPost recupera o numero de comentarios diretos de um post
-expectError "Campo inv·lido: postId" getNumberOfCommentsByPost postId= 
-expectError "Campo inv·lido: postId" getNumberOfCommentsByPost postId=""
+expectError "Campo inv√°lido: postId" getNumberOfCommentsByPost postId= 
+expectError "Campo inv√°lido: postId" getNumberOfCommentsByPost postId=""
 expect 6 getNumberOfCommentsByPost postId=${postId1}
 expect 5 getNumberOfCommentsByPost postId=${postId2}
 
 
 #getTotalNumberOfCommentsByPost recupera o numero total de comentarios, incluindo comentarios indiretos de um post
-expectError "Campo inv·lido: postId" getTotalNumberOfCommentsByPost postId= 
-expectError "Campo inv·lido: postId" getTotalNumberOfCommentsByPost postId="" 
+expectError "Campo inv√°lido: postId" getTotalNumberOfCommentsByPost postId= 
+expectError "Campo inv√°lido: postId" getTotalNumberOfCommentsByPost postId="" 
 expect 5 getTotalNumberOfCommentsByPost postId=${postId2}
 expect 14 getTotalNumberOfCommentsByPost postId=${postId1}
 
-#getNumberOfCommentsByComment recupera o numero de comentarios diretos de um coment·rio
-expectError "Campo inv·lido: commentId" getNumberOfCommentsByComment commentId=
-expectError "Campo inv·lido: commentId" getNumberOfCommentsByComment commentId=""
+#getNumberOfCommentsByComment recupera o numero de comentarios diretos de um coment√°rio
+expectError "Campo inv√°lido: commentId" getNumberOfCommentsByComment commentId=
+expectError "Campo inv√°lido: commentId" getNumberOfCommentsByComment commentId=""
 expect 0 getNumberOfCommentsByComment commentId=${comentarioId2}
 expect 4 getNumberOfCommentsByComment commentId=${comentarioId1}
 expect 4 getNumberOfCommentsByComment commentId=${subcomentarioId1}
@@ -128,21 +128,21 @@ expect 4 getNumberOfCommentsByComment commentId=${subcomentarioId1}
 
 
 #getTotalNumberOfCommentsByComment recupera o numero total de comentarios diretos e indiretos de um comentario
-expectError "Campo inv·lido: commentId" getTotalNumberOfCommentsByComment commentId=
-expectError "Campo inv·lido: commentId" getTotalNumberOfCommentsByComment commentId=""
+expectError "Campo inv√°lido: commentId" getTotalNumberOfCommentsByComment commentId=
+expectError "Campo inv√°lido: commentId" getTotalNumberOfCommentsByComment commentId=""
 
 expect 8 getTotalNumberOfCommentsByComment commentId=${comentarioId1}
 expect 4 getTotalNumberOfCommentsByComment commentId=${subcomentarioId1}
 
 
 #Recuperacao de subcomentarios
-expectError "Campo inv·lido: commentId" getSubComment commentId= indice=1
-expectError "Campo inv·lido: commentId" getSubComment commentId="" indice=1
-expectError "Campo inv·lido: Ìndice" getSubComment commentId=${comentarioId1} indice=
-expectError "Campo inv·lido: Ìndice" getSubComment commentId=${comentarioId1} indice=""
+expectError "Campo inv√°lido: commentId" getSubComment commentId= indice=1
+expectError "Campo inv√°lido: commentId" getSubComment commentId="" indice=1
+expectError "Campo inv√°lido: √≠ndice" getSubComment commentId=${comentarioId1} indice=
+expectError "Campo inv√°lido: √≠ndice" getSubComment commentId=${comentarioId1} indice=""
 
 #O valor do indice passado deve estar no intervalo 0<=indice<numcomentariosdiretos
-expectError "Õndice de subcoment·rio inv·lido" getSubComment commentId=${comentarioId1} indice=1000
+expectError "√çndice de subcoment√°rio inv√°lido" getSubComment commentId=${comentarioId1} indice=1000
 expect ${subcomentarioId1} getSubComment commentId=${comentarioId1} indice=0
 expect ${subcomentarioId2} getSubComment commentId=${comentarioId1} indice=1
 expect ${subcomentarioId3} getSubComment commentId=${comentarioId1} indice=2

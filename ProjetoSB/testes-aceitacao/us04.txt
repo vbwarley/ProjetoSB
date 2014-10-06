@@ -1,25 +1,25 @@
 ####################################################################################################
 #User Story-- Criar Blogs
 #
-#Cadastra um Blog, associando-o a um usu·rio. No ato da criaÁ„o deve-se fornecer as seguintes informaÁıes:
+#Cadastra um Blog, associando-o a um usu√°rio. No ato da cria√ß√£o deve-se fornecer as seguintes informa√ß√µes:
 #* Titulo do blog
-#* DescriÁ„o do Bloco
+#* Descri√ß√£o do Bloco
 #* Nome da imagem de background
 #* autorizacao para comentarios
 #* autorizacao para comentarios anonimos
-#RestriÁıes
-#    -O usu·rio deve estar logado no sistema (Fornecimento de um id de sess„o v·lido)
+#Restri√ß√µes
+#    -O usu√°rio deve estar logado no sistema (Fornecimento de um id de sess√£o v√°lido)
 #   
-#    -Campos obrigatÛrios:
+#    -Campos obrigat√≥rios:
 #        * Titulo do blog;
 #	 * nome da imagem de fundo
 #
-#    -Uma conta poder· possuir no m·ximo 3 blogs
+#    -Uma conta poder√° possuir no m√°ximo 3 blogs
 #
-#    -Para que se autorize o coment·rio de usu·rios anonimos, obrigatoriamente deve-se autorizar a realizaÁ„o de coment·rios
-# O blog, diferentemente de um usu·rio, ter· o conceito de id's. 
-#Isto È necess·rio porque em um blog n„o existe nenhuma informaÁ„o ˙nica (Como o login em usu·rios).
-#Podem existir blogs com mesmo nome e descriÁ„o
+#    -Para que se autorize o coment√°rio de usu√°rios anonimos, obrigatoriamente deve-se autorizar a realiza√ß√£o de coment√°rios
+# O blog, diferentemente de um usu√°rio, ter√° o conceito de id's. 
+#Isto √© necess√°rio porque em um blog n√£o existe nenhuma informa√ß√£o √∫nica (Como o login em usu√°rios).
+#Podem existir blogs com mesmo nome e descri√ß√£o
 #
 ######################################################################################################
 
@@ -29,40 +29,40 @@ resetDatabase
 createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
 
-#Efetua login do usu·rio
+#Efetua login do usu√°rio
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 
-#ValidaÁ„o: Id de sess„o inv·lido
-expectError "Sess„o inv·lida" createBlog sessionId=XXX titulo="myblog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
+#Valida√ß√£o: Id de sess√£o inv√°lido
+expectError "Sess√£o inv√°lida" createBlog sessionId=XXX titulo="myblog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
 
-#ValidaÁ„o: TÌtulo do blog obrigatÛrio
-expectError "Campo inv·lido: tÌtulo" createBlog sessionId=${sessionId1} titulo= descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
-expectError "Campo inv·lido: tÌtulo" createBlog sessionId=${sessionId1} titulo="" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
+#Valida√ß√£o: T√≠tulo do blog obrigat√≥rio
+expectError "Campo inv√°lido: t√≠tulo" createBlog sessionId=${sessionId1} titulo= descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
+expectError "Campo inv√°lido: t√≠tulo" createBlog sessionId=${sessionId1} titulo="" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=false
 
-#ValidaÁ„o: imagem de background obrigatoria
-expectError "Campo inv·lido: background" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background= autz_comment=false autz_comment_annon=false
-expectError "Campo inv·lido: background" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="" autz_comment=false autz_comment_annon=false
+#Valida√ß√£o: imagem de background obrigatoria
+expectError "Campo inv√°lido: background" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background= autz_comment=false autz_comment_annon=false
+expectError "Campo inv√°lido: background" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="" autz_comment=false autz_comment_annon=false
 
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment= autz_comment_annon=false
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment="" autz_comment_annon=false
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=ssdf autz_comment_annon=false
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment= autz_comment_annon=false
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment="" autz_comment_annon=false
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=ssdf autz_comment_annon=false
 
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios anÙnimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios anÙnimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=""
-expectError "Campo inv·lido: autorizaÁ„o de coment·rios anÙnimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=sfas
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios an√¥nimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios an√¥nimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=""
+expectError "Campo inv√°lido: autoriza√ß√£o de coment√°rios an√¥nimos" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="image.png" autz_comment=true autz_comment_annon=sfas
 
 
-expectError "Campo inv·lido: coment·rios devem ser habilitados" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=true
+expectError "Campo inv√°lido: coment√°rios devem ser habilitados" createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=false autz_comment_annon=true
 
 #Cria um blog
 blogId=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
 blogId2=createBlog sessionId=${sessionId1} titulo="Meu segundo blog" descricao="Whatever is said in Latin sounds profound" background="imagem2.png" autz_comment=true autz_comment_annon=true
 blogId3=createBlog sessionId=${sessionId1} titulo="Meu terceiro blog" descricao="Whatever is said in Latin sounds profound" background="imagem3.png" autz_comment=true autz_comment_annon=true
-expectError "N˙mero m·ximo de blogs por usu·rio excedido" createBlog sessionId=${sessionId1} titulo="Meu quarto blog" descricao="Quidquid latine dictum sit, altum viditur" background="" autz_comment=true autz_comment_annon=true
+expectError "N√∫mero m√°ximo de blogs por usu√°rio excedido" createBlog sessionId=${sessionId1} titulo="Meu quarto blog" descricao="Quidquid latine dictum sit, altum viditur" background="" autz_comment=true autz_comment_annon=true
 
 expectDifferent ${blogId} echo ${blogId2}
 
-#Retorna informaÁıes do blog a partir do id do blog
+#Retorna informa√ß√µes do blog a partir do id do blog
 expect "Meu primeiro blog" getBlogInformation id=${blogId} atributo=titulo
 expect "Quidquid latine dictum sit, altum viditur" getBlogInformation id=${blogId} atributo=descricao
 expect "imagem.png" getBlogInformation id=${blogId} atributo=background
@@ -78,12 +78,12 @@ expect mariasilva getBlogInformation id=${blogId} atributo=dono
 expect mariasilva getBlogInformation id=${blogId2} atributo=dono
 
 
-expectError "Atributo inv·lido" getBlogInformation id=${blogId2} atributo=XXX
-expectError "Atributo inv·lido" getBlogInformation id=${blogId2} atributo=""
-expectError "Atributo inv·lido" getBlogInformation id=${blogId2} atributo= 
+expectError "Atributo inv√°lido" getBlogInformation id=${blogId2} atributo=XXX
+expectError "Atributo inv√°lido" getBlogInformation id=${blogId2} atributo=""
+expectError "Atributo inv√°lido" getBlogInformation id=${blogId2} atributo= 
 
 
-#Desloga usu·rio
+#Desloga usu√°rio
 logoff sessionId=${sessionId1}
 
 

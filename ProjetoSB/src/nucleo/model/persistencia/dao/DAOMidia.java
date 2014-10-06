@@ -1,5 +1,9 @@
 package nucleo.model.persistencia.dao;
 
-public interface DAOMidia<Midia, Integer> extends DAO<Midia, Integer> {
+import nucleo.model.negocios.Midia;
+
+public interface DAOMidia extends DAO<Midia, Integer> {
+
+	Integer getMaxId();
 
 }

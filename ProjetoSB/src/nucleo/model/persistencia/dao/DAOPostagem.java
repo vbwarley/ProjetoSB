@@ -1,5 +1,14 @@
 package nucleo.model.persistencia.dao;
 
-public interface DAOPostagem<Postagem, Integer> extends DAO<Postagem, Integer> {
+import java.util.List;
+
+import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.Postagem;
+
+public interface DAOPostagem extends DAO<Postagem, Integer> {
+
+	Integer getMaxId();
+
+	List<Postagem> getPostagensPorBlog(Blog blog);
 
 }

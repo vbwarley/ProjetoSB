@@ -1,19 +1,19 @@
 #User Story-- Editar postagem 
 #
 #
-#Permite a edição de um post existente. os seguintes campos podem ser alterados:
-#*Título do post
+#Permite a ediÃ§Ã£o de um post existente. os seguintes campos podem ser alterados:
+#*TÃ­tulo do post
 #*Texto
-#*Áudio
-#*Vídeo
+#*Ãudio
+#*VÃ­deo
 #*Imagem
 #
-#No caso dos recursos multimídia, o cliente deve ser capaz de definir se deseja manter os dados existentes no servidor, ou se serão deletados.
-#Restrições:
-#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+#No caso dos recursos multimÃ­dia, o cliente deve ser capaz de definir se deseja manter os dados existentes no servidor, ou se serÃ£o deletados.
+#RestriÃ§Ãµes:
+#    -O usuÃ¡rio deve estar logado no sistema (Fornecimento de um id de sessÃ£o vÃ¡lido)
 #   
-#    -Campos não-nulo:
-#        *Título do post    
+#    -Campos nÃ£o-nulo:
+#        *TÃ­tulo do post    
 
 
 #Limpa quaisquer dados pre-existentes
@@ -23,16 +23,16 @@ createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" emai
 
 createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-#Efetua login do usuário
+#Efetua login do usuÃ¡rio
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 
 sessionId2=doLogin login=mariarocha senha=senhagrande
 
-#Criação de um blog
+#CriaÃ§Ã£o de um blog
 blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
 postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
 
-#Adiciona um áudio a um determinado post. Neste campo deve ser passado o nome do arquivo de audio a ser armazenado. A interface web devera garantir a unicidade dos arquivos de audio
+#Adiciona um Ã¡udio a um determinado post. Neste campo deve ser passado o nome do arquivo de audio a ser armazenado. A interface web devera garantir a unicidade dos arquivos de audio
 audioId1=attachSound sessionId=${sessionId1} postId=${postId1} descricao="Meu primeiro audio" dado="audio1.ogg"
 audioId2=attachSound sessionId=${sessionId1} postId=${postId1} descricao= dado="audio2.ogg"
 audioId3=attachSound sessionId=${sessionId1} postId=${postId1} descricao="" dado="audio3.ogg"
@@ -66,25 +66,25 @@ postId1=getPost blogId=${blogId1} index=0
 changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor="Meu novo titulo"
 changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=texto valor="Minha nova descricao"
 
-#validação: post inválido
-expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId=XXX atributo=texto valor="Minha nova descricao"
-expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId="" atributo=texto valor="Minha nova descricao"
-expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId= atributo=texto valor="Minha nova descricao"
+#validaÃ§Ã£o: post invÃ¡lido
+expectError "Post invÃ¡lido" changePostInformation sessionId=${sessionId1} postId=XXX atributo=texto valor="Minha nova descricao"
+expectError "Post invÃ¡lido" changePostInformation sessionId=${sessionId1} postId="" atributo=texto valor="Minha nova descricao"
+expectError "Post invÃ¡lido" changePostInformation sessionId=${sessionId1} postId= atributo=texto valor="Minha nova descricao"
 
-#Validação: sessão inválida
-expectError "Sessão inválida" changePostInformation sessionId=XXX postId=${postId1} atributo=titulo valor="Meu novo titulo"
-expectError "Sessão inválida" changePostInformation sessionId= postId=${postId1} atributo=titulo valor="Meu novo titulo"
-expectError "Sessão inválida" changePostInformation sessionId="" postId=${postId1} atributo=titulo valor="Meu novo titulo"
-expectError "Sessão inválida" changePostInformation sessionId=${sessionId2} postId=${postId1} atributo=titulo valor="Meu novo titulo"
+#ValidaÃ§Ã£o: sessÃ£o invÃ¡lida
+expectError "SessÃ£o invÃ¡lida" changePostInformation sessionId=XXX postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "SessÃ£o invÃ¡lida" changePostInformation sessionId= postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "SessÃ£o invÃ¡lida" changePostInformation sessionId="" postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "SessÃ£o invÃ¡lida" changePostInformation sessionId=${sessionId2} postId=${postId1} atributo=titulo valor="Meu novo titulo"
 
-#Validação: atributo inválido
-expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo= valor="Meu novo titulo"
-expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo="" valor="Meu novo titulo"
-expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=XXX valor="Meu novo titulo"
+#ValidaÃ§Ã£o: atributo invÃ¡lido
+expectError "Atributo invÃ¡lido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo= valor="Meu novo titulo"
+expectError "Atributo invÃ¡lido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo="" valor="Meu novo titulo"
+expectError "Atributo invÃ¡lido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=XXX valor="Meu novo titulo"
 
-#Validação: Titulo nao pode ser vazio
-expectError "Título obrigatório" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=
-expectError "Título obrigatório" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=""
+#ValidaÃ§Ã£o: Titulo nao pode ser vazio
+expectError "TÃ­tulo obrigatÃ³rio" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=
+expectError "TÃ­tulo obrigatÃ³rio" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=""
 
 #Recupera numero de recursos multimidia
 expect 3 getNumberOfSounds id=${postId1}
@@ -105,7 +105,7 @@ expect 1 getNumberOfMovies id=${postId1}
 tmpVideo1=getMovie id=${postId1} index=0
 deleteMovie sessionId=${sessionId1} id=${tmpVideo1}
 
-expectError "Índice incorreto" getMovie id=${postId1} index=0
+expectError "Ãndice incorreto" getMovie id=${postId1} index=0
 
 #Indice do recurso esta no intervalo 0<=x<numRecurso
 tmpAudio1=getSound id=${postId1} index=0
@@ -121,7 +121,7 @@ expect 1 getNumberOfSounds id=${postId1}
 tmpAudio1=getSound id=${postId1} index=0
 deleteSound sessionId=${sessionId1} id=${tmpAudio1}
 
-expectError "Índice incorreto" getSound id=${postId1} index=0
+expectError "Ãndice incorreto" getSound id=${postId1} index=0
 
 
 
@@ -139,7 +139,7 @@ deletePicture sessionId=${sessionId1} id=${tmpImagem1}
 tmpImagem1=getPicture id=${postId1} index=0
 deletePicture sessionId=${sessionId1} id=${tmpImagem1}
 
-expectError "Índice incorreto" getPicture id=${postId1} index=0
+expectError "Ãndice incorreto" getPicture id=${postId1} index=0
 
 #Desloga usuarios
 logoff sessionId=${sessionId1}

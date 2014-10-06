@@ -1,8 +1,8 @@
 ########################################################################################
-#User Story-- Deletar conta de usuário
-#Remove a conta do usuário do sistema.
-#Restrições:
-#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+#User Story-- Deletar conta de usuÃ¡rio
+#Remove a conta do usuÃ¡rio do sistema.
+#RestriÃ§Ãµes:
+#    -O usuÃ¡rio deve estar logado no sistema (Fornecimento de um id de sessÃ£o vÃ¡lido)
 #   
 ########################################################################################
 
@@ -13,17 +13,17 @@ createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" emai
 
 createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="João de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="JoÃ£o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
 
-#Efetua login do usuário
+#Efetua login do usuÃ¡rio
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 
 sessionId2=doLogin login=mariarocha senha=senhagrande
 
 sessionId3=doLogin login=joaotapioca senha=senhagrande2
 
-#Criação de um blog
+#CriaÃ§Ã£o de um blog
 blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
 
 postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
@@ -31,14 +31,14 @@ postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeir
 idComentario1=addComment sessionId=${sessionId2} postId=${postId1} texto="que massa esse seu novo post"
 
 
-#Deleta o perfil de um usuário
+#Deleta o perfil de um usuÃ¡rio
 deleteProfile sessionId=${sessionId1}
 
-expectError "Blog inválido" getNumberOfPosts blogId=${blogId1}
+expectError "Blog invÃ¡lido" getNumberOfPosts blogId=${blogId1}
 
 
 
-expectError "Usuário inválido" getProfileInformationBySessionId sessionId=${sessionId1} atributo=login
+expectError "UsuÃ¡rio invÃ¡lido" getProfileInformationBySessionId sessionId=${sessionId1} atributo=login
 
 
 

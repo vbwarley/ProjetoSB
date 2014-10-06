@@ -39,7 +39,7 @@ public class TestJDBCDAOPostagem {
 		usuario.setLogin("U1");
 		usuario.setSenha("1111");
 		usuario.setNome("Maria das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("email@example.com");
 		usuario.setDataNascimento(Date.valueOf("2012-10-19"));
 		usuario.setEndereco("Arapiraca");
@@ -80,7 +80,7 @@ public class TestJDBCDAOPostagem {
 		usuario.setLogin("U2");
 		usuario.setSenha("1121");
 		usuario.setNome("Maria das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("email@example.com");
 		usuario.setDataNascimento(Date.valueOf("2012-10-19"));
 		usuario.setEndereco("Arapiraca");
@@ -120,7 +120,7 @@ public class TestJDBCDAOPostagem {
 		usuario.setLogin("U3");
 		usuario.setSenha("1112");
 		usuario.setNome("Dores das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("email@example.com");
 		usuario.setDataNascimento(Date.valueOf("2012-10-19"));
 		usuario.setEndereco("Arapiraca");
@@ -174,7 +174,7 @@ public class TestJDBCDAOPostagem {
 		usuario.setLogin("U5");
 		usuario.setSenha("921");
 		usuario.setNome("Faria");
-		usuario.setSexo('F');
+		usuario.setSexo("Feminino");
 		usuario.setEmail("mail@example.com");
 		usuario.setDataNascimento(Date.valueOf("2011-09-09"));
 		usuario.setEndereco("Acolá");
@@ -217,7 +217,7 @@ public class TestJDBCDAOPostagem {
 		usuario.setLogin("U6");
 		usuario.setSenha("1121");
 		usuario.setNome("Maria das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("email@example.com");
 		usuario.setDataNascimento(Date.valueOf("2012-10-19"));
 		usuario.setEndereco("Arapiraca");

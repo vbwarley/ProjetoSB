@@ -1,7 +1,8 @@
 package nucleo.model.negocios;
 
+import java.sql.Date;
 import java.util.Observable;
-
+import java.util.Set;
 
 public class Postagem extends Observable {
 
@@ -9,9 +10,11 @@ public class Postagem extends Observable {
 	private String titulo;
 	private String conteudo;
 	private Blog blog;
-
+	private Date data;
+	
 	/**
 	 * Método construtor de Postagem
+	 * 
 	 * @author nathalia
 	 */
 	public Postagem() {
@@ -20,6 +23,7 @@ public class Postagem extends Observable {
 
 	/**
 	 * Retorna o código de uma postagem.
+	 * 
 	 * @return int codigo - retorna o código de uma postagem.
 	 * @author nathalia
 	 */
@@ -29,7 +33,9 @@ public class Postagem extends Observable {
 
 	/**
 	 * Método que seta o código de uma postagem.
-	 * @param codigo int 
+	 * 
+	 * @param codigo
+	 *            int
 	 * @author nathalia
 	 */
 	public void setCodigo(int codigo) {
@@ -38,7 +44,8 @@ public class Postagem extends Observable {
 
 	/**
 	 * Retorna o título de uma postagem.
-	 * @return String titulo 
+	 * 
+	 * @return String titulo
 	 * @author nathalia
 	 */
 	public String getTitulo() {
@@ -47,7 +54,9 @@ public class Postagem extends Observable {
 
 	/**
 	 * Método que seta o título de uma postagem.
-	 * @param titulo String 
+	 * 
+	 * @param titulo
+	 *            String
 	 * @author nathalia
 	 */
 	public void setTitulo(String titulo) {
@@ -56,6 +65,7 @@ public class Postagem extends Observable {
 
 	/**
 	 * Retorna o conteúdo de uma postagem.
+	 * 
 	 * @return String conteudo
 	 * @author nathalia
 	 */
@@ -65,7 +75,9 @@ public class Postagem extends Observable {
 
 	/**
 	 * Método que seta o conteúdo de uma postagem.
-	 * @param conteudo String
+	 * 
+	 * @param conteudo
+	 *            String
 	 * @author nathalia
 	 */
 	public void setConteudo(String conteudo) {
@@ -75,6 +87,7 @@ public class Postagem extends Observable {
 
 	/**
 	 * Método que retorna o blog associado à postagem.
+	 * 
 	 * @return Blog blog
 	 * @author nathalia
 	 */
@@ -84,25 +97,40 @@ public class Postagem extends Observable {
 
 	/**
 	 * Método que seta o blog referente à postagem.
-	 * @param blog Blog - Uma instância de blog
+	 * 
+	 * @param blog
+	 *            Blog - Uma instância de blog
 	 * @author nathalia
 	 */
 	public void setBlog(Blog blog) {
 		this.blog = blog;
 	}
 
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
 	/**
-	 * Método que verifica se a postagem que foi passada como parâmetro é igual a esta postagem.
-	 * @param postagem Postagem
-	 * @return boolean equals - retorna uma condição verdadeira se o código da postagem for igual ao código da classe Postagem. Senão, uma condição falsa.
+	 * Método que verifica se a postagem que foi passada como parâmetro é igual
+	 * a esta postagem.
+	 * 
+	 * @param postagem
+	 *            Postagem
+	 * @return boolean equals - retorna uma condição verdadeira se o código da
+	 *         postagem for igual ao código da classe Postagem. Senão, uma
+	 *         condição falsa.
 	 * @author nathalia
 	 */
 	public boolean equals(Postagem postagem) {
-		
-		if (postagem.getCodigo() == (this.codigo) 
+
+		if (postagem.getCodigo() == (this.codigo)
 				&& postagem.getConteudo().equals(this.conteudo)
 				&& postagem.getTitulo().equals(this.titulo)
-				&& postagem.getBlog().getCodigo() == this.blog.getCodigo()) 
+				&& postagem.getBlog().getCodigo() == this.blog.getCodigo())
 			return true;
 		return false;
 	}

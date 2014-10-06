@@ -35,7 +35,7 @@ public class TestJDBCDAOBlog {
 		usuario.setLogin("UB1");
 		usuario.setSenha("991");
 		usuario.setNome("RayRAy");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("ra@iane.com");
 		usuario.setDataNascimento(Date.valueOf("2009-06-20"));
 		usuario.setEndereco("Palmeira");
@@ -67,7 +67,7 @@ public class TestJDBCDAOBlog {
 		usuario.setLogin("UB2");
 		usuario.setSenha("991");
 		usuario.setNome("RayRAy");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("ra@iane.com");
 		usuario.setDataNascimento(Date.valueOf("2009-06-20"));
 		usuario.setEndereco("Palmeira");
@@ -100,7 +100,7 @@ public class TestJDBCDAOBlog {
 		usuario.setLogin("UB4");
 		usuario.setSenha("991");
 		usuario.setNome("RayRAy");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("ra@iane.com");
 		usuario.setDataNascimento(Date.valueOf("2009-06-20"));
 		usuario.setEndereco("Palmeira");
@@ -141,7 +141,7 @@ public class TestJDBCDAOBlog {
 		usuario.setLogin("UB5");
 		usuario.setSenha("991");
 		usuario.setNome("RayRAyRAAAA");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("ra@ianee.com");
 		usuario.setDataNascimento(Date.valueOf("2008-06-20"));
 		usuario.setEndereco("Palmeiras");
@@ -179,7 +179,7 @@ public class TestJDBCDAOBlog {
 		usuario.setLogin("UB6");
 		usuario.setSenha("999");
 		usuario.setNome("RaRAy");
-		usuario.setSexo('F');
+		usuario.setSexo("Feminino");
 		usuario.setEmail("ara@iane.com");
 		usuario.setDataNascimento(Date.valueOf("1909-06-20"));
 		usuario.setEndereco("SAMPA");

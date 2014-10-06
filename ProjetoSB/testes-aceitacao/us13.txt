@@ -1,10 +1,10 @@
 ##############################################################################################
 #User Story-- Adicionar notificadores
-#Cadastra usu·rios para receberem atualizaÁıes de blogs (ex.: um usu·rio A pode estar interessado em saber as ˙ltimas atualizaÁıes no Blog do #usu·rio B).
+#Cadastra usu√°rios para receberem atualiza√ß√µes de blogs (ex.: um usu√°rio A pode estar interessado em saber as √∫ltimas atualiza√ß√µes no Blog do #usu√°rio B).
 #
-#RestriÁıes: 
+#Restri√ß√µes: 
 #
-#    -O usu·rio deve estar logado no sistema (Fornecimento de um id de sess„o v·lido)
+#    -O usu√°rio deve estar logado no sistema (Fornecimento de um id de sess√£o v√°lido)
 #   
 ##############################################################################################
 
@@ -15,10 +15,10 @@ createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" emai
 
 createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo„o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo√£o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
 
-#Efetua login do usu·rio
+#Efetua login do usu√°rio
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 
 sessionId2=doLogin login=mariarocha senha=senhagrande
@@ -30,7 +30,7 @@ expect 0 getNumberOfAnnouncements sessionId=${sessionId2}
 
 expect 0 getNumberOfAnnouncements sessionId=${sessionId2}
 
-#CriaÁ„o de um blog
+#Cria√ß√£o de um blog
 blogId=createBlog idSession=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
 
 postId1=createPost sessionId=${sessionId1} blogId=${blogId} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
@@ -48,9 +48,9 @@ announcementId1=getAnnouncement sessionId=${sessionId2} index=0
 
 expect ${postId2} getPostJustCreated announcementId=${announcementId1}
 
-expectError "Campo inv·lido: sessionId" getAnnouncement sessionId= index=0
-expectError "Campo inv·lido: sessionId" getAnnouncement sessionId="" index=0
-expectError "Campo inv·lido: indice" getAnnouncement sessionId=${sessionId2} index=-1
+expectError "Campo inv√°lido: sessionId" getAnnouncement sessionId= index=0
+expectError "Campo inv√°lido: sessionId" getAnnouncement sessionId="" index=0
+expectError "Campo inv√°lido: indice" getAnnouncement sessionId=${sessionId2} index=-1
 
 
 deleteAnnouncement sessionId=${sessionId2} announcementId=${announcementId1}

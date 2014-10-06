@@ -1,11 +1,5 @@
 package nucleo.model.persistencia.factory;
 
-import nucleo.model.negocios.Blog;
-import nucleo.model.negocios.ComentarioComposite;
-import nucleo.model.negocios.Midia;
-import nucleo.model.negocios.PalavraChave;
-import nucleo.model.negocios.Postagem;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
@@ -29,8 +23,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOUsuario()
 	 */
 	@Override
-	public DAOUsuario<Usuario, String> getDAOUsuario() {
-		DAOUsuario<Usuario, String> usuario = new JDBCDAOUsuario();
+	public DAOUsuario getDAOUsuario() {
+		DAOUsuario usuario = new JDBCDAOUsuario();
 		return usuario;
 	}
 
@@ -38,8 +32,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOBlog()
 	 */
 	@Override
-	public DAOBlog<Blog, Integer> getDAOBlog() {
-		DAOBlog<Blog, Integer> blog = new JDBCDAOBlog();
+	public DAOBlog getDAOBlog() {
+		DAOBlog	 blog = new JDBCDAOBlog();
 		return blog;
 	}
 
@@ -47,8 +41,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOPostagem()
 	 */
 	@Override
-	public DAOPostagem<Postagem, Integer> getDAOPostagem() {
-		DAOPostagem<Postagem, Integer> postagem = new JDBCDAOPostagem();
+	public DAOPostagem getDAOPostagem() {
+		DAOPostagem postagem = new JDBCDAOPostagem();
 		return postagem;
 	}
 
@@ -56,8 +50,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOMidia()
 	 */
 	@Override
-	public DAOMidia<Midia, Integer> getDAOMidia() {
-		DAOMidia<Midia, Integer> midia = new JDBCDAOMidia();
+	public DAOMidia getDAOMidia() {
+		DAOMidia midia = new JDBCDAOMidia();
 		return midia;
 	}
 
@@ -65,8 +59,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOComentario()
 	 */
 	@Override
-	public DAOComentario<ComentarioComposite, Integer> getDAOComentario() {
-		DAOComentario<ComentarioComposite, Integer> comentario = new JDBCDAOComentario();
+	public DAOComentario getDAOComentario() {
+		DAOComentario comentario = new JDBCDAOComentario();
 		return comentario;
 	}
 
@@ -74,8 +68,8 @@ public class JDBCDAOFactory extends DAOFactory {
 	 * @see nucleo.model.persistencia.factory.DAOFactory#getDAOPalavraChave()
 	 */
 	@Override
-	public DAOPalavraChave<PalavraChave, Integer> getDAOPalavraChave() {
-		DAOPalavraChave<PalavraChave, Integer> palavraChave = new JDBCDAOPalavraChave();
+	public DAOPalavraChave getDAOPalavraChave() {
+		DAOPalavraChave palavraChave = new JDBCDAOPalavraChave();
 		return palavraChave;
 	}
 

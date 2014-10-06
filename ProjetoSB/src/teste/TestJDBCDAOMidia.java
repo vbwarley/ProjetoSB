@@ -55,7 +55,7 @@ public class TestJDBCDAOMidia {
 		usuario.setLogin("warlyos");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("aaaav@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2114-01-14"));
 		usuario.setEndereco("Terra dp nunca");
@@ -139,7 +139,7 @@ public class TestJDBCDAOMidia {
 		usuario.setLogin("warly");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("aaaav@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2114-01-14"));
 		usuario.setEndereco("Terra dp nunca");
@@ -220,7 +220,7 @@ public class TestJDBCDAOMidia {
 		usuario.setLogin("varly");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("aaaav@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2114-01-14"));
 		usuario.setEndereco("Terra dp nunca");
@@ -278,7 +278,7 @@ public class TestJDBCDAOMidia {
 		usuario.setLogin("warlzy");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("aaaav@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2114-01-14"));
 		usuario.setEndereco("Terra dp nunca");
@@ -338,7 +338,7 @@ public class TestJDBCDAOMidia {
 		usuario.setLogin("warlys");
 		usuario.setSenha("222");
 		usuario.setNome("Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("aaaav@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2114-01-14"));
 		usuario.setEndereco("Terra dp nunca");

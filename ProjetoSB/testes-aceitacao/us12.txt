@@ -1,8 +1,8 @@
 ########################################################################################
-#User Story-- Pesquisa de usu·rios
-#Este User story tem como objetivo permitir a buscas em geral no blog. Alguns exemplos de buscas s„o:
-#*Buscar por todos os blogs de um usu·rios;
-#*Buscar por todos post onde um dado usu·rio postou;
+#User Story-- Pesquisa de usu√°rios
+#Este User story tem como objetivo permitir a buscas em geral no blog. Alguns exemplos de buscas s√£o:
+#*Buscar por todos os blogs de um usu√°rios;
+#*Buscar por todos post onde um dado usu√°rio postou;
 #*Buscar todos os posts que contiver um texto especificado.
 ########################################################################################
 
@@ -15,116 +15,116 @@ createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" emai
 
 createProfile login=mariarocha senha=senhagrande nome_exibicao="Maria Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/10/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo„o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/09/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca senha=senhagrande2 nome_exibicao="Jo√£o de Alguma Coisa" email=joao@hotmail.com sexo=Masculino data_nasc=20/09/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca2 senha=senhagrande2 nome_exibicao="Jo„o do Caminh„o" email=joao2@hotmail.com sexo=Masculino data_nasc=20/01/1983 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca2 senha=senhagrande2 nome_exibicao="Jo√£o do Caminh√£o" email=joao2@hotmail.com sexo=Masculino data_nasc=20/01/1983 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca3 senha=senhagrande2 nome_exibicao="Jo„o da CarroÁa" email=joao3@hotmail.com sexo=Masculino data_nasc=20/01/1987 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca3 senha=senhagrande2 nome_exibicao="Jo√£o da Carro√ßa" email=joao3@hotmail.com sexo=Masculino data_nasc=20/01/1987 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca4 senha=senhagrande2 nome_exibicao="Jo„o Sim„o" email=joao4@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca4 senha=senhagrande2 nome_exibicao="Jo√£o Sim√£o" email=joao4@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca5 senha=senhagrande2 nome_exibicao="Jo„o Beltr„o" email=joao5@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca5 senha=senhagrande2 nome_exibicao="Jo√£o Beltr√£o" email=joao5@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
 createProfile login=joaotapioca6 senha=senhagrande2 nome_exibicao= email=joao6@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-createProfile login=joaotapioca7 senha=senhagrande2 nome_exibicao="Jo„o Beltr„o" email=joao7@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+createProfile login=joaotapioca7 senha=senhagrande2 nome_exibicao="Jo√£o Beltr√£o" email=joao7@hotmail.com sexo=Masculino data_nasc=20/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
 
-#A busca deve ser realizada sobre os nomes de exibiÁ„o dos usu·rios(obs.: se o nome do usu·rio nao estiver disponÌvel, entao usa-se o login). 
-#Deve ser retornado os logins dos usu·rios ordenados no formato [login1, login2, login3, loginN]. A busca n„o pode ser case sensitive
-#A ordem do resultado È definida atravÈs do campo order com o valor asc ou desc
-#A quantidade de resultados retornados ser· definido a partir do campo maxEntries
-#O campo offset define a partir de qual registro ser· o inÌcio dos resultados 
+#A busca deve ser realizada sobre os nomes de exibi√ß√£o dos usu√°rios(obs.: se o nome do usu√°rio nao estiver dispon√≠vel, entao usa-se o login). 
+#Deve ser retornado os logins dos usu√°rios ordenados no formato [login1, login2, login3, loginN]. A busca n√£o pode ser case sensitive
+#A ordem do resultado √© definida atrav√©s do campo order com o valor asc ou desc
+#A quantidade de resultados retornados ser√° definido a partir do campo maxEntries
+#O campo offset define a partir de qual registro ser√° o in√≠cio dos resultados 
 
 # Exemplo: findProfileByName match=maria order=asc offset=5 maxentries=10
-# Suponha que a busca retorne 100 registros, ele ir· orden·-lo, e retornar 10 registros a partir do 5∫ registro 
-#A ordem de ordenaÁ„o È Nome > Email. Caso o usu·rio n„o possua o nome de exibiÁ„o deve ser jogado para o final do registro
+# Suponha que a busca retorne 100 registros, ele ir√° orden√°-lo, e retornar 10 registros a partir do 5¬∫ registro 
+#A ordem de ordena√ß√£o √© Nome > Email. Caso o usu√°rio n√£o possua o nome de exibi√ß√£o deve ser jogado para o final do registro
 #Order de filtragem; 1) offset 2) order
 
-expectError "Campo inv·lido: match" findProfileByName match= order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: match" findProfileByName match="" order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByName match=maria order= offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByName match=maria order="" offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByName match=maria order=wer offset=10 maxentries=10
-expectError "Campo inv·lido: offset" findProfileByName match=maria order=asc offset= maxentries=10
-expectError "Campo inv·lido: offset" findProfileByName match=maria order=asc offset="" maxentries=10
-expectError "Campo inv·lido: offset" findProfileByName match=maria order=asc offset=rew maxentries=10
-expectError "Campo inv·lido: offset" findProfileByName match=maria order=asc offset=-1 maxentries=10
-expectError "Campo inv·lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=
-expectError "Campo inv·lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=""
-expectError "Campo inv·lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=-1
-expectError "Campo inv·lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=sdf
+expectError "Campo inv√°lido: match" findProfileByName match= order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: match" findProfileByName match="" order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByName match=maria order= offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByName match=maria order="" offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByName match=maria order=wer offset=10 maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByName match=maria order=asc offset= maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByName match=maria order=asc offset="" maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByName match=maria order=asc offset=rew maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByName match=maria order=asc offset=-1 maxentries=10
+expectError "Campo inv√°lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=
+expectError "Campo inv√°lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=""
+expectError "Campo inv√°lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=-1
+expectError "Campo inv√°lido: maxentries" findProfileByName match=maria order=asc offset=5 maxentries=sdf
 
 
-expect "[joaotapioca4]" findProfileByName match="Jo„o Sim„o" order=asc offset=0 maxentries=10
-expect "[joaotapioca5, joaotapioca7]" findProfileByName match="Jo„o Beltr„o" order=asc offset=0 maxentries=10
-expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="Jo„o" order=asc offset=0 maxentries=10
+expect "[joaotapioca4]" findProfileByName match="Jo√£o Sim√£o" order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7]" findProfileByName match="Jo√£o Beltr√£o" order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="Jo√£o" order=asc offset=0 maxentries=10
 
 #Recupera os 3 primeiros registros
-expect "[joaotapioca5, joaotapioca7, joaotapioca3]" findProfileByName match="Jo„o" order=asc offset=0 maxentries=3
+expect "[joaotapioca5, joaotapioca7, joaotapioca3]" findProfileByName match="Jo√£o" order=asc offset=0 maxentries=3
 
 #Recupera os 4 registros a partir do terceiro (0 <= offset < maxentries)
-expect "[joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="Jo„o" order=asc offset=2 maxentries=10
+expect "[joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="Jo√£o" order=asc offset=2 maxentries=10
 
-#Recupera os registros com ordenaÁ„o invertida
-expect "[joaotapioca4, joaotapioca2, joaotapioca, joaotapioca3, joaotapioca7, joaotapioca5]" findProfileByName match="Jo„o" order=desc offset=0 maxentries=10
+#Recupera os registros com ordena√ß√£o invertida
+expect "[joaotapioca4, joaotapioca2, joaotapioca, joaotapioca3, joaotapioca7, joaotapioca5]" findProfileByName match="Jo√£o" order=desc offset=0 maxentries=10
 
-expectError "Campo inv·lido: match" findProfileByLogin match= order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: match" findProfileByLogin match="" order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByLogin match=maria order= offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByLogin match=maria order="" offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByLogin match=maria order=wer offset=10 maxentries=10
-expectError "Campo inv·lido: offset" findProfileByLogin match=maria order=asc offset= maxentries=10
-expectError "Campo inv·lido: offset" findProfileByLogin match=maria order=asc offset="" maxentries=10
-expectError "Campo inv·lido: offset" findProfileByLogin match=maria order=asc offset=rew maxentries=10
-expectError "Campo inv·lido: offset" findProfileByLogin match=maria order=asc offset=-1 maxentries=10
-expectError "Campo inv·lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=
-expectError "Campo inv·lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=""
-expectError "Campo inv·lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=-1
-expectError "Campo inv·lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=sdf
+expectError "Campo inv√°lido: match" findProfileByLogin match= order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: match" findProfileByLogin match="" order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByLogin match=maria order= offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByLogin match=maria order="" offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByLogin match=maria order=wer offset=10 maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByLogin match=maria order=asc offset= maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByLogin match=maria order=asc offset="" maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByLogin match=maria order=asc offset=rew maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByLogin match=maria order=asc offset=-1 maxentries=10
+expectError "Campo inv√°lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=
+expectError "Campo inv√°lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=""
+expectError "Campo inv√°lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=-1
+expectError "Campo inv√°lido: maxentries" findProfileByLogin match=maria order=asc offset=5 maxentries=sdf
 
 
 
 expect "[joaotapioca5]" findProfileByLogin match=joao order=asc offset=0 maxentries=1
 expect "[joaotapioca4]" findProfileByLogin match=joao order=desc offset=0 maxentries=1
 
-#O email informado deve estar no formato v·lido
-expectError "Campo inv·lido: match" findProfileByEmail match= 
-expectError "Campo inv·lido: match" findProfileByEmail match="" 
-expectError "Campo inv·lido: match" findProfileByEmail match=maria
-expectError "Campo inv·lido: match" findProfileByEmail match=maria@@
+#O email informado deve estar no formato v√°lido
+expectError "Campo inv√°lido: match" findProfileByEmail match= 
+expectError "Campo inv√°lido: match" findProfileByEmail match="" 
+expectError "Campo inv√°lido: match" findProfileByEmail match=maria
+expectError "Campo inv√°lido: match" findProfileByEmail match=maria@@
 
 expect "" findProfileByEmail match="qualquercoisa@teste.com"
 expect joaotapioca4 findProfileByEmail match="joao4@hotmail.com"
 
-#A busca por data ir· incluir o inÌcio e fim
-expectError "Campo inv·lido: from" findProfileByDateInterval from= to=01/01/1990 order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: from" findProfileByDateInterval from="" to=01/01/1990 order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: from" findProfileByDateInterval from=32f to=01/01/1990 order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: to" findProfileByDateInterval from=01/01/1980 to= order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: to" findProfileByDateInterval from=01/01/1980 to="" order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: to" findProfileByDateInterval from=01/01/1980 to=fsdf order=asc offset=10 maxentries=10
+#A busca por data ir√° incluir o in√≠cio e fim
+expectError "Campo inv√°lido: from" findProfileByDateInterval from= to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: from" findProfileByDateInterval from="" to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: from" findProfileByDateInterval from=32f to=01/01/1990 order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: to" findProfileByDateInterval from=01/01/1980 to= order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: to" findProfileByDateInterval from=01/01/1980 to="" order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: to" findProfileByDateInterval from=01/01/1980 to=fsdf order=asc offset=10 maxentries=10
 
-#ValidaÁ„o de data: a data de inÌcio n„o pode ser posterior a data de fim
-expectError "Campo inv·lido: intervalo inconsistente" findProfileByDateInterval from=01/01/1990 to=01/01/1980 order=asc offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order= offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order="" offset=10 maxentries=10
-expectError "Campo inv·lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=wer offset=10 maxentries=10
-expectError "Campo inv·lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset= maxentries=10
-expectError "Campo inv·lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset="" maxentries=10
-expectError "Campo inv·lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=rew maxentries=10
-expectError "Campo inv·lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=-1 maxentries=10
-expectError "Campo inv·lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=
-expectError "Campo inv·lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=""
-expectError "Campo inv·lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=-1
-expectError "Campo inv·lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=sdf
+#Valida√ß√£o de data: a data de in√≠cio n√£o pode ser posterior a data de fim
+expectError "Campo inv√°lido: intervalo inconsistente" findProfileByDateInterval from=01/01/1990 to=01/01/1980 order=asc offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order= offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order="" offset=10 maxentries=10
+expectError "Campo inv√°lido: order" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=wer offset=10 maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset= maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset="" maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=rew maxentries=10
+expectError "Campo inv√°lido: offset" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=-1 maxentries=10
+expectError "Campo inv√°lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=
+expectError "Campo inv√°lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=""
+expectError "Campo inv√°lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=-1
+expectError "Campo inv√°lido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=sdf
 
-expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, mariarocha, mariasilva]" findProfileByDateInterval from=01/01/1980 to=01/01/1995 order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, mariarocha, mariasilva, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1995 order=asc offset=0 maxentries=10
 expect "[]" findProfileByDateInterval from=01/01/1950 to=01/01/1960 order=asc offset=0 maxentries=10
-expect "[joaotapioca5, joaotapioca, joaotapioca4, mariarocha, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1981 order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca, joaotapioca4, mariarocha, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1981 order=asc offset=0 maxentries=10
 
 
-Buscar blog por parte do tÌtulo
-Buscar blog por palavra-chave da descriÁ„o
+#Buscar blog por parte do t√≠tulo
+#Buscar blog por palavra-chave da descri√ß√£o
 
  
 
@@ -132,41 +132,42 @@ Buscar blog por palavra-chave da descriÁ„o
 
 sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
 blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
-blogId2=createBlog sessionId=${sessionId1} titulo="Meu segundo blog" descricao="Tudo que È dito em latim soa profundo" background="imagem.png" autz_comment=true autz_comment_annon=true
+blogId2=createBlog sessionId=${sessionId1} titulo="Meu segundo blog" descricao="Tudo que √© dito em latim soa profundo" background="imagem.png" autz_comment=true autz_comment_annon=true
 
 
-expectError "Campo inv·lido: match" findBlogByName match= order=asc offset=5 maxentries=10
-expectError "Campo inv·lido: match" findBlogByName match="" order=asc offset=5 maxentries=10
-expectError "Campo inv·lido: order" findBlogByName match="Blog" order= offset=5 maxentries=10
-expectError "Campo inv·lido: order" findBlogByName match="Blog" order="" offset=5 maxentries=10
-expectError "Campo inv·lido: offset" findBlogByName match="Blog" order=asc offset= maxentries=10
-expectError "Campo inv·lido: offset" findBlogByName match="Blog" order=asc offset="" maxentries=10
-expectError "Campo inv·lido: offset" findBlogByName match="Blog" order=asc offset=df maxentries=10
-expectError "Campo inv·lido: offset" findBlogByName match="Blog" order=asc offset=2df maxentries=10
-expectError "Campo inv·lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=
-expectError "Campo inv·lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=""
-expectError "Campo inv·lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=sdf
-expectError "Campo inv·lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=123ds
+expectError "Campo inv√°lido: match" findBlogByName match= order=asc offset=5 maxentries=10
+expectError "Campo inv√°lido: match" findBlogByName match="" order=asc offset=5 maxentries=10
+expectError "Campo inv√°lido: order" findBlogByName match="Blog" order= offset=5 maxentries=10
+expectError "Campo inv√°lido: order" findBlogByName match="Blog" order="" offset=5 maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByName match="Blog" order=asc offset= maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByName match="Blog" order=asc offset="" maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByName match="Blog" order=asc offset=df maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByName match="Blog" order=asc offset=2df maxentries=10
+expectError "Campo inv√°lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=
+expectError "Campo inv√°lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=""
+expectError "Campo inv√°lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=sdf
+expectError "Campo inv√°lido: maxentries" findBlogByName match="Blog" order=asc offset=0 maxentries=123ds
 
-expect [${blogId1}, ${blogId2}] findBlogByName match="blog" order=asc offset=0 maxentries=10
+# A linha abaixo √© um artificio para possibilitar o seguinte teste [${blogId1}, ${blogId2}]
+expect "["${blogId1}", "${blogId2}"]" findBlogByName match="blog" order=asc offset=0 maxentries=10
 expect [${blogId1}] findBlogByName match="Meu primeiro blog" order=asc offset=0 maxentries=10
 
 
-expectError "Campo inv·lido: match" findBlogByDescription match= order=asc offset=5 maxentries=10
-expectError "Campo inv·lido: match" findBlogByDescription match="" order=asc offset=5 maxentries=10
-expectError "Campo inv·lido: order" findBlogByDescription match="Blog" order= offset=5 maxentries=10
-expectError "Campo inv·lido: order" findBlogByDescription match="Blog" order="" offset=5 maxentries=10
-expectError "Campo inv·lido: offset" findBlogByDescription match="Blog" order=asc offset= maxentries=10
-expectError "Campo inv·lido: offset" findBlogByDescription match="Blog" order=asc offset="" maxentries=10
-expectError "Campo inv·lido: offset" findBlogByDescription match="Blog" order=asc offset=df maxentries=10
-expectError "Campo inv·lido: offset" findBlogByDescription match="Blog" order=asc offset=2df maxentries=10
-expectError "Campo inv·lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=
-expectError "Campo inv·lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=""
-expectError "Campo inv·lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=sdf
-expectError "Campo inv·lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=123ds
+expectError "Campo inv√°lido: match" findBlogByDescription match= order=asc offset=5 maxentries=10
+expectError "Campo inv√°lido: match" findBlogByDescription match="" order=asc offset=5 maxentries=10
+expectError "Campo inv√°lido: order" findBlogByDescription match="Blog" order= offset=5 maxentries=10
+expectError "Campo inv√°lido: order" findBlogByDescription match="Blog" order="" offset=5 maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByDescription match="Blog" order=asc offset= maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByDescription match="Blog" order=asc offset="" maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByDescription match="Blog" order=asc offset=df maxentries=10
+expectError "Campo inv√°lido: offset" findBlogByDescription match="Blog" order=asc offset=2df maxentries=10
+expectError "Campo inv√°lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=
+expectError "Campo inv√°lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=""
+expectError "Campo inv√°lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=sdf
+expectError "Campo inv√°lido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=123ds
 
 expect [${blogId1}] findBlogByName match="Quidquid latine" order=asc offset=0 maxentries=10
-expect [${blogId2}] findBlogByName match="latim" order=asc offset=0 maxentries=10
+expect [${blogId2}] findBlogByDescription match="latim" order=asc offset=0 maxentries=10
 
 
 

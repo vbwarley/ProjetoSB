@@ -49,7 +49,7 @@ public class TestJDBCDAOComentario {
 		usuario.setLogin("doug42");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -126,7 +126,7 @@ public class TestJDBCDAOComentario {
 		usuario.setLogin("doug4");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -203,7 +203,7 @@ public class TestJDBCDAOComentario {
 		usuario.setLogin("doug44");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -286,7 +286,7 @@ public class TestJDBCDAOComentario {
 		usuario.setLogin("doug45");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -366,7 +366,7 @@ public class TestJDBCDAOComentario {
 		usuario.setLogin("doug50");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");

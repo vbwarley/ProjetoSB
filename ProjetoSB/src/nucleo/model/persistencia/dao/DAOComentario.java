@@ -1,6 +1,10 @@
 package nucleo.model.persistencia.dao;
 
-public interface DAOComentario<ComentarioComposite, Integer> extends DAO<ComentarioComposite, Integer> {
+import nucleo.model.negocios.ComentarioComposite;
+
+public interface DAOComentario extends DAO<ComentarioComposite, Integer> {
+
+	Integer getMaxId();
 
 
 }

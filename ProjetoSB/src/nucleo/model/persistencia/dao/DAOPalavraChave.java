@@ -1,5 +1,7 @@
 package nucleo.model.persistencia.dao;
 
-public interface DAOPalavraChave<PalavraChave, Integer> extends DAO<PalavraChave, Integer> {
+import nucleo.model.negocios.PalavraChave;
+
+public interface DAOPalavraChave extends DAO<PalavraChave, Integer> {
 
 }

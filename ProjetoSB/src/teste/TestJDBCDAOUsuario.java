@@ -43,7 +43,7 @@ public class TestJDBCDAOUsuario {
 		usuarioCriador.setLogin("warley criador");
 		usuarioCriador.setSenha("9010");
 		usuarioCriador.setNome("Warley Vital");
-		usuarioCriador.setSexo('M');
+		usuarioCriador.setSexo("Masculino");
 		usuarioCriador.setEmail("v@gmail.com");
 		usuarioCriador.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioCriador.setEndereco("Povoado Novo Rio");
@@ -67,7 +67,7 @@ public class TestJDBCDAOUsuario {
 		usuarioAssinante.setLogin("warley assinante");
 		usuarioAssinante.setSenha("9010");
 		usuarioAssinante.setNome("Warley Vital");
-		usuarioAssinante.setSexo('M');
+		usuarioAssinante.setSexo("Masculino");
 		usuarioAssinante.setEmail("v@gmail.com");
 		usuarioAssinante.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioAssinante.setEndereco("Povoado Novo Rio");
@@ -87,7 +87,7 @@ public class TestJDBCDAOUsuario {
 		usuarioAssinante2.setLogin("warley assinant 2");
 		usuarioAssinante2.setSenha("9010");
 		usuarioAssinante2.setNome("Warley Vital");
-		usuarioAssinante2.setSexo('M');
+		usuarioAssinante2.setSexo("Masculino");
 		usuarioAssinante2.setEmail("v@gmail.com");
 		usuarioAssinante2.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioAssinante2.setEndereco("Povoado Novo Rio");
@@ -129,7 +129,7 @@ public class TestJDBCDAOUsuario {
 		usuario.setLogin("vbwarley2");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -158,7 +158,7 @@ public class TestJDBCDAOUsuario {
 		usuarioCriador1.setLogin("warley criador 1");
 		usuarioCriador1.setSenha("9010");
 		usuarioCriador1.setNome("Warley Vital");
-		usuarioCriador1.setSexo('M');
+		usuarioCriador1.setSexo("Masculino");
 		usuarioCriador1.setEmail("v@gmail.com");
 		usuarioCriador1.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioCriador1.setEndereco("Povoado Novo Rio");
@@ -182,7 +182,7 @@ public class TestJDBCDAOUsuario {
 		usuarioCriador2.setLogin("warley criador 2");
 		usuarioCriador2.setSenha("9010");
 		usuarioCriador2.setNome("Warley Vital");
-		usuarioCriador2.setSexo('M');
+		usuarioCriador2.setSexo("Masculino");
 		usuarioCriador2.setEmail("v@gmail.com");
 		usuarioCriador2.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioCriador2.setEndereco("Povoado Novo Rio");
@@ -206,7 +206,7 @@ public class TestJDBCDAOUsuario {
 		usuarioAssinante.setLogin("assinante vip");
 		usuarioAssinante.setSenha("9010");
 		usuarioAssinante.setNome("Warley Vital");
-		usuarioAssinante.setSexo('M');
+		usuarioAssinante.setSexo("Masculino");
 		usuarioAssinante.setEmail("v@gmail.com");
 		usuarioAssinante.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuarioAssinante.setEndereco("Povoado Novo Rio");
@@ -242,7 +242,7 @@ public class TestJDBCDAOUsuario {
 		usuario.setLogin("vbwarley4");
 		usuario.setSenha("9010");
 		usuario.setNome("Warley Vital");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("v@gmail.com");
 		usuario.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario.setEndereco("Povoado Novo Rio");
@@ -277,7 +277,7 @@ public class TestJDBCDAOUsuario {
 		usuario1.setLogin("Ciclano criador");
 		usuario1.setSenha("2210");
 		usuario1.setNome("Babao");
-		usuario1.setSexo('M');
+		usuario1.setSexo("Masculino");
 		usuario1.setEmail("babb@gmail.com");
 		usuario1.setDataNascimento(Date.valueOf("2013-01-14"));
 		usuario1.setEndereco("Povoado Velho Rio");
@@ -302,7 +302,7 @@ public class TestJDBCDAOUsuario {
 		usuario2.setLogin("Fulano");
 		usuario2.setSenha("9010");
 		usuario2.setNome("Viral");
-		usuario2.setSexo('F');
+		usuario2.setSexo("Feminino");
 		usuario2.setEmail("fica@gmail.com");
 		usuario2.setDataNascimento(Date.valueOf("2014-04-14"));
 		usuario2.setEndereco("Povoado Rio ALi");
@@ -318,7 +318,7 @@ public class TestJDBCDAOUsuario {
 		usuario3.setLogin("Coxalano 3");
 		usuario3.setSenha("91010");
 		usuario3.setNome("Virsacal");
-		usuario3.setSexo('M');
+		usuario3.setSexo("Masculino");
 		usuario3.setEmail("MAMA@gmail.com");
 		usuario3.setDataNascimento(Date.valueOf("2114-04-14"));
 		usuario3.setEndereco("ALi");
@@ -334,7 +334,7 @@ public class TestJDBCDAOUsuario {
 		usuario4.setLogin("Plano");
 		usuario4.setSenha("9110");
 		usuario4.setNome("Viralata");
-		usuario4.setSexo('F');
+		usuario4.setSexo("Feminino");
 		usuario4.setEmail("fic@gmail.com");
 		usuario4.setDataNascimento(Date.valueOf("2014-01-14"));
 		usuario4.setEndereco("Cai");

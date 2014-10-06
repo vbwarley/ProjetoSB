@@ -14,7 +14,7 @@ import nucleo.model.persistencia.dao.DAOPalavraChave;
  * @author Warley Vital
  */
 public class JDBCDAOPalavraChave extends JDBCDAO implements
-		DAOPalavraChave<PalavraChave, Integer> {
+		DAOPalavraChave {
 
 	/**
 	 * Método construtor da classe JDBCDAOPalavraChave

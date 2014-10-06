@@ -1,11 +1,5 @@
 package nucleo.model.persistencia.factory;
 
-import nucleo.model.negocios.Blog;
-import nucleo.model.negocios.ComentarioComposite;
-import nucleo.model.negocios.Midia;
-import nucleo.model.negocios.PalavraChave;
-import nucleo.model.negocios.Postagem;
-import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
@@ -29,42 +23,42 @@ public abstract class DAOFactory {
 	 * 
 	 * @return
 	 */
-	public abstract DAOUsuario<Usuario, String> getDAOUsuario();
+	public abstract DAOUsuario getDAOUsuario();
 
 	/**
 	 * Método que retorna uma instância de DAOBlog.
 	 *
 	 * @return
 	 */
-	public abstract DAOBlog<Blog, Integer> getDAOBlog();
+	public abstract DAOBlog getDAOBlog();
 	
 	/**
 	 * Método que retorna uma instância de DAOPostagem.
 	 * 
 	 * @return
 	 */
-	public abstract DAOPostagem<Postagem, Integer> getDAOPostagem();
+	public abstract DAOPostagem getDAOPostagem();
 	
 	/**
 	 * Método que retorna uma instância de DAOMidia.
 	 * 
 	 * @return
 	 */
-	public abstract DAOMidia<Midia, Integer> getDAOMidia();
+	public abstract DAOMidia getDAOMidia();
 	
 	/**
 	 * Método que retorna uma instância de DAOPalavraChave.
 	 * 
 	 * @return
 	 */
-	public abstract DAOPalavraChave<PalavraChave, Integer> getDAOPalavraChave();
+	public abstract DAOPalavraChave getDAOPalavraChave();
 	
 	/**
 	 * Método que retorna uma instância de DAOComentario.
 	 * 
 	 * @return
 	 */
-	public abstract DAOComentario<ComentarioComposite, Integer> getDAOComentario();
+	public abstract DAOComentario getDAOComentario();
 	
 	/**
 	 * Método que retorna uma instância de DAOFactory, onde conterá a referência de sua classe filha, JDBCDAOFactory.

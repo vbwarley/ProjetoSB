@@ -4,9 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
 
 
@@ -14,7 +17,7 @@ import nucleo.model.persistencia.dao.DAOBlog;
  * Classe para criacao de Blogs
  * @author Raiane
  */
-public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
+public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 	
 	/**
@@ -154,6 +157,92 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 	}
 
+	public List<Blog> consultarPorNome(String titulo, String order, int limit) {
+		abrirConexao();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM blog WHERE Ucase(titulo) LIKE Ucase('%"
+				+ titulo + "%') ORDER BY titulo " + order + " LIMIT ?";
+
+		ArrayList<Blog> resultado = new ArrayList<Blog>();
+		Blog b = null;
+
+		try {
+			stmt = getConnection().prepareStatement(sql);
+			stmt.setInt(1, limit);
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+
+				b = new Blog();
+
+				b.setCodigo(rs.getInt(1));
+				b.setTitulo(rs.getString(2));
+				b.setDescricao(rs.getString(3));
+				b.setImagemFundo(rs.getString(4));
+				b.setAutorizaComentario(rs.getBoolean(5));
+				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				
+				resultado.add(b);
+			}
+
+			stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			fecharConexao();
+		}
+
+		return resultado;
+	}
+	
+	public List<Blog> consultarPorDescricao(String descricao, String order, int limit) {
+		abrirConexao();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT * FROM blog WHERE Ucase(descricao) LIKE Ucase('%"
+				+ descricao + "%') ORDER BY descricao " + order + " LIMIT ?";
+
+		ArrayList<Blog> resultado = new ArrayList<Blog>();
+		Blog b = null;
+
+		try {
+			stmt = getConnection().prepareStatement(sql);
+			stmt.setInt(1, limit);
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+
+				b = new Blog();
+
+				b.setCodigo(rs.getInt(1));
+				b.setTitulo(rs.getString(2));
+				b.setDescricao(rs.getString(3));
+				b.setImagemFundo(rs.getString(4));
+				b.setAutorizaComentario(rs.getBoolean(5));
+				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				
+				resultado.add(b);
+			}
+
+			stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			fecharConexao();
+		}
+
+		return resultado;
+	}
+	
 	/* (non-Javadoc)
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
@@ -195,5 +284,94 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog<Blog, Integer> {
 
 		return bu;
 	}
+
+	public Integer getMaxId() {
+        abrirConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT MAX(codigo) FROM blog";
+        int id = 0;
+
+        try {
+            stmt = getConnection().prepareStatement(sql);
+
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            fecharConexao();
+        }
+
+        return id;
+    }
+
+	public Set<Blog> getBlogsPorUsuario(Usuario usuario) {
+        abrirConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT * FROM blog WHERE login=?";
+
+        Set<Blog> blogs = null;
+
+        try {
+            blogs = new HashSet<Blog>();
+
+            stmt = getConnection().prepareStatement(sql);
+            stmt.setString(1, usuario.getLogin());
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Blog blog = new Blog();
+                
+                blog.setCodigo(rs.getInt(1));
+                blog.setTitulo(rs.getString(2));
+                blog.setDescricao(rs.getString(3));
+                blog.setImagemFundo(rs.getString(4));
+                blog.setAutorizaComentario(rs.getBoolean(5));
+                blog.setAutorizaComentarioAnonimo(rs.getBoolean(6));
+                blog.setUsuario(usuario);
+                
+                blogs.add(blog);
+            }
+            
+            stmt.close();
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao();
+        }
+
+        return blogs;
+
+    }
+	
+	@Override
+    public void removerAssinante(Blog blog, Usuario usuario) {
+        abrirConexao();
+        PreparedStatement stm = null;
+
+        String sql = "DELETE FROM assinatura WHERE codBlog = ? AND login = ?";
+
+        try {
+            stm = getConnection().prepareStatement(sql);
+            stm.setInt(1, blog.getCodigo());
+            stm.setString(2, usuario.getLogin());
+
+            System.out.println(sql);
+
+            stm.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        } finally {
+            fecharConexao();
+        }
+    }
 
 }

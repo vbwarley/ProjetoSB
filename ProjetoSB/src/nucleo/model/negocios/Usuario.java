@@ -1,8 +1,11 @@
 package nucleo.model.negocios;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 /**
  * Esta classe descreve os atributos e ações de um usuário.
@@ -23,12 +26,13 @@ public class Usuario implements Observer {
 	private String filmes;
 	private String musicas;
 	private String livros;
+	private Set<Blog> blogsPossuidos;
 
 	/**
 	 * Construtor da classe.
 	 */
 	public Usuario() {
-
+		this.blogsPossuidos = new HashSet<Blog>();
 	}
 
 	/**
@@ -331,6 +335,10 @@ public class Usuario implements Observer {
 			return true;
 		}
 		return false;
+	}
+
+	public Set<Blog> getBlogsPossuidos() {
+		return blogsPossuidos;
 	}
 
 }

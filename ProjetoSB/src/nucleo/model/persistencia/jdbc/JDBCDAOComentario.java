@@ -17,7 +17,7 @@ import nucleo.model.persistencia.dao.DAOComentario;
  * @author Douglas
  */
 public class JDBCDAOComentario extends JDBCDAO implements
-		DAOComentario<ComentarioComposite, Integer> {
+		DAOComentario {
 
 	/**
 	 * Método construtor da classe JDBCDAOComentario
@@ -41,13 +41,16 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
-			stmt.setString(3, objeto.getTipo());
+			stmt.setString(3, objeto.getClass().getSimpleName());
 			if (objeto.getComentarioPai() == null)
 				stmt.setNull(4, Types.NULL);
 			else
 				stmt.setInt(4, objeto.getComentarioPai().getCodigo());
 			stmt.setInt(5, objeto.getPostagem().getCodigo());
-			stmt.setString(6, objeto.getUsuario().getLogin());
+			if (objeto.getUsuario() == null)
+				stmt.setNull(6, Types.NULL);
+			else
+				stmt.setString(6, objeto.getUsuario().getLogin());
 
 			stmt.execute();
 
@@ -151,7 +154,7 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
-			stmt.setString(3, objeto.getTipo());
+			stmt.setString(3, objeto.getClass().getSimpleName());
 			if (objeto.getComentarioPai() == null)
 				stmt.setNull(4, Types.NULL);
 			else
@@ -264,4 +267,28 @@ public class JDBCDAOComentario extends JDBCDAO implements
 		}
 		return listC;
 	}
+	
+	@Override
+    public Integer getMaxId() {
+		abrirConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT MAX(codigo) FROM comentario";
+
+        try {
+            stmt = getConnection().prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) 
+               return rs.getInt(1);
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            fecharConexao();
+        }
+
+        return null;
+    }
 }

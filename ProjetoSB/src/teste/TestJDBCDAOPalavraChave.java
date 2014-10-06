@@ -52,7 +52,7 @@ public class TestJDBCDAOPalavraChave {
 		usuario.setLogin("UP1");
 		usuario.setSenha("11211");
 		usuario.setNome("Zéfa das dores");
-		usuario.setSexo('F');
+		usuario.setSexo("Feminino");
 		usuario.setEmail("ze@example.com");
 		usuario.setDataNascimento(Date.valueOf("2000-10-19"));
 		usuario.setEndereco("RIO");
@@ -112,7 +112,7 @@ public class TestJDBCDAOPalavraChave {
 		usuario.setLogin("UP2");
 		usuario.setSenha("112211");
 		usuario.setNome("Franscisaca das dores");
-		usuario.setSexo('F');
+		usuario.setSexo("Feminino");
 		usuario.setEmail("fran@example.com");
 		usuario.setDataNascimento(Date.valueOf("2001-10-19"));
 		usuario.setEndereco("RIOS");

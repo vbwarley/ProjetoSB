@@ -144,4 +144,29 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 		}
 		return listaA;
 	}
+
+	@Override
+	public Integer getMaxId() {
+		abrirConexao();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		String sql = "SELECT MAX(codigo) FROM assinatura";
+		int id = 0;
+
+		try {
+			stmt = getConnection().prepareStatement(sql);
+
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			fecharConexao();
+		}
+
+		return id;
+	}
 }
