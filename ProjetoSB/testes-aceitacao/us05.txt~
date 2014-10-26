@@ -1,0 +1,72 @@
+################################################################################################
+#User Story-- Editar informações do blog
+#Permite a edição de informações do Blog:
+#*Titulo do blog
+#*Descrição do Bloco
+#
+#Restrições
+#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+#   
+#    -Campos obrigatórios:
+#        *Titulo do blog; 
+#	 * background
+###############################################################################################
+
+#Limpa quaisquer dados pre-existentes
+resetDatabase
+
+createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+#Efetua login do usuário
+sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
+
+sessionId2=doLogin login=mariarocha senha=senhagrande
+
+blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
+
+blogDesc1=getBlogInformation id=${blogId1} atributo=descricao
+
+#Validação: verifica se o id do blog é existente
+expectError "Blog inválido" changeBlogInformation sessionId=${sessionId1} id=XXX atributo=titulo valor="blog"
+
+#Validação: verifica se o id de sessão é válido. Apenas o proprietário pode alterar informações do blog
+expectError "Sessão inválida" changeBlogInformation sessionId=YYY id=${blogId1} atributo=titulo valor="blog"
+expectError "Sessão inválida" changeBlogInformation sessionId=${sessionId2} id=${blogId1} atributo=titulo valor="blog"
+
+#Validação: Você deve especificar um atributo a ser alterado
+expectError "Atributo inválido" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo="" valor=blogao
+expectError "Atributo inválido" changeBlogInformation sessionId=${sessionId1} id=${blogId1}  atributo= valor=blogao
+expectError "Atributo inválido" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=XXX valor=blogao
+
+#Validação: Você deve especificar um título para o blog
+expectError "Campo inválido: título" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=titulo valor=""
+expectError "Campo inválido: título" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=titulo valor=
+expectError "Campo inválido: título" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=titulo valor=" "
+
+#Validação: o background deve ser informado
+expectError "Campo inválido: background" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=background valor=
+expectError "Campo inválido: background" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=background valor=""
+expectError "Campo inválido: background" changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=background valor=" "
+
+
+
+changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=descricao valor="Qualquer coisa dita em latim soa profundo"
+blogDesc2=getBlogInformation id=${blogId1} atributo=descricao
+expectDifferent ${blogDesc1} echo ${blogDesc2}
+
+blogAuthz1=getBlogInformation id=${blogId1} atributo=autz_comment
+changeBlogInformation sessionId=${sessionId1} id=${blogId1} atributo=autz_comment valor=false
+blogAuthz2=getBlogInformation id=${blogId1} atributo=autz_comment
+blogAuthz3=getBlogInformation id=${blogId1} atributo=autz_comment_annon
+expectDifferent ${blogAuthz1} echo ${blogAuthz2}
+
+#Ao desabilitar os comentarios, automaticamente deve-se desabilitar o comentário anonimo
+expectDifferent ${blogAuthz1} echo ${blogAuthz3}
+
+#Desloga usuário
+logoff sessionId=${sessionId1}
+logoff sessionId=${sessionId2}
+
+

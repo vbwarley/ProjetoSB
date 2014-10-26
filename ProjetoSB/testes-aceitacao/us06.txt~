@@ -1,0 +1,121 @@
+#User Story-- Criar postagem 
+#
+#Cadastra uma nova postagem. Cada nova postagem deve possuir uma data de criação gerada pelo servidor. Ao inserir uma nova entrada, deve-se #fornecer as seguintes informações:
+#*Título do post
+#*Texto
+#*Áudios
+#*Vídeos
+#*Imagens
+#*data_de_criacao -- este campo não deve ser passado pelo usuário mas sim gerado automaticamente pela API
+#Restrições
+#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+#   
+#    -Campos obrigatórios:
+#        *Título do post
+#        
+
+
+#Limpa quaisquer dados pre-existentes
+resetDatabase
+
+createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+#Efetua login do usuário
+sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
+
+sessionId2=doLogin login=mariarocha senha=senhagrande
+
+#Criação de um blog
+blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
+
+#Recupera a data de hoje, no format dd/MM/yyyy
+data1=todaysDate
+
+#Criação de um post. Inicialmente, um post será composto pelo titulo e pela parte textual. Posteriormente será possível adicionar os #recursos multimídia. 
+postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
+
+#Validação: id de sessão válido
+expectError "Sessão inválida" createPost sessionId=${sessionId2} blogId=${blogId1} titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+expectError "Sessão inválida" createPost sessionId= blogId=${blogId1} titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+expectError "Sessão inválida" createPost sessionId="" blogId=${blogId1} titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+
+#Validação: id de blog válido
+expectError "Blog inválido" createPost sessionId=${sessionId1} blogId=XXX titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+expectError "Blog inválido" createPost sessionId=${sessionId1} blogId= titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+expectError "Blog inválido" createPost sessionId=${sessionId1} blogId="" titulo="Meu segundo post" texto="Sobre esse primeiro post, iremos falar sobre..."
+
+#Validação: titulo do post obrigatório
+expectError "Título obrigatório" createPost sessionId=${sessionId1} blogId=${blogId1} titulo="" texto="Sobre esse primeiro post, iremos falar sobre..."
+expectError "Título obrigatório" createPost sessionId=${sessionId1} blogId=${blogId1} titulo= texto="Sobre esse primeiro post, iremos falar sobre..."
+
+#Adiciona um áudio a um determinado post. Neste campo deve ser passado o nome do arquivo de audio a ser armazenado. A interface web devera garantir a unicidade dos arquivos de audio
+audioId1=attachSound sessionId=${sessionId1} postId=${postId1} descricao="Meu primeiro audio" dado="audio1.ogg"
+audioId2=attachSound sessionId=${sessionId1} postId=${postId1} descricao= dado="audio2.ogg"
+audioId3=attachSound sessionId=${sessionId1} postId=${postId1} descricao="" dado="audio3.ogg"
+
+#Validação: dado vazio
+expectError "Campo inválido: arquivo de audio" attachSound sessionId=${sessionId1} postId=${postId1} descricao="" dado=""
+expectError "Campo inválido: arquivo de audio" attachSound sessionId=${sessionId1} postId=${postId1} descricao="" dado=
+
+#Adiciona videos ao post.
+videoId1=attachMovie sessionId=${sessionId1} postId=${postId1} descricao="Meu primeiro video" dado="video1.avi"
+videoId2=attachMovie sessionId=${sessionId1} postId=${postId1} descricao= dado="video2.avi"
+videoId3=attachMovie sessionId=${sessionId1} postId=${postId1} descricao="" dado="video3.avi"
+
+#Validação: dado vazio
+expectError "Campo inválido: arquivo de vídeo" attachMovie sessionId=${sessionId1} postId=${postId1} descricao="" dado=""
+expectError "Campo inválido: arquivo de vídeo" attachMovie sessionId=${sessionId1} postId=${postId1} descricao="" dado=
+
+#Adiciona imagens ao post
+imagemId1=attachPicture sessionId=${sessionId1} postId=${postId1} descricao="Minha primeira imagem" dado="imagem1.png"
+imagemId2=attachPicture sessionId=${sessionId1} postId=${postId1} descricao= dado="imagem2.png"
+imagemId3=attachPicture sessionId=${sessionId1} postId=${postId1} descricao="" dado="imagem3.png"
+
+#Validação: dado vazio
+expectError "Dado inválido" attachPicture sessionId=${sessionId1} postId=${postId1} descricao="" dado=""
+expectError "Dado inválido" attachPicture sessionId=${sessionId1} postId=${postId1} descricao="" dado=
+
+#Recupera informacoes do post
+expect "Meu primeiro post" getPostInformation id=${postId1} atributo=titulo
+expect "Sobre esse primeiro post, iremos falar sobre..." getPostInformation id=${postId1} atributo=texto
+data2=getPostInformation id=${postId1} atributo=data_criacao
+
+expect ${data1} echo ${data2}
+
+#Recupera numero de recursos multimidia
+expect 3 getNumberOfSounds id=${postId1}
+expect 3 getNumberOfMovies id=${postId1}
+expect 3 getNumberOfPictures id=${postId1}
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpAudio1=getSound id=${postId1} index=0
+
+expect ${tmpAudio1} echo ${audioId1}
+
+expect "Meu primeiro audio" getSoundDescription audioId=${tmpAudio1} 
+expect "audio1.ogg" getSoundData audioId=${tmpAudio1} 
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpVideo1=getMovie id=${postId1} index=0
+
+expect ${tmpVideo1} echo ${videoId1}
+
+expect "Meu primeiro video" getMovieDescription videoId=${tmpVideo1} 
+expect "video1.avi" getMovieData videoId=${tmpVideo1} 
+
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpImagem1=getPicture id=${postId1} index=0
+
+expect ${tmpImagem1} echo ${imagemId1}
+
+expect "Minha primeira imagem" getPictureDescription imagemId=${tmpImagem1} 
+expect "imagem1.png" getPictureData imagemId=${tmpImagem1} 
+
+#Desloga usuarios
+logoff sessionId=${sessionId1}
+logoff sessionId=${sessionId2}
+
+

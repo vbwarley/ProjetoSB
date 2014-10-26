@@ -1,0 +1,149 @@
+#User Story-- Editar postagem 
+#
+#
+#Permite a edição de um post existente. os seguintes campos podem ser alterados:
+#*Título do post
+#*Texto
+#*Áudio
+#*Vídeo
+#*Imagem
+#
+#No caso dos recursos multimídia, o cliente deve ser capaz de definir se deseja manter os dados existentes no servidor, ou se serão deletados.
+#Restrições:
+#    -O usuário deve estar logado no sistema (Fornecimento de um id de sessão válido)
+#   
+#    -Campos não-nulo:
+#        *Título do post    
+
+
+#Limpa quaisquer dados pre-existentes
+resetDatabase
+
+createProfile login=mariasilva senha=qwe2axdcq2 nome_exibicao="Maria Silva" email=maria@gmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+createProfile login=mariarocha senha=senhagrande nome_exibicao="M. Rocha" email=maria2@hotmail.com sexo=Feminino data_nasc=01/01/1980 endereco="Rua das cocadas" interesses="ping pong" quem_sou_eu="E... boa pergunta!" filmes="e o vento levou" musicas=MPB livros="poeira em alto mar"
+
+#Efetua login do usuário
+sessionId1=doLogin login=mariasilva senha=qwe2axdcq2
+
+sessionId2=doLogin login=mariarocha senha=senhagrande
+
+#Criação de um blog
+blogId1=createBlog sessionId=${sessionId1} titulo="Meu primeiro blog" descricao="Quidquid latine dictum sit, altum viditur" background="imagem.png" autz_comment=true autz_comment_annon=true
+postId1=createPost sessionId=${sessionId1} blogId=${blogId1} titulo="Meu primeiro post" texto="Sobre esse primeiro post, iremos falar sobre..."
+
+#Adiciona um áudio a um determinado post. Neste campo deve ser passado o nome do arquivo de audio a ser armazenado. A interface web devera garantir a unicidade dos arquivos de audio
+audioId1=attachSound sessionId=${sessionId1} postId=${postId1} descricao="Meu primeiro audio" dado="audio1.ogg"
+audioId2=attachSound sessionId=${sessionId1} postId=${postId1} descricao= dado="audio2.ogg"
+audioId3=attachSound sessionId=${sessionId1} postId=${postId1} descricao="" dado="audio3.ogg"
+
+#Adiciona videos ao post.
+videoId1=attachMovie sessionId=${sessionId1} postId=${postId1} descricao="Meu primeiro video" dado="video1.avi"
+videoId2=attachMovie sessionId=${sessionId1} postId=${postId1} descricao= dado="video2.avi"
+videoId3=attachMovie sessionId=${sessionId1} postId=${postId1} descricao="" dado="video3.avi"
+
+#Adiciona imagens ao post
+imagemId1=attachPicture sessionId=${sessionId1} postId=${postId1} descricao="Minha primeira imagem" dado="imagem1.png"
+imagemId2=attachPicture sessionId=${sessionId1} postId=${postId1} descricao= dado="imagem2.png"
+imagemId3=attachPicture sessionId=${sessionId1} postId=${postId1} descricao="" dado="imagem3.png"
+
+
+expect 1 getNumberOfBlogsByLogin login=mariasilva
+expect 1 getNumberOfBlogsBySessionId login=${sessionId1}
+expect 0 getNumberOfBlogsBySessionId login=${sessionId2}
+
+#Indice do blog esta no intervalo 0<=x<numBlogs
+blogId1=getBlogBySessionId id=${sessionId1} index=0
+blogId2=getBlogByLogin login=mariasilva index=0
+
+expect ${blogId1} echo ${blogId2}
+
+expect 1 getNumberOfPosts blogId=${blogId1}
+
+postId1=getPost blogId=${blogId1} index=0
+
+#o metodo changePostInformation sera responsavel por alterar apenas a parte textual de um post. 
+changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor="Meu novo titulo"
+changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=texto valor="Minha nova descricao"
+
+#validação: post inválido
+expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId=XXX atributo=texto valor="Minha nova descricao"
+expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId="" atributo=texto valor="Minha nova descricao"
+expectError "Post inválido" changePostInformation sessionId=${sessionId1} postId= atributo=texto valor="Minha nova descricao"
+
+#Validação: sessão inválida
+expectError "Sessão inválida" changePostInformation sessionId=XXX postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "Sessão inválida" changePostInformation sessionId= postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "Sessão inválida" changePostInformation sessionId="" postId=${postId1} atributo=titulo valor="Meu novo titulo"
+expectError "Sessão inválida" changePostInformation sessionId=${sessionId2} postId=${postId1} atributo=titulo valor="Meu novo titulo"
+
+#Validação: atributo inválido
+expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo= valor="Meu novo titulo"
+expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo="" valor="Meu novo titulo"
+expectError "Atributo inválido" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=XXX valor="Meu novo titulo"
+
+#Validação: Titulo nao pode ser vazio
+expectError "Título obrigatório" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=
+expectError "Título obrigatório" changePostInformation sessionId=${sessionId1} postId=${postId1} atributo=titulo valor=""
+
+#Recupera numero de recursos multimidia
+expect 3 getNumberOfSounds id=${postId1}
+expect 3 getNumberOfMovies id=${postId1}
+expect 3 getNumberOfPictures id=${postId1}
+
+#Recupera 0 primeiro video do post e o deleta
+tmpVideo1=getMovie id=${postId1} index=0
+deleteMovie sessionId=${sessionId1} id=${tmpVideo1}
+
+#Recupera primeiro video do post e o deleta
+tmpVideo1=getMovie id=${postId1} index=0
+deleteMovie sessionId=${sessionId1} id=${tmpVideo1}
+
+expect 1 getNumberOfMovies id=${postId1}
+
+#Recupera primeiro video do post e o deleta
+tmpVideo1=getMovie id=${postId1} index=0
+deleteMovie sessionId=${sessionId1} id=${tmpVideo1}
+
+expectError "Índice incorreto" getMovie id=${postId1} index=0
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpAudio1=getSound id=${postId1} index=0
+deleteSound sessionId=${sessionId1} id=${tmpAudio1}
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpAudio1=getSound id=${postId1} index=0
+deleteSound sessionId=${sessionId1} id=${tmpAudio1}
+
+expect 1 getNumberOfSounds id=${postId1}
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpAudio1=getSound id=${postId1} index=0
+deleteSound sessionId=${sessionId1} id=${tmpAudio1}
+
+expectError "Índice incorreto" getSound id=${postId1} index=0
+
+
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpImagem1=getPicture id=${postId1} index=0
+deletePicture sessionId=${sessionId1} id=${tmpImagem1}
+
+expect 2 getNumberOfPictures id=${postId1}
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpImagem1=getPicture id=${postId1} index=0
+deletePicture sessionId=${sessionId1} id=${tmpImagem1}
+
+#Indice do recurso esta no intervalo 0<=x<numRecurso
+tmpImagem1=getPicture id=${postId1} index=0
+deletePicture sessionId=${sessionId1} id=${tmpImagem1}
+
+expectError "Índice incorreto" getPicture id=${postId1} index=0
+
+#Desloga usuarios
+logoff sessionId=${sessionId1}
+logoff sessionId=${sessionId2}
+
+
+
