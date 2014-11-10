@@ -8,6 +8,7 @@ import java.util.List;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Postagem;
+import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOPostagem;
 
 /**
@@ -18,6 +19,8 @@ import nucleo.model.persistencia.dao.DAOPostagem;
  */
 public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
+	private DAOBlog daoBlog = new JDBCDAOBlog();
+	
 	/**
 	 * Método construtor da classe JDBCDAOPostagem
 	 */
@@ -91,7 +94,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
+				p.setBlog(daoBlog.consultar(rs.getInt(4)));
 				p.setData(rs.getDate(5));
 
 			}
@@ -193,7 +196,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
+				p.setBlog(daoBlog.consultar(rs.getInt(4)));
 				p.setData(rs.getDate(5));
 
 				po.add(p);

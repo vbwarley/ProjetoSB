@@ -11,6 +11,7 @@ import java.util.Set;
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
+import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
  * Classe para criacao de Blogs
@@ -19,6 +20,8 @@ import nucleo.model.persistencia.dao.DAOBlog;
  */
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
+	private DAOUsuario daoUsuario = new JDBCDAOUsuario();
+	
 	/**
 	 * Método construtor da classe JDBCDAOBlog
 	 */
@@ -95,7 +98,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 			}
 
@@ -195,7 +198,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 				resultado.add(b);
 			}
@@ -237,7 +240,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 				resultado.add(b);
 			}
@@ -282,7 +285,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 				bu.add(b);
 			}
@@ -321,6 +324,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 		return id;
 	}
 
+	@Override
 	public Set<Blog> getBlogsPorUsuario(Usuario usuario) {
 		abrirConexao();
 

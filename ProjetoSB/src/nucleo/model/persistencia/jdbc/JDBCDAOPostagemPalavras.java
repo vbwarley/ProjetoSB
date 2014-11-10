@@ -7,15 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nucleo.model.negocios.PostagemPalavra;
+import nucleo.model.persistencia.dao.DAOPalavraChave;
+import nucleo.model.persistencia.dao.DAOPostagem;
 import nucleo.model.persistencia.dao.DAOPostagemPalavra;
 
 /**
  * Classe para objetos do tipo postagem e palavra-chave.
+ * 
  * @author nathalia
  *
  */
-public class JDBCDAOPostagemPalavras extends JDBCDAO implements
-		DAOPostagemPalavra {
+public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalavra {
+
+	private DAOPostagem daoPostagem = new JDBCDAOPostagem();
+	private DAOPalavraChave daoPalavraChave = new JDBCDAOPalavraChave();
 
 	/**
 	 * Construtor da classe.
@@ -24,7 +29,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
@@ -33,7 +40,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		String insetSql = "INSERT INTO postagem_palavras VALUES (?,?)";
 
 		PreparedStatement stmt = null;
-		
+
 		try {
 			stmt = getConnection().prepareStatement(insetSql);
 			stmt.setInt(1, objeto.getPostagem().getCodigo());
@@ -47,7 +54,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
 	@Override
@@ -58,10 +67,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			stmt = getConnection()
-					.prepareStatement(selectSql);
+			stmt = getConnection().prepareStatement(selectSql);
 			stmt.setInt(1, id.getPostagem().getCodigo());
 			stmt.setInt(2, id.getPalavraChave().getCodigo());
 
@@ -69,9 +77,8 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 
 			if (rs.next()) {
 				pp = new PostagemPalavra();
-				pp.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt(1)));
-				pp.setPalavraChave(new JDBCDAOPalavraChave().consultar(rs
-						.getInt(2)));
+				pp.setPostagem(daoPostagem.consultar(rs.getInt(1)));
+				pp.setPalavraChave(daoPalavraChave.consultar(rs.getInt(2)));
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -81,7 +88,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		return pp;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
@@ -89,7 +98,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		throw new RuntimeException();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
@@ -98,10 +109,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		String updateSql = "DELETE FROM postagem_palavras WHERE codPostagem=? AND codPalavra=?";
 
 		PreparedStatement stmt = null;
-		
+
 		try {
-			stmt = getConnection()
-					.prepareStatement(updateSql);
+			stmt = getConnection().prepareStatement(updateSql);
 			stmt.setInt(1, objeto.getPostagem().getCodigo());
 			stmt.setInt(2, objeto.getPalavraChave().getCodigo());
 
@@ -114,7 +124,9 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override
@@ -123,22 +135,20 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		String selectList = "SELECT * FROM postagem_palavras";
 		List<PostagemPalavra> listaPP = null;
 		PostagemPalavra pp = null;
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
 		try {
-			stmt = getConnection().prepareStatement(
-					selectList);
+			stmt = getConnection().prepareStatement(selectList);
 
 			rs = stmt.executeQuery();
 			listaPP = new ArrayList<PostagemPalavra>();
 
 			while (rs.next()) {
 				pp = new PostagemPalavra();
-				pp.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt(1)));
-				pp.setPalavraChave(new JDBCDAOPalavraChave().consultar(rs
-						.getInt(2)));
+				pp.setPostagem(daoPostagem.consultar(rs.getInt(1)));
+				pp.setPalavraChave(daoPalavraChave.consultar(rs.getInt(2)));
 
 				listaPP.add(pp);
 			}

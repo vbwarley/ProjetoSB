@@ -11,6 +11,8 @@ import nucleo.model.negocios.ComentarioAnonimo;
 import nucleo.model.negocios.ComentarioComposite;
 import nucleo.model.negocios.ComentarioNormal;
 import nucleo.model.persistencia.dao.DAOComentario;
+import nucleo.model.persistencia.dao.DAOPostagem;
+import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
  * Classe para criacao de Comentários
@@ -19,6 +21,10 @@ import nucleo.model.persistencia.dao.DAOComentario;
  */
 public class JDBCDAOComentario extends JDBCDAO implements DAOComentario {
 
+	private DAOPostagem daoPostagem = new JDBCDAOPostagem();
+	private DAOComentario daoComentario = new JDBCDAOComentario();
+	private DAOUsuario daoUsuario = new JDBCDAOUsuario();
+	
 	/**
 	 * Método construtor da classe JDBCDAOComentario
 	 */
@@ -116,11 +122,11 @@ public class JDBCDAOComentario extends JDBCDAO implements DAOComentario {
 				listC = new ArrayList<ComentarioComposite>();
 
 				while (rsCP.next())
-					listC.add(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
+					listC.add(daoComentario.consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
-				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt("codPostagem")));
-				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				comentario.setPostagem(daoPostagem.consultar(rs.getInt("codPostagem")));
+				comentario.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 			}
 
@@ -241,10 +247,10 @@ public class JDBCDAOComentario extends JDBCDAO implements DAOComentario {
 				rsCP = stmtCP.getResultSet();
 
 				while (rsCP.next())
-					comentario.addComentario(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
+					comentario.addComentario(daoComentario.consultar(rsCP.getInt("codigo")));
 
-				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt("codPostagem")));
-				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
+				comentario.setPostagem(daoPostagem.consultar(rs.getInt("codPostagem")));
+				comentario.setUsuario(daoUsuario.consultar(rs.getString("login")));
 
 				listC.add(comentario);
 			}

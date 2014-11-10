@@ -8,6 +8,8 @@ import java.util.List;
 
 import nucleo.model.negocios.Assinatura;
 import nucleo.model.persistencia.dao.DAOAssinatura;
+import nucleo.model.persistencia.dao.DAOBlog;
+import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
  * Classe para criacao de assinantes de um blog.
@@ -17,6 +19,10 @@ import nucleo.model.persistencia.dao.DAOAssinatura;
 
 public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
+	private DAOUsuario daoUsuario = new JDBCDAOUsuario();
+	private DAOBlog daoBlog = new JDBCDAOBlog();
+
+	
 	/**
 	 * Método construtor da classe JDBCDAOAssinatura
 	 */
@@ -76,8 +82,8 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 			if (rs.next()) {
 				a = new Assinatura();
-				a.setUsuario(new JDBCDAOUsuario().consultar(rs.getString(1)));
-				a.setBlog(new JDBCDAOBlog().consultar(rs.getInt(2)));
+				a.setUsuario(daoUsuario.consultar(rs.getString(1)));
+				a.setBlog(daoBlog.consultar(rs.getInt(2)));
 			}
 
 		} catch (SQLException e) {
@@ -148,8 +154,8 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 			while (rs.next()) {
 				assinatura = new Assinatura();
-				assinatura.setUsuario(new JDBCDAOUsuario().consultar(rs.getString(1)));
-				assinatura.setBlog(new JDBCDAOBlog().consultar(rs.getInt(2)));
+				assinatura.setUsuario(daoUsuario.consultar(rs.getString(1)));
+				assinatura.setBlog(daoBlog.consultar(rs.getInt(2)));
 
 				listaA.add(assinatura);
 			}

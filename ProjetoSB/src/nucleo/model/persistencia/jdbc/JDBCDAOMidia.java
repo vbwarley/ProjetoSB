@@ -11,7 +11,9 @@ import nucleo.model.negocios.Midia;
 import nucleo.model.negocios.MidiaComentario;
 import nucleo.model.negocios.MidiaPostagem;
 import nucleo.model.negocios.TipoMidia;
+import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
+import nucleo.model.persistencia.dao.DAOPostagem;
 
 /**
  * Classe para criaçãoo de uma Mídia.
@@ -21,6 +23,9 @@ import nucleo.model.persistencia.dao.DAOMidia;
 
 public class JDBCDAOMidia extends JDBCDAO implements DAOMidia {
 
+	private DAOPostagem daoPostagem = new JDBCDAOPostagem();
+	private DAOComentario daoComentario = new JDBCDAOComentario();
+	
 	/**
 	 * Método construtor da classe JDBCDAOMidia
 	 */
@@ -134,7 +139,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia {
 					mC.setCodigo(rs.getInt(1));
 					mC.setNomeArquivo(rs.getString(2));
 					mC.setTipo(TipoMidia.porId(rs.getInt(3)));
-					mC.setComentario(new JDBCDAOComentario().consultar(rs.getInt(4)));
+					mC.setComentario(daoComentario.consultar(rs.getInt(4)));
 					mC.setTipoEsp(rs.getString(6));
 					mC.setDescricaoArquivo(rs.getString(7));
 				} else {
@@ -143,7 +148,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia {
 					mP.setNomeArquivo(rs.getString(2));
 					mP.setTipo(TipoMidia.porId(rs.getInt(3)));
 
-					mP.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt(5)));
+					mP.setPostagem(daoPostagem.consultar(rs.getInt(5)));
 					mP.setTipoEsp(rs.getString(6));
 					mP.setDescricaoArquivo(rs.getString(7));
 				}
@@ -254,7 +259,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia {
 					mC.setNomeArquivo(rs.getString(2));
 					mC.setTipoEsp(rs.getString(3));
 					mC.setTipo(TipoMidia.porId(rs.getInt(4)));
-					mC.setComentario(new JDBCDAOComentario().consultar(rs.getInt(5)));
+					mC.setComentario(daoComentario.consultar(rs.getInt(5)));
 					mC.setDescricaoArquivo(rs.getString(6));
 					lm.add(mC);
 				} else {
@@ -263,7 +268,7 @@ public class JDBCDAOMidia extends JDBCDAO implements DAOMidia {
 					mP.setNomeArquivo(rs.getString(2));
 					mP.setTipo(TipoMidia.porId(rs.getInt(3)));
 
-					mP.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt(5)));
+					mP.setPostagem(daoPostagem.consultar(rs.getInt(5)));
 					mP.setTipoEsp(rs.getString(6));
 					mP.setDescricaoArquivo(rs.getString(7));
 					lm.add(mP);

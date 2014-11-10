@@ -8,6 +8,7 @@ import java.util.List;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
+import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
@@ -18,6 +19,8 @@ import nucleo.model.persistencia.dao.DAOUsuario;
  */
 public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
+	private DAOBlog daoBlog = new JDBCDAOBlog();
+	
 	/**
 	 * Construtor da classe.
 	 */
@@ -107,7 +110,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString(11));
 				u.setMusicas(rs.getString(12));
 
-				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
 			}
 
 		} catch (SQLException e) {
@@ -269,7 +272,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
@@ -319,7 +322,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
@@ -366,7 +369,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
@@ -412,7 +415,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
@@ -458,7 +461,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				Blog blog = new JDBCDAOBlog().consultar(rs.getInt(1));
+				Blog blog = daoBlog.consultar(rs.getInt(1));
 				blogs.add(blog);
 			}
 
