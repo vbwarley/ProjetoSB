@@ -53,22 +53,23 @@ public class Facade {
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	public static void main(String[] args) {
-		args = new String[] { "fachada.Facade", "testes-aceitacao/us12.txt" };
+		args = new String[] { "fachada.Facade", "testes-aceitacao/us01.txt", "testes-aceitacao/us02.txt",
+				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
+				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
+				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
+				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt",};
 		EasyAccept.main(args);
 	}
 
-	public void createProfile(String login, String senha, String nome_exibicao,
-			String email, String sexo, String data_nasc, String endereco,
-			String interesses, String quem_sou_eu, String filmes,
-			String musicas, String livros) throws Exception {
+	public void createProfile(String login, String senha, String nome_exibicao, String email, String sexo,
+			String data_nasc, String endereco, String interesses, String quem_sou_eu, String filmes, String musicas,
+			String livros) throws Exception {
 
-		if (login == null || login.equals("") || login.length() < 5
-				|| login.length() > 15) {
+		if (login == null || login.equals("") || login.length() < 5 || login.length() > 15) {
 			throw new Exception("Campo inválido: login");
 		}
 
-		if (senha == null || senha.equals("") || senha.length() < 8
-				|| senha.length() > 16) {
+		if (senha == null || senha.equals("") || senha.length() < 8 || senha.length() > 16) {
 			throw new Exception("Campo inválido: senha");
 		}
 
@@ -84,9 +85,7 @@ public class Facade {
 
 		}
 
-		if (sexo == null
-				|| (!sexo.equals("Feminino") && !sexo.equals("Masculino"))
-				|| sexo.equals(""))
+		if (sexo == null || (!sexo.equals("Feminino") && !sexo.equals("Masculino")) || sexo.equals(""))
 			throw new Exception("Campo inválido: sexo");
 
 		Calendar data = Calendar.getInstance();
@@ -98,8 +97,7 @@ public class Facade {
 			throw new Exception("Campo inválido: data de nascimento");
 		}
 
-		int idade = Calendar.getInstance().get(Calendar.YEAR)
-				- data.get(Calendar.YEAR);
+		int idade = Calendar.getInstance().get(Calendar.YEAR) - data.get(Calendar.YEAR);
 
 		if (idade < 18 || idade > 100) {
 			throw new Exception("Campo inválido: data de nascimento");
@@ -156,8 +154,7 @@ public class Facade {
 		}
 	}
 
-	public void changeProfileInformation(String sessionId, String atributo,
-			String valor) throws Exception {
+	public void changeProfileInformation(String sessionId, String atributo, String valor) throws Exception {
 
 		if (sessionId == null || sessionId.equals("")) {
 			throw new Exception("Sessão inválida");
@@ -169,8 +166,7 @@ public class Facade {
 			throw new Exception("Sessão inválida");
 		}
 
-		String login = GerenciadorSessao.getInstance().getLoginById(
-				Integer.parseInt(sessionId));
+		String login = GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId));
 		Usuario usuario = null;
 
 		if (GerenciadorSessao.getInstance().verificaSessaoAtiva(login)) {
@@ -179,17 +175,14 @@ public class Facade {
 			if (atributo == null)
 				throw new Exception("Atributo Inválido");
 			else if (atributo.equals("senha"))
-				if (valor == null || valor.equals("") || valor.length() < 8
-						|| valor.length() > 16)
+				if (valor == null || valor.equals("") || valor.length() < 8 || valor.length() > 16)
 					throw new Exception("Campo inválido: senha");
 				else {
 					usuario.setSenha(valor);
 					daoUsuario.alterar(usuario);
 				}
 			else if (atributo.equals("sexo"))
-				if (valor == null
-						|| (!valor.equals("Feminino") && !valor
-								.equals("Masculino")))
+				if (valor == null || (!valor.equals("Feminino") && !valor.equals("Masculino")))
 					throw new Exception("Campo inválido: sexo");
 				else {
 					usuario.setSexo(valor);
@@ -232,12 +225,9 @@ public class Facade {
 					sData.setLenient(false);
 					data.setTime(sData.parse(valor));
 
-					if (data.get(Calendar.YEAR) > Calendar.getInstance().get(
-							Calendar.YEAR)
-							|| (Calendar.getInstance().get(Calendar.YEAR) - data
-									.get(Calendar.YEAR)) > 100) {
-						throw new Exception(
-								"Campo inválido: data de nascimento");
+					if (data.get(Calendar.YEAR) > Calendar.getInstance().get(Calendar.YEAR)
+							|| (Calendar.getInstance().get(Calendar.YEAR) - data.get(Calendar.YEAR)) > 100) {
+						throw new Exception("Campo inválido: data de nascimento");
 					}
 				} catch (Exception e) {
 					throw new Exception("Campo inválido: data de nascimento");
@@ -278,8 +268,7 @@ public class Facade {
 		JDBCDAO.resetarBD();
 	}
 
-	public String getProfileInformation(String login, String atributo)
-			throws Exception {
+	public String getProfileInformation(String login, String atributo) throws Exception {
 		Usuario usuario = daoUsuario.consultar(login);
 
 		if (atributo != null) {
@@ -288,8 +277,7 @@ public class Facade {
 			else if (atributo.equals("nome_exibicao")) {
 				if (usuario.getNome() != null) {
 					return usuario.getNome();
-				} else if (usuario.getNome() == null
-						|| usuario.getNome().equals(""))
+				} else if (usuario.getNome() == null || usuario.getNome().equals(""))
 					return usuario.getLogin();
 
 			} else if (atributo.equals("email")) {
@@ -318,13 +306,11 @@ public class Facade {
 		throw new Exception("Atributo Inválido");
 	}
 
-	public String getProfileInformationBySessionId(Integer sessionId,
-			String atributo) throws Exception {
+	public String getProfileInformationBySessionId(Integer sessionId, String atributo) throws Exception {
 		Usuario usuario = null;
 
 		if (GerenciadorSessao.getInstance().getLoginById(sessionId) != null) {
-			String login = GerenciadorSessao.getInstance().getLoginById(
-					sessionId);
+			String login = GerenciadorSessao.getInstance().getLoginById(sessionId);
 			usuario = daoUsuario.consultar(login);
 
 			if (usuario == null)
@@ -338,8 +324,7 @@ public class Facade {
 			else if (atributo.equals("nome_exibicao")) {
 				if (usuario.getNome() != null) {
 					return usuario.getNome();
-				} else if (usuario.getNome() == null
-						|| usuario.getNome().equals(""))
+				} else if (usuario.getNome() == null || usuario.getNome().equals(""))
 					return usuario.getLogin();
 
 			} else if (atributo.equals("email")) {
@@ -369,9 +354,8 @@ public class Facade {
 
 	}
 
-	public int createBlog(String sessionId, String titulo, String descricao,
-			String background, String autz_comment, String autz_comment_annon)
-			throws Exception {
+	public int createBlog(String sessionId, String titulo, String descricao, String background, String autz_comment,
+			String autz_comment_annon) throws Exception {
 
 		int id;
 
@@ -381,8 +365,7 @@ public class Facade {
 			throw new Exception("Sessão inválida");
 		}
 
-		Usuario usuario = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(id));
+		Usuario usuario = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(id));
 
 		if (usuario.getBlogsPossuidos().size() == 3)
 			throw new Exception("Número máximo de blogs por usuário excedido");
@@ -395,8 +378,7 @@ public class Facade {
 			else if (autz_comment.equals("false"))
 				autorizaComentario = false;
 			else
-				throw new Exception(
-						"Campo inválido: autorização de comentários");
+				throw new Exception("Campo inválido: autorização de comentários");
 		} else
 			throw new Exception("Campo inválido: autorização de comentários");
 
@@ -408,11 +390,9 @@ public class Facade {
 			else if (autz_comment_annon.equals("false"))
 				autorizaAnonimo = false;
 			else
-				throw new Exception(
-						"Campo inválido: autorização de comentários anônimos");
+				throw new Exception("Campo inválido: autorização de comentários anônimos");
 		} else
-			throw new Exception(
-					"Campo inválido: autorização de comentários anônimos");
+			throw new Exception("Campo inválido: autorização de comentários anônimos");
 
 		if (titulo == null || titulo.equals(""))
 			throw new Exception("Campo inválido: título");
@@ -421,8 +401,7 @@ public class Facade {
 			throw new Exception("Campo inválido: background");
 
 		if (autorizaComentario == false && autorizaAnonimo == true)
-			throw new Exception(
-					"Campo inválido: comentários devem ser habilitados");
+			throw new Exception("Campo inválido: comentários devem ser habilitados");
 
 		Blog blog = new Blog();
 		blog.setUsuario(usuario);
@@ -462,8 +441,7 @@ public class Facade {
 		}
 	}
 
-	public void changeBlogInformation(String sessionId, String id,
-			String atributo, String valor) throws Exception {
+	public void changeBlogInformation(String sessionId, String id, String atributo, String valor) throws Exception {
 
 		int idBlog;
 		int idSessao;
@@ -493,16 +471,14 @@ public class Facade {
 			blog.setDescricao(valor);
 			daoBlog.alterar(blog);
 		} else if (atributo.equals("titulo")) {
-			if (valor == null || valor.equals("")
-					|| valor.replaceAll(" ", "").equals("")) {
+			if (valor == null || valor.equals("") || valor.replaceAll(" ", "").equals("")) {
 				throw new Exception("Campo inválido: título");
 			}
 
 			blog.setTitulo(valor);
 			daoBlog.alterar(blog);
 		} else if (atributo.equals("background")) {
-			if (valor == null || valor.equals("")
-					|| valor.replaceAll(" ", "").equals("")) {
+			if (valor == null || valor.equals("") || valor.replaceAll(" ", "").equals("")) {
 				throw new Exception("Campo inválido: background");
 			}
 
@@ -541,8 +517,7 @@ public class Facade {
 		return data;
 	}
 
-	public int createPost(String sessionId, String blogId, String titulo,
-			String texto) throws Exception {
+	public int createPost(String sessionId, String blogId, String titulo, String texto) throws Exception {
 
 		if (sessionId == null || sessionId.equals(""))
 			throw new Exception("Sessão inválida");
@@ -594,8 +569,7 @@ public class Facade {
 		return daoPostagem.getMaxId();
 	}
 
-	public int attachSound(String sessidonId, String postId, String descricao,
-			String dado) throws Exception {
+	public int attachSound(String sessidonId, String postId, String descricao, String dado) throws Exception {
 
 		if (dado == null || dado.equals(""))
 			throw new Exception("Campo inválido: arquivo de audio");
@@ -622,8 +596,7 @@ public class Facade {
 
 	}
 
-	public int attachMovie(String sessionId, String postId, String descricao,
-			String dado) throws Exception {
+	public int attachMovie(String sessionId, String postId, String descricao, String dado) throws Exception {
 
 		if (dado == null || dado.equals(""))
 			throw new Exception("Campo inválido: arquivo de vídeo");
@@ -649,8 +622,7 @@ public class Facade {
 		return daoMidia.getMaxId();
 	}
 
-	public int attachPicture(String sessionId, String postId, String descricao,
-			String dado) throws Exception {
+	public int attachPicture(String sessionId, String postId, String descricao, String dado) throws Exception {
 
 		if (dado == null || dado.equals(""))
 			throw new Exception("Dado inválido");
@@ -676,8 +648,7 @@ public class Facade {
 		return daoMidia.getMaxId();
 	}
 
-	public String getPostInformation(int postId, String atributo)
-			throws Exception {
+	public String getPostInformation(int postId, String atributo) throws Exception {
 
 		Postagem post = daoPostagem.consultar(postId);
 
@@ -864,8 +835,7 @@ public class Facade {
 
 		for (Midia midia : midias)
 			if (midia.getTipo().equals(TipoMidia.VIDEO))
-				if (midia.getTipoEsp().equals(
-						MidiaPostagem.class.getSimpleName())) {
+				if (midia.getTipoEsp().equals(MidiaPostagem.class.getSimpleName())) {
 					mP = (MidiaPostagem) midia;
 					if (mP.getPostagem().getCodigo() == post.getCodigo())
 						videos.add(midia);
@@ -925,8 +895,7 @@ public class Facade {
 
 		for (Midia midia : midias)
 			if (midia.getTipo().equals(TipoMidia.IMAGEM))
-				if (midia.getTipoEsp().equals(
-						MidiaPostagem.class.getSimpleName())) {
+				if (midia.getTipoEsp().equals(MidiaPostagem.class.getSimpleName())) {
 					mP = (MidiaPostagem) midia;
 					if (mP.getPostagem().getCodigo() == post.getCodigo())
 						imagens.add(midia);
@@ -971,19 +940,16 @@ public class Facade {
 	}
 
 	public int getNumberOfBlogsBySessionId(String sessionId) {
-		Usuario u = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(Integer.parseInt(sessionId)));
+		Usuario u = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 		return u.getBlogsPossuidos().size();
 	}
 
-	public int getBlogBySessionId(String sessionId, String index)
-			throws Exception {
+	public int getBlogBySessionId(String sessionId, String index) throws Exception {
 
 		Usuario u = null;
 
 		try {
-			u = daoUsuario.consultar(GerenciadorSessao.getInstance()
-					.getLoginById(Integer.parseInt(sessionId)));
+			u = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		} catch (Exception e) {
 			throw new Exception("ID inválido");
@@ -1031,8 +997,7 @@ public class Facade {
 
 	}
 
-	public void changePostInformation(String sessionId, String postId,
-			String atributo, String valor) throws Exception {
+	public void changePostInformation(String sessionId, String postId, String atributo, String valor) throws Exception {
 		int ssId;
 
 		try {
@@ -1054,8 +1019,7 @@ public class Facade {
 
 		Postagem post = daoPostagem.consultar(idPost);
 
-		Usuario u = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(ssId));
+		Usuario u = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(ssId));
 
 		List<Blog> blogs = new ArrayList<Blog>();
 		blogs.addAll(u.getBlogsPossuidos());
@@ -1148,15 +1112,13 @@ public class Facade {
 		return listBlogs.get(index).getCodigo();
 	}
 
-	public int addComment(String sessionid, int postId, String texto)
-			throws Exception {
+	public int addComment(String sessionid, int postId, String texto) throws Exception {
 
 		Usuario user = null;
 		int ssId;
 		try {
 			ssId = Integer.parseInt(sessionid);
-			user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-					.getLoginById(ssId));
+			user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(ssId));
 		} catch (Exception e) {
 			throw new Exception("Sessão inválida");
 		}
@@ -1268,8 +1230,7 @@ public class Facade {
 		if (sessionId == null || sessionId.equals(""))
 			throw new Exception("Sessão inválida");
 
-		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(Integer.parseInt(sessionId)));
+		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		if (user == null)
 			throw new Exception("Usuário inválido");
@@ -1277,8 +1238,7 @@ public class Facade {
 		daoUsuario.deletar(user);
 	}
 
-	public String findProfileByName(String match, String order, String offSet,
-			String maxEntries) throws Exception {
+	public String findProfileByName(String match, String order, String offSet, String maxEntries) throws Exception {
 
 		if (match == null || match.equals(""))
 			throw new Exception("Campo inválido: match");
@@ -1312,8 +1272,7 @@ public class Facade {
 
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioNome();
 
-		List<Usuario> usuarios = buscaUsuario.buscar(match, order, offSetInt,
-				maxEntriesInt);
+		List<Usuario> usuarios = buscaUsuario.buscar(match, order, offSetInt, maxEntriesInt);
 		List<String> logins = new ArrayList<String>();
 
 		for (Usuario user : usuarios)
@@ -1322,8 +1281,7 @@ public class Facade {
 		return logins.toString();
 	}
 
-	public String findProfileByLogin(String match, String order, String offSet,
-			String maxEntries) throws Exception {
+	public String findProfileByLogin(String match, String order, String offSet, String maxEntries) throws Exception {
 
 		if (match == null || match.equals(""))
 			throw new Exception("Campo inválido: match");
@@ -1357,8 +1315,7 @@ public class Facade {
 
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioLogin();
 
-		List<Usuario> usuarios = buscaUsuario.buscar(match, order, offSetInt,
-				maxEntriesInt);
+		List<Usuario> usuarios = buscaUsuario.buscar(match, order, offSetInt, maxEntriesInt);
 		List<String> logins = new ArrayList<String>();
 
 		for (Usuario user : usuarios)
@@ -1384,14 +1341,14 @@ public class Facade {
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioEmail();
 
 		List<Usuario> usuarios = buscaUsuario.buscar(match, "", 0, 0);
-		
+
 		if (usuarios.size() == 0)
 			return "";
 		return usuarios.get(0).getNome();
 	}
 
-	public String findProfileByDateInterval(String from, String to,
-			String order, int offset, int maxentries) throws Exception {
+	public String findProfileByDateInterval(String from, String to, String order, int offset, int maxentries)
+			throws Exception {
 
 		if (from == null || from.equals(""))
 			throw new Exception("Campo inválido: from");
@@ -1402,7 +1359,7 @@ public class Facade {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 		String fromS = sdf.format(from);
 		Date fromDate;
-		
+
 		try {
 			fromDate = Date.valueOf(fromS);
 		} catch (Exception e) {
@@ -1411,7 +1368,7 @@ public class Facade {
 
 		String toS = sdf.format(to);
 		Date toDate;
-		
+
 		try {
 			toDate = Date.valueOf(toS);
 		} catch (Exception e) {
@@ -1423,14 +1380,12 @@ public class Facade {
 
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioPorIntervaloData();
 
-		List<Usuario> usuarios = buscaUsuario.buscar(from + ";" + to, order,
-				offset, maxentries);
+		List<Usuario> usuarios = buscaUsuario.buscar(from + ";" + to, order, offset, maxentries);
 
 		return usuarios.toString();
 	}
 
-	public String findBlogByName(String match, String order, String offSet,
-			String maxEntries) throws Exception {
+	public String findBlogByName(String match, String order, String offSet, String maxEntries) throws Exception {
 
 		if (match == null || match.equals(""))
 			throw new Exception("Campo inválido: match");
@@ -1464,8 +1419,7 @@ public class Facade {
 
 		BuscaStrategy<Blog> buscaBlog = new BuscaBlogNome();
 
-		List<Blog> blogs = buscaBlog.buscar(match, order, offSetInt,
-				maxEntriesInt);
+		List<Blog> blogs = buscaBlog.buscar(match, order, offSetInt, maxEntriesInt);
 		List<Integer> ids = new ArrayList<Integer>();
 
 		for (Blog b : blogs)
@@ -1474,14 +1428,11 @@ public class Facade {
 		return ids.toString();
 	}
 
-	public String findBlogByDescription(String match, String order, String offSet,
-			String maxEntries) throws Exception {
-		
+	public String findBlogByDescription(String match, String order, String offSet, String maxEntries) throws Exception {
+
 		if (match == null || match.equals(""))
 			throw new Exception("Campo inválido: match");
 
-
-		
 		int offSetInt;
 
 		try {
@@ -1511,9 +1462,8 @@ public class Facade {
 
 		BuscaStrategy<Blog> buscaBlog = new BuscaBlogDescricao();
 
-		List<Blog> blogs = buscaBlog.buscar(match, order, offSetInt,
-				maxEntriesInt);
-	
+		List<Blog> blogs = buscaBlog.buscar(match, order, offSetInt, maxEntriesInt);
+
 		List<String> descs = new ArrayList<String>();
 
 		for (Blog b : blogs)
@@ -1527,8 +1477,7 @@ public class Facade {
 		if (sessionId == null || sessionId.equals(""))
 			throw new Exception("Sessão inválida");
 
-		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(Integer.parseInt(sessionId)));
+		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		if (user == null)
 			throw new Exception("Usuário inválido");
@@ -1545,8 +1494,7 @@ public class Facade {
 		if (index < 0)
 			throw new Exception("Campo inválido: indice");
 
-		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(Integer.parseInt(sessionId)));
+		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		List<Blog> blogs = daoUsuario.getBlogsSeguidos(user);
 		Blog blog = daoBlog.consultar(blogs.get(index).getCodigo());
@@ -1564,18 +1512,15 @@ public class Facade {
 		return posts.get(posts.size() - 1).getCodigo();
 	}
 
-	public void deleteAnnouncement(String sessionId, String announcementId)
-			throws Exception {
-		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-				.getLoginById(Integer.parseInt(sessionId)));
+	public void deleteAnnouncement(String sessionId, String announcementId) throws Exception {
+		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		Blog blog = daoBlog.consultar(Integer.parseInt(announcementId));
 
 		daoBlog.removerAssinante(blog, user);
 	}
 
-	public int addSubComment(String sessionId, String parentCommentId,
-			String texto) throws Exception {
+	public int addSubComment(String sessionId, String parentCommentId, String texto) throws Exception {
 
 		Usuario user = null;
 		ComentarioComposite comment = null;
@@ -1585,8 +1530,7 @@ public class Facade {
 			throw new Exception("Campo inválido: sessionId");
 
 		try {
-			user = daoUsuario.consultar(GerenciadorSessao.getInstance()
-					.getLoginById(Integer.parseInt(sessionId)));
+			user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 		} catch (Exception e) {
 			throw new Exception("Campo inválido: sessionId");
 		}
@@ -1595,8 +1539,7 @@ public class Facade {
 			throw new Exception("Campo inválido: parentCommentId");
 
 		try {
-			comment = daoComentario
-					.consultar(Integer.parseInt(parentCommentId));
+			comment = daoComentario.consultar(Integer.parseInt(parentCommentId));
 		} catch (Exception e) {
 			throw new Exception("Campo inválido: parentCommentId");
 		}
@@ -1607,8 +1550,7 @@ public class Facade {
 		}
 
 		if (nivel < 3) {
-			comment = daoComentario
-					.consultar(Integer.parseInt(parentCommentId));
+			comment = daoComentario.consultar(Integer.parseInt(parentCommentId));
 
 			ComentarioComposite cN = new ComentarioNormal();
 			cN.setConteudo(texto);
@@ -1628,8 +1570,7 @@ public class Facade {
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer
-				.parseInt(commentId));
+		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
 
 		if (comment.getComentarioPai() == null)
 			return "";
@@ -1642,8 +1583,7 @@ public class Facade {
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer
-				.parseInt(commentId));
+		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
 
 		return comment.getPostagem().getCodigo();
 	}
@@ -1662,8 +1602,7 @@ public class Facade {
 
 		for (Postagem p : posts)
 			for (ComentarioComposite c : comments)
-				if (p.getBlog().equals(blog)
-						&& c.getPostagem().getCodigo() == p.getCodigo())
+				if (p.getBlog().equals(blog) && c.getPostagem().getCodigo() == p.getCodigo())
 					numT++;
 
 		return numT;
@@ -1713,20 +1652,17 @@ public class Facade {
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer
-				.parseInt(commentId));
+		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
 
 		return comment.getListaComentarios().size();
 	}
 
-	public int getTotalNumberOfCommentsByComment(String commentId)
-			throws Exception {
+	public int getTotalNumberOfCommentsByComment(String commentId) throws Exception {
 
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer
-				.parseInt(commentId));
+		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
 
 		List<ComentarioComposite> subC = comment.getListaComentarios();
 		int numT = subC.size();
@@ -1746,8 +1682,7 @@ public class Facade {
 		if (indice == null || indice.equals(""))
 			throw new Exception("Campo inválido: índice");
 
-		ComentarioComposite cC = daoComentario.consultar(Integer
-				.parseInt(commentId));
+		ComentarioComposite cC = daoComentario.consultar(Integer.parseInt(commentId));
 
 		int index = Integer.parseInt(indice);
 

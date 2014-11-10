@@ -2,7 +2,6 @@ package nucleo.model.negocios;
 
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;

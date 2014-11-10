@@ -2,7 +2,6 @@ package nucleo.model.negocios;
 
 import java.sql.Date;
 import java.util.Observable;
-import java.util.Set;
 
 public class Postagem extends Observable {
 

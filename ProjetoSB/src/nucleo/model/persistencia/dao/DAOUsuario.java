@@ -7,8 +7,6 @@ import nucleo.model.negocios.Usuario;
 
 public interface DAOUsuario extends DAO<Usuario, String> {
 
-	Integer getMaxId();
-
 	boolean validacaoLogin(String login, String senha);
 
 	List<Usuario> consultarPorNome(String match, String order, int maxentries);
