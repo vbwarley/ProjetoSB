@@ -14,10 +14,10 @@ import nucleo.model.persistencia.dao.DAOComentario;
 
 /**
  * Classe para criacao de Comentários
+ * 
  * @author Douglas
  */
-public class JDBCDAOComentario extends JDBCDAO implements
-		DAOComentario {
+public class JDBCDAOComentario extends JDBCDAO implements DAOComentario {
 
 	/**
 	 * Método construtor da classe JDBCDAOComentario
@@ -26,7 +26,9 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
@@ -34,10 +36,11 @@ public class JDBCDAOComentario extends JDBCDAO implements
 		abrirConexao();
 		String sql = "INSERT INTO comentario (titulo,conteudo,tipo,comentarioPai,codPostagem,login) VALUES (?,?,?,?,?,?)";
 
+		PreparedStatement stmt = null;
+
 		try {
 
-			PreparedStatement stmt = getConnection().prepareStatement(sql,
-					PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
@@ -58,21 +61,21 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
-			
-			stmt.close();
-			rs.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
-	@Override	
+	@Override
 	public ComentarioComposite consultar(Integer id) {
 		abrirConexao();
 
@@ -92,16 +95,14 @@ public class JDBCDAOComentario extends JDBCDAO implements
 			rs = stmt.executeQuery();
 
 			// sql para recuperar a lista de comentarios, se existir
-			stmtCP = getConnection().prepareStatement(
-					"SELECT codigo FROM comentario WHERE comentarioPai = ?");
+			stmtCP = getConnection().prepareStatement("SELECT codigo FROM comentario WHERE comentarioPai = ?");
 
 			stmtCP.setInt(1, id);
 			stmtCP.execute();
 			rsCP = stmtCP.getResultSet();
 
 			if (rs.next()) {
-				if (rs.getString("tipo").equals(
-						ComentarioNormal.class.getSimpleName()))
+				if (rs.getString("tipo").equals(ComentarioNormal.class.getSimpleName()))
 					comentario = new ComentarioNormal();
 				else
 					comentario = new ComentarioAnonimo();
@@ -118,29 +119,24 @@ public class JDBCDAOComentario extends JDBCDAO implements
 					listC.add(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
 
 				comentario.setListaComentarios(listC);
-				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
-						.getInt("codPostagem")));
-				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
-						.getString("login")));
+				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt("codPostagem")));
+				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 			}
 
-			stmt.close();
-			rs.close();
-			stmtCP.close();
-			rsCP.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
-
+			fecharConexao(stmt, rs);
+			fecharConexao(stmtCP, rsCP);
 		}
 
 		return comentario;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
@@ -149,8 +145,10 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 		String sql = "UPDATE comentario SET titulo=?,conteudo=?,tipo=?,comentarioPai=?,codPostagem=?,login=? WHERE codigo=?";
 
+		PreparedStatement stmt = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			stmt = getConnection().prepareStatement(sql);
 
 			stmt.setString(1, objeto.getTitulo());
 			stmt.setString(2, objeto.getConteudo());
@@ -164,16 +162,16 @@ public class JDBCDAOComentario extends JDBCDAO implements
 			stmt.setInt(7, objeto.getCodigo());
 
 			stmt.executeUpdate();
-			stmt.close();
-
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
@@ -183,32 +181,34 @@ public class JDBCDAOComentario extends JDBCDAO implements
 
 		String sql = "DELETE FROM comentario WHERE codigo=?";
 
+		PreparedStatement stmt = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
+			stmt = getConnection().prepareStatement(sql);
 
 			stmt.setInt(1, objeto.getCodigo());
 
 			stmt.executeUpdate();
-			stmt.close();
-
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override
 	public List<ComentarioComposite> getList() {
-		
+
 		abrirConexao();
 
 		String sql = "SELECT * FROM comentario";
 
-		List<ComentarioComposite> listC = null; 
+		List<ComentarioComposite> listC = null;
 		ComentarioComposite comentario = null;
 
 		PreparedStatement stmt = null;
@@ -217,19 +217,16 @@ public class JDBCDAOComentario extends JDBCDAO implements
 		ResultSet rsCP = null;
 
 		try {
-				
+
 			stmt = getConnection().prepareStatement(sql);
 			rs = stmt.executeQuery();
 
-			stmtCP = getConnection().prepareStatement(
-					"SELECT codigo FROM comentario WHERE comentarioPai = ?");
-			
-			
+			stmtCP = getConnection().prepareStatement("SELECT codigo FROM comentario WHERE comentarioPai = ?");
+
 			listC = new ArrayList<ComentarioComposite>();
 
 			while (rs.next()) {
-				if (rs.getString("tipo").equals(
-						ComentarioNormal.class.getSimpleName()))
+				if (rs.getString("tipo").equals(ComentarioNormal.class.getSimpleName()))
 					comentario = new ComentarioNormal();
 				else
 					comentario = new ComentarioAnonimo();
@@ -238,7 +235,7 @@ public class JDBCDAOComentario extends JDBCDAO implements
 				comentario.setTitulo(rs.getString("titulo"));
 				comentario.setConteudo(rs.getString("conteudo"));
 				comentario.setTipo(rs.getString("tipo"));
-				
+
 				stmtCP.setInt(1, comentario.getCodigo());
 				stmtCP.execute();
 				rsCP = stmtCP.getResultSet();
@@ -246,49 +243,43 @@ public class JDBCDAOComentario extends JDBCDAO implements
 				while (rsCP.next())
 					comentario.addComentario(new JDBCDAOComentario().consultar(rsCP.getInt("codigo")));
 
-				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs
-						.getInt("codPostagem")));
-				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs
-						.getString("login")));
-
+				comentario.setPostagem(new JDBCDAOPostagem().consultar(rs.getInt("codPostagem")));
+				comentario.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 				listC.add(comentario);
 			}
-			stmt.close();
-			rs.close();
-			stmtCP.close();
-			rsCP.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
-
+			fecharConexao(stmt, rs);
+			fecharConexao(stmtCP, rsCP);
 		}
+		
 		return listC;
 	}
-	
+
 	@Override
-    public Integer getMaxId() {
+	public Integer getMaxId() {
 		abrirConexao();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
-        String sql = "SELECT MAX(codigo) FROM comentario";
+		String sql = "SELECT MAX(codigo) FROM comentario";
 
-        try {
-            stmt = getConnection().prepareStatement(sql);
-            rs = stmt.executeQuery();
-            
-            if (rs.next()) 
-               return rs.getInt(1);
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            fecharConexao();
-        }
+		try {
+			stmt = getConnection().prepareStatement(sql);
+			rs = stmt.executeQuery();
 
-        return null;
-    }
+			if (rs.next())
+				return rs.getInt(1);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			fecharConexao(stmt, rs);
+		}
+
+		return null;
+	}
 }

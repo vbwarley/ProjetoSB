@@ -11,10 +11,10 @@ import nucleo.model.persistencia.dao.DAOPalavraChave;
 
 /**
  * Classe para criacao de Palavras Chaves
+ * 
  * @author Warley Vital
  */
-public class JDBCDAOPalavraChave extends JDBCDAO implements
-		DAOPalavraChave {
+public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 
 	/**
 	 * Método construtor da classe JDBCDAOPalavraChave
@@ -23,7 +23,9 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#criar(java.lang.Object)
 	 */
 	@Override
@@ -31,13 +33,15 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		abrirConexao();
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(
-					insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = getConnection().prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, objeto.getNome());
 			stmt.execute();
 
-			ResultSet rs = stmt.getGeneratedKeys();
+			rs = stmt.getGeneratedKeys();
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
@@ -47,14 +51,16 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#consultar(java.lang.Object)
 	 */
-	@Override	
+	@Override
 	public PalavraChave consultar(Integer id) {
 		abrirConexao();
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
@@ -62,18 +68,21 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 		PalavraChave pc = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmtPP = null;
+		ResultSet rsPP = null;
+
 		try {
 			// recupera palavras-chave
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(selectSql);
+			stmt = getConnection().prepareStatement(selectSql);
 			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			// recupera postagens com a palavra-chave pesquisada
-			PreparedStatement stmtPP = getConnection().prepareStatement(
-					selectSqlPP);
+			stmtPP = getConnection().prepareStatement(selectSqlPP);
 			stmtPP.setInt(1, id);
-			ResultSet rsPP = stmtPP.executeQuery();
+			rsPP = stmtPP.executeQuery();
 
 			while (rs.next()) {
 				pc = new PalavraChave();
@@ -83,20 +92,19 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 
 			}
 
-			stmt.close();
-			stmtPP.close();
-			rs.close();
-			rsPP.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
+			fecharConexao(stmtPP, rsPP);
 		}
 
 		return pc;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#alterar(java.lang.Object)
 	 */
 	@Override
@@ -104,9 +112,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		abrirConexao();
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
 
+		PreparedStatement stmt = null;
+
 		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(updateSql);
+			stmt = getConnection().prepareStatement(updateSql);
 
 			stmt.setString(1, objeto.getNome());
 			stmt.setInt(2, objeto.getCodigo());
@@ -116,11 +125,13 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#deletar(java.lang.Object)
 	 */
 	@Override
@@ -128,9 +139,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		abrirConexao();
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
 
+		PreparedStatement stmt = null;
+
 		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(deleteSql);
+			stmt = getConnection().prepareStatement(deleteSql);
 
 			stmt.setInt(1, objeto.getCodigo());
 
@@ -139,11 +151,13 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nucleo.model.persistencia.dao.DAO#getList()
 	 */
 	@Override
@@ -153,9 +167,12 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
-			ResultSet rs = stmt.executeQuery();
+			stmt = getConnection().prepareStatement(sqlList);
+			rs = stmt.executeQuery();
 
 			lpc = new ArrayList<PalavraChave>();
 
@@ -168,12 +185,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements
 				lpc.add(pc);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return lpc;

@@ -32,18 +32,18 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		abrirConexao();
 		String insetSql = "INSERT INTO postagem_palavras VALUES (?,?)";
 
+		PreparedStatement stmt = null;
+		
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(insetSql);
+			stmt = getConnection().prepareStatement(insetSql);
 			stmt.setInt(1, objeto.getPostagem().getCodigo());
 			stmt.setInt(2, objeto.getPalavraChave().getCodigo());
 
 			stmt.execute();
-
-			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
@@ -56,13 +56,16 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		String selectSql = "SELECT * FROM postagem_palavras WHERE codPostagem=? AND codPalavra=?";
 		PostagemPalavra pp = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
 		try {
-			PreparedStatement stmt = getConnection()
+			stmt = getConnection()
 					.prepareStatement(selectSql);
 			stmt.setInt(1, id.getPostagem().getCodigo());
 			stmt.setInt(2, id.getPalavraChave().getCodigo());
 
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			if (rs.next()) {
 				pp = new PostagemPalavra();
@@ -70,12 +73,10 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 				pp.setPalavraChave(new JDBCDAOPalavraChave().consultar(rs
 						.getInt(2)));
 			}
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 		return pp;
 	}
@@ -96,8 +97,10 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		abrirConexao();
 		String updateSql = "DELETE FROM postagem_palavras WHERE codPostagem=? AND codPalavra=?";
 
+		PreparedStatement stmt = null;
+		
 		try {
-			PreparedStatement stmt = getConnection()
+			stmt = getConnection()
 					.prepareStatement(updateSql);
 			stmt.setInt(1, objeto.getPostagem().getCodigo());
 			stmt.setInt(2, objeto.getPalavraChave().getCodigo());
@@ -107,7 +110,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
@@ -120,12 +123,15 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 		String selectList = "SELECT * FROM postagem_palavras";
 		List<PostagemPalavra> listaPP = null;
 		PostagemPalavra pp = null;
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(
+			stmt = getConnection().prepareStatement(
 					selectList);
 
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			listaPP = new ArrayList<PostagemPalavra>();
 
 			while (rs.next()) {
@@ -137,12 +143,10 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements
 				listaPP.add(pp);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 		return listaPP;
 	}

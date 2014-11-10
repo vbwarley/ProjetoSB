@@ -36,13 +36,16 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		String sqlEmail = "SELECT * FROM usuario WHERE email = ?";
 
+		PreparedStatement stmt = null;
+		PreparedStatement stmtEmail = null;
+		ResultSet rs = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sql);
-			PreparedStatement stmtEmail = getConnection().prepareStatement(
-					sqlEmail);
+			stmt = getConnection().prepareStatement(sql);
+			stmtEmail = getConnection().prepareStatement(sqlEmail);
 			stmtEmail.setString(1, objeto.getEmail());
 
-			ResultSet rs = stmtEmail.executeQuery();
+			rs = stmtEmail.executeQuery();
 
 			stmt.setString(1, objeto.getLogin());
 			stmt.setString(2, objeto.getSenha());
@@ -60,12 +63,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			if (!rs.next())
 				stmt.execute();
 
-			stmt.close();
-
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
+			fecharConexao(stmtEmail, null);
 		}
 	}
 
@@ -81,12 +83,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 		Usuario u = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			// recuperando dados do usuario
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(selectSQL);
+			stmt = getConnection().prepareStatement(selectSQL);
 			stmt.setString(1, id);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				u = new Usuario();
@@ -104,16 +107,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString(11));
 				u.setMusicas(rs.getString(12));
 
-				u.getBlogsPossuidos().addAll(
-						new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 		return u;
 	}
@@ -128,10 +128,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		abrirConexao();
 		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?,endereco=?,interesses=?,quem_sou=?,filmes=?,livros=?,musicas=? WHERE login=?";
 
+		PreparedStatement stmt = null;
+
 		try {
 			abrirConexao();
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(sqlUpdate);
+			stmt = getConnection().prepareStatement(sqlUpdate);
 
 			stmt.setString(1, objeto.getLogin());
 
@@ -149,11 +150,10 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt.setString(12, objeto.getLogin());
 
 			stmt.executeUpdate();
-			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
@@ -167,18 +167,18 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		abrirConexao();
 		String sqlDelete = "DELETE FROM usuario WHERE login = ?";
 
+		PreparedStatement stmt = null;
+
 		try {
-			PreparedStatement stmt = getConnection()
-					.prepareStatement(sqlDelete);
+			stmt = getConnection().prepareStatement(sqlDelete);
 
 			stmt.setString(1, objeto.getLogin());
 
 			stmt.executeUpdate();
-			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, null);
 		}
 	}
 
@@ -195,9 +195,12 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		List<Usuario> lu = null;
 		Usuario u = null;
 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement(sqlList);
-			ResultSet rs = stmt.executeQuery(sqlList);
+			stmt = getConnection().prepareStatement(sqlList);
+			rs = stmt.executeQuery(sqlList);
 
 			lu = new ArrayList<Usuario>();
 
@@ -220,11 +223,10 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				lu.add(u);
 			}
 
-			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return lu;
@@ -232,14 +234,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 	public List<Usuario> consultarPorNome(String nome, String order, int limit) {
 		abrirConexao();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
-		String sql = "SELECT * FROM usuario WHERE Ucase(nome) LIKE Ucase('%"
-				+ nome + "%') ORDER BY nome " + order + " LIMIT ?";
+		String sql = "SELECT * FROM usuario WHERE Ucase(nome) LIKE Ucase('%" + nome + "%') ORDER BY nome " + order
+				+ " LIMIT ?";
 
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
 			stmt = getConnection().prepareStatement(sql);
@@ -266,18 +269,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(
-						new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
@@ -285,14 +285,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 	public List<Usuario> consultarPorLogin(String login, String order, int limit) {
 		abrirConexao();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
-		String sql = "SELECT * FROM usuario WHERE Ucase(login) LIKE Ucase('%"
-				+ login + "%') ORDER BY nome " + order + " LIMIT ?";
+		String sql = "SELECT * FROM usuario WHERE Ucase(login) LIKE Ucase('%" + login + "%') ORDER BY nome " + order
+				+ " LIMIT ?";
 
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
 			stmt = getConnection().prepareStatement(sql);
@@ -318,18 +319,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(
-						new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
@@ -337,14 +335,14 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 	public List<Usuario> consultarPorEmail(String email, String order, int limit) {
 		abrirConexao();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
-		// String sql =
-		// "SELECT * FROM usuario WHERE Ucase(email) LIKE Ucase('%"+email+"%') ORDER BY nome "+order+" LIMIT ?";
 		String sql = "SELECT * FROM usuario WHERE email = ?";
+
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
 			stmt = getConnection().prepareStatement(sql);
@@ -368,33 +366,29 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(
-						new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
 	}
-	
+
 	public List<Usuario> consultarPorIntervaloData(String from, String to, String order, int limit) {
 		abrirConexao();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
-		// String sql =
-		// "SELECT * FROM usuario WHERE Ucase(email) LIKE Ucase('%"+email+"%') ORDER BY nome "+order+" LIMIT ?";
 		String sql = "SELECT * FROM usuario WHERE data_nascimento BETWEEN ? AND ?";
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
 			stmt = getConnection().prepareStatement(sql);
@@ -418,18 +412,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(
-						new JDBCDAOBlog().getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
@@ -450,12 +441,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	@Override
 	public List<Blog> getBlogsSeguidos(Usuario usuario) {
 		abrirConexao();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 
 		String sql = "SELECT codBlog FROM assinatura WHERE login = ?";
 
 		List<Blog> blogs = null;
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 
 		try {
 			blogs = new ArrayList<Blog>();
@@ -470,19 +462,12 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				blogs.add(blog);
 			}
 
-			stmt.close();
-			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			fecharConexao();
+			fecharConexao(stmt, rs);
 		}
+		
 		return blogs;
-	}
-
-	@Override
-	public Integer getMaxId() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

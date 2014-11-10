@@ -2,6 +2,7 @@ package nucleo.model.persistencia.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ import java.util.List;
 public abstract class JDBCDAO {
 
 	private static Connection connection;
-	
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String URL = "jdbc:mysql://localhost/SuperBlogs";
+	private static final String USER = "root";
+	private static final String PASS = "mynewpassword";
 
 	/**
 	 * Construtor da classe.
@@ -29,34 +33,32 @@ public abstract class JDBCDAO {
 	 * 
 	 */
 	protected static void abrirConexao() {
-		
+
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-//			if (connection == null)
-//				connection = DriverManager.getConnection(
-//						"jdbc:mysql://localhost:3306/SuperBlogs", "root",
-//						"mynewpassword");
-//			else if (connection.isClosed())
-//				connection = DriverManager.getConnection(
-//						"jdbc:mysql://localhost:3306/SuperBlogs", "root",
-//						"mynewpassword");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/SuperBlogs", "root", "mynewpassword");
-//            statement = connection.createStatement();
+			Class.forName(DRIVER);
+
+			connection = DriverManager.getConnection(URL, USER, PASS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Este método fecha a conexão com o banco.
 	 */
-	protected static void fecharConexao() {
+	protected static void fecharConexao(PreparedStatement stmt, ResultSet rs) {
 		try {
 			if (connection != null)
-				connection.close();				
+				connection.close();
+
+			if (stmt != null)
+				stmt.close();
+
+			if (rs != null)
+				rs.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -78,18 +80,18 @@ public abstract class JDBCDAO {
 
 		for (String entidade : entidades) {
 			abrirConexao();
-			PreparedStatement stm = null;
+			PreparedStatement stmt = null;
 
 			String sql = "DELETE FROM " + entidade;
 
 			try {
-				stm = getConnection().prepareStatement(sql);
-				stm.execute();
+				stmt = getConnection().prepareStatement(sql);
+				stmt.execute();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				fecharConexao();
+				fecharConexao(stmt, null);
 			}
 		}
 
@@ -102,18 +104,18 @@ public abstract class JDBCDAO {
 
 		for (String entidade : entidades) {
 			abrirConexao();
-			PreparedStatement stm = null;
+			PreparedStatement stmt = null;
 
 			String sql = "ALTER TABLE " + entidade + " AUTO_INCREMENT = 1";
 
 			try {
-				stm = getConnection().prepareStatement(sql);
-				stm.execute();
+				stmt = getConnection().prepareStatement(sql);
+				stmt.execute();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
-				fecharConexao();
+				fecharConexao(stmt, null);
 			}
 		}
 	}
