@@ -18,7 +18,6 @@ import nucleo.model.persistencia.dao.DAOUsuario;
  */
 public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
-
 	/**
 	 * Construtor da classe.
 	 */
@@ -47,9 +46,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 			rs = stmtEmail.executeQuery();
 
+			if (objeto.getNome() == null)
+				stmt.setString(3, objeto.getLogin());
+			else
+				stmt.setString(3, objeto.getNome());
+
 			stmt.setString(1, objeto.getLogin());
 			stmt.setString(2, objeto.getSenha());
-			stmt.setString(3, objeto.getNome());
 			stmt.setString(4, String.valueOf(objeto.getSexo()));
 			stmt.setDate(5, objeto.getDataNascimento());
 			stmt.setString(6, objeto.getEmail());
@@ -134,10 +137,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 			stmt = getConnection().prepareStatement(sqlUpdate);
 
-			stmt.setString(1, objeto.getLogin());
-
+			if (objeto.getNome() == null)
+				stmt.setString(2, objeto.getLogin());
+			else
+				stmt.setString(2, objeto.getNome());
 			stmt.setString(1, objeto.getSenha());
-			stmt.setString(2, objeto.getNome());
 			stmt.setString(3, objeto.getEmail());
 			stmt.setString(4, String.valueOf(objeto.getSexo()));
 			stmt.setDate(5, objeto.getDataNascimento());
@@ -233,7 +237,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	public List<Usuario> consultarPorNome(String nome, String order, int limit) {
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(nome) LIKE Ucase('%" + nome + "%') ORDER BY nome " + order
-				+ " LIMIT ?";
+				+ ",email " + order + " LIMIT ?";
 
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
@@ -281,7 +285,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	public List<Usuario> consultarPorLogin(String login, String order, int limit) {
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(login) LIKE Ucase('%" + login + "%') ORDER BY nome " + order
-				+ " LIMIT ?";
+				+ ", email " + order + " LIMIT ?";
 
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
@@ -296,6 +300,9 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
+				// if (rs.getString("nome") == null)
+				// continue;
+
 				u = new Usuario();
 
 				u.setLogin(rs.getString("login"));
@@ -420,7 +427,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 		if (u == null || !u.getSenha().equals(senha))
 			return false;
-		
+
 		return true;
 	}
 
@@ -451,7 +458,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 		return blogs;
 	}
 }

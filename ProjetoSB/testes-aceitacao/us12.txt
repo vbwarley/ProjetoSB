@@ -57,16 +57,16 @@ expectError "Campo inválido: maxentries" findProfileByName match=maria order=as
 
 expect "[joaotapioca4]" findProfileByName match="João Simão" order=asc offset=0 maxentries=10
 expect "[joaotapioca5, joaotapioca7]" findProfileByName match="João Beltrão" order=asc offset=0 maxentries=10
-expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="João" order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, joaotapioca6]" findProfileByName match="João" order=asc offset=0 maxentries=10
 
 #Recupera os 3 primeiros registros
 expect "[joaotapioca5, joaotapioca7, joaotapioca3]" findProfileByName match="João" order=asc offset=0 maxentries=3
 
 #Recupera os 4 registros a partir do terceiro (0 <= offset < maxentries)
-expect "[joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4]" findProfileByName match="João" order=asc offset=2 maxentries=10
+expect "[joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, joaotapioca6]" findProfileByName match="João" order=asc offset=2 maxentries=10
 
 #Recupera os registros com ordenação invertida
-expect "[joaotapioca4, joaotapioca2, joaotapioca, joaotapioca3, joaotapioca7, joaotapioca5]" findProfileByName match="João" order=desc offset=0 maxentries=10
+expect "[joaotapioca6, joaotapioca4, joaotapioca2, joaotapioca, joaotapioca3, joaotapioca7, joaotapioca5]" findProfileByName match="João" order=desc offset=0 maxentries=10
 
 expectError "Campo inválido: match" findProfileByLogin match= order=asc offset=10 maxentries=10
 expectError "Campo inválido: match" findProfileByLogin match="" order=asc offset=10 maxentries=10
@@ -85,7 +85,7 @@ expectError "Campo inválido: maxentries" findProfileByLogin match=maria order=a
 
 
 expect "[joaotapioca5]" findProfileByLogin match=joao order=asc offset=0 maxentries=1
-expect "[joaotapioca4]" findProfileByLogin match=joao order=desc offset=0 maxentries=1
+expect "[joaotapioca6]" findProfileByLogin match=joao order=desc offset=0 maxentries=1
 
 #O email informado deve estar no formato válido
 expectError "Campo inválido: match" findProfileByEmail match= 

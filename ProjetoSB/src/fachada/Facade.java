@@ -2,6 +2,7 @@ package fachada;
 
 import java.sql.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,9 +56,9 @@ public class Facade {
 	public static void main(String[] args) {
 		args = new String[] { "fachada.Facade", "testes-aceitacao/us01.txt", "testes-aceitacao/us02.txt",
 				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
-				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt","testes-aceitacao/us08.txt",
+				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
 				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
-				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt"};
+				"testes-aceitacao/us12.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -1344,7 +1345,7 @@ public class Facade {
 
 		if (usuarios.size() == 0)
 			return "";
-		return usuarios.get(0).getNome();
+		return usuarios.get(0).getLogin();
 	}
 
 	public String findProfileByDateInterval(String from, String to, String order, int offset, int maxentries)
@@ -1356,22 +1357,34 @@ public class Facade {
 		if (to == null || to.equals(""))
 			throw new Exception("Campo inválido: to");
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-		String fromS = sdf.format(from);
+		SimpleDateFormat sdfCima = new SimpleDateFormat("dd/MM/yyy");
 		Date fromDate;
 
+		// formato a ser enviado para o banco
+		SimpleDateFormat sdfBaixo = new SimpleDateFormat("yyyy-MM-dd");		
+		
+		// tentativa de conversão de 'from' para funfar e ir ao banco
 		try {
-			fromDate = Date.valueOf(fromS);
-		} catch (Exception e) {
+			fromDate = new Date(sdfCima.parse(from).getTime());
+	
+			fromDate = Date.valueOf((sdfBaixo.format(fromDate)));
+					
+		} catch (ParseException e) {
+			throw new Exception("Campo inválido: from");
+		} catch (IllegalArgumentException e) {
 			throw new Exception("Campo inválido: from");
 		}
 
-		String toS = sdf.format(to);
 		Date toDate;
 
+		// tentativa de conversão de 'to' para funfar e ir ao banco
 		try {
-			toDate = Date.valueOf(toS);
-		} catch (Exception e) {
+			toDate = new Date(sdfCima.parse(to).getTime());
+			
+			toDate = Date.valueOf((sdfBaixo.format(toDate)));
+		} catch (ParseException e) {
+			throw new Exception("Campo inválido: to");
+		} catch (IllegalArgumentException e) {
 			throw new Exception("Campo inválido: to");
 		}
 
