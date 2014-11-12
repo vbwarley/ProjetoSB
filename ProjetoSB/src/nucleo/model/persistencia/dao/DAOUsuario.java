@@ -15,9 +15,8 @@ public interface DAOUsuario extends DAO<Usuario, String> {
 
 	List<Blog> getBlogsSeguidos(Usuario usuario);
 
-	List<Usuario> consultarPorEmail(String match, String order, int maxentries);
+	List<Usuario> consultarPorEmail(String match);
 
-	List<Usuario> consultarPorIntervaloData(String from, String to,
-			String order, int maxentries);
-	
+	List<Usuario> consultarPorIntervaloData(String from, String to, String order, int maxentries);
+
 }

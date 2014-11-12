@@ -14,8 +14,7 @@ public class BuscaUsuarioEmail implements BuscaStrategy<Usuario> {
 	@Override
 	public List<Usuario> buscar(String match, String order, int offset,
 			int maxentries) {
-		List<Usuario> resultados = daoUsuario.consultarPorEmail(match, order,
-				maxentries);
+		List<Usuario> resultados = daoUsuario.consultarPorEmail(match);
 
 //		if (resultados.size() > maxentries) {
 //			return resultados.subList(offset, offset + maxentries);

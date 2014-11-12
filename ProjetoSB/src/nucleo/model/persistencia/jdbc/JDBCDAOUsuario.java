@@ -331,7 +331,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return resultado;
 	}
 
-	public List<Usuario> consultarPorEmail(String email, String order, int limit) {
+	public List<Usuario> consultarPorEmail(String email) {
 
 		String sql = "SELECT * FROM usuario WHERE email = ?";
 
@@ -376,9 +376,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return resultado;
 	}
 
+	@Override
 	public List<Usuario> consultarPorIntervaloData(String from, String to, String order, int limit) {
-
-		String sql = "SELECT * FROM usuario WHERE data_nascimento BETWEEN ? AND ?";
+	
+		String sql = "SELECT * FROM usuario WHERE data_nascimento BETWEEN ? AND ? ORDER BY nome " + order
+				+ ", email " + order + " LIMIT ?";
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
 		Usuario u = null;
 
@@ -389,8 +391,9 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt = getConnection().prepareStatement(sql);
 			stmt.setString(1, from);
 			stmt.setString(2, to);
+			stmt.setInt(3, limit);
 			rs = stmt.executeQuery();
-
+			
 			while (rs.next()) {
 				u = new Usuario();
 

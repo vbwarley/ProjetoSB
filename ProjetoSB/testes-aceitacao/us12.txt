@@ -118,9 +118,9 @@ expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1
 expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=-1
 expectError "Campo inválido: maxentries" findProfileByDateInterval from=01/01/1980 to=01/01/1990 order=asc offset=5 maxentries=sdf
 
-expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, mariarocha, mariasilva, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1995 order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca3, joaotapioca, joaotapioca2, joaotapioca4, joaotapioca6, mariarocha, mariasilva]" findProfileByDateInterval from=01/01/1980 to=01/01/1995 order=asc offset=0 maxentries=10
 expect "[]" findProfileByDateInterval from=01/01/1950 to=01/01/1960 order=asc offset=0 maxentries=10
-expect "[joaotapioca5, joaotapioca7, joaotapioca, joaotapioca4, mariarocha, joaotapioca6]" findProfileByDateInterval from=01/01/1980 to=01/01/1981 order=asc offset=0 maxentries=10
+expect "[joaotapioca5, joaotapioca7, joaotapioca, joaotapioca4, joaotapioca6, mariarocha]" findProfileByDateInterval from=01/01/1980 to=01/01/1981 order=asc offset=0 maxentries=10
 
 
 #Buscar blog por parte do título
@@ -166,7 +166,7 @@ expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" ord
 expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=sdf
 expectError "Campo inválido: maxentries" findBlogByDescription match="Blog" order=asc offset=0 maxentries=123ds
 
-expect [${blogId1}] findBlogByName match="Quidquid latine" order=asc offset=0 maxentries=10
+expect [${blogId1}] findBlogByDescription match="Quidquid latine" order=asc offset=0 maxentries=10
 expect [${blogId2}] findBlogByDescription match="latim" order=asc offset=0 maxentries=10
 
 

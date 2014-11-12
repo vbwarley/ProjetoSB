@@ -54,11 +54,8 @@ public class Facade {
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	public static void main(String[] args) {
-		args = new String[] { "fachada.Facade", "testes-aceitacao/us01.txt", "testes-aceitacao/us02.txt",
-				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
-				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
-				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
-				"testes-aceitacao/us12.txt" };
+		args = new String[] { "fachada.Facade", 
+				"testes-aceitacao/us13.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -1348,7 +1345,7 @@ public class Facade {
 		return usuarios.get(0).getLogin();
 	}
 
-	public String findProfileByDateInterval(String from, String to, String order, int offset, int maxentries)
+	public String findProfileByDateInterval(String from, String to, String order, String offset, String maxentries)
 			throws Exception {
 
 		if (from == null || from.equals(""))
@@ -1387,15 +1384,46 @@ public class Facade {
 		} catch (IllegalArgumentException e) {
 			throw new Exception("Campo inválido: to");
 		}
+		
+		int offSetInt;
 
+		try {
+			offSetInt = Integer.parseInt(offset);
+
+			if (offSetInt < 0)
+				throw new Exception("Campo inválido: offset");
+
+		} catch (Exception e) {
+			throw new Exception("Campo inválido: offset");
+		}
+
+		int maxEntriesInt;
+
+		try {
+			maxEntriesInt = Integer.parseInt(maxentries);
+
+			if (maxEntriesInt < 0)
+				throw new Exception("Campo inválido: maxentries");
+
+		} catch (Exception e) {
+			throw new Exception("Campo inválido: maxentries");
+		}
+
+		if (order == null || !order.equals("asc") && !order.equals("desc"))
+			throw new Exception("Campo inválido: order");
+		
 		if (fromDate.compareTo(toDate) > 0)
 			throw new Exception("Campo inválido: intervalo inconsistente");
 
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioPorIntervaloData();
 
-		List<Usuario> usuarios = buscaUsuario.buscar(from + ";" + to, order, offset, maxentries);
+		List<Usuario> usuarios = buscaUsuario.buscar(fromDate.toString() + ";" + toDate.toString(), order, offSetInt, maxEntriesInt);
+		List<String> logins = new ArrayList<String>();
 
-		return usuarios.toString();
+		for (Usuario user : usuarios)
+			logins.add(user.getLogin());
+
+		return logins.toString();
 	}
 
 	public String findBlogByName(String match, String order, String offSet, String maxEntries) throws Exception {
@@ -1477,12 +1505,12 @@ public class Facade {
 
 		List<Blog> blogs = buscaBlog.buscar(match, order, offSetInt, maxEntriesInt);
 
-		List<String> descs = new ArrayList<String>();
+		List<Integer> ids = new ArrayList<Integer>();
 
 		for (Blog b : blogs)
-			descs.add(b.getDescricao());
+			ids.add(b.getCodigo());
 
-		return descs.toString();
+		return ids.toString();
 	}
 
 	public int getNumberOfAnnouncements(String sessionId) throws Exception {
