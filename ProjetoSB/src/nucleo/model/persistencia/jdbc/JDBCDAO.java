@@ -2,7 +2,6 @@ package nucleo.model.persistencia.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,12 +14,12 @@ import java.util.List;
  */
 public abstract class JDBCDAO {
 
-	private static Connection connection;
-	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static Connection connection = getConnection();
+//	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost/SuperBlogs";
 	private static final String USER = "root";
 	private static final String PASS = "mynewpassword";
-
+	private static int qtd = 0;
 	/**
 	 * Construtor da classe.
 	 */
@@ -32,41 +31,31 @@ public abstract class JDBCDAO {
 	 * Este método abre a conexão com banco.
 	 * 
 	 */
-	protected static void abrirConexao() {
+	private static void abrirConexao() {
 
 		try {
-			Class.forName(DRIVER);
-
+			System.out.println(qtd++);
+			 
 			connection = DriverManager.getConnection(URL, USER, PASS);
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	/**
 	 * Este método fecha a conexão com o banco.
 	 */
-	protected static void fecharConexao(PreparedStatement stmt, ResultSet rs) {
+	protected static void fecharConexao() {
 		try {
-			if (connection != null)
-				connection.close();
-
-			if (stmt != null)
-				stmt.close();
-
-			if (rs != null)
-				rs.close();
-
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void resetarBD() {
-
+		
 		List<String> entidades = new ArrayList<String>();
 		entidades.add("usuario");
 		entidades.add("blog");
@@ -79,7 +68,7 @@ public abstract class JDBCDAO {
 		entidades.add("midia");
 
 		for (String entidade : entidades) {
-			abrirConexao();
+			
 			PreparedStatement stmt = null;
 
 			String sql = "DELETE FROM " + entidade;
@@ -90,8 +79,6 @@ public abstract class JDBCDAO {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-				fecharConexao(stmt, null);
 			}
 		}
 
@@ -103,7 +90,7 @@ public abstract class JDBCDAO {
 		entidades.add("postagem");
 
 		for (String entidade : entidades) {
-			abrirConexao();
+			
 			PreparedStatement stmt = null;
 
 			String sql = "ALTER TABLE " + entidade + " AUTO_INCREMENT = 1";
@@ -114,8 +101,6 @@ public abstract class JDBCDAO {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
-			} finally {
-				fecharConexao(stmt, null);
 			}
 		}
 	}
@@ -126,6 +111,8 @@ public abstract class JDBCDAO {
 	 * @return conexão atual, ou null se não houver
 	 */
 	protected static Connection getConnection() {
+		if (connection == null)
+			abrirConexao();
 		return connection;
 	}
 }

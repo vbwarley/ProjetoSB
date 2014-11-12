@@ -11,7 +11,6 @@ import java.util.Set;
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
 import nucleo.model.persistencia.dao.DAOBlog;
-import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
  * Classe para criacao de Blogs
@@ -20,13 +19,11 @@ import nucleo.model.persistencia.dao.DAOUsuario;
  */
 public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
-	private DAOUsuario daoUsuario = new JDBCDAOUsuario();
 	
 	/**
 	 * Método construtor da classe JDBCDAOBlog
 	 */
 	public JDBCDAOBlog() {
-
 	}
 
 	/*
@@ -36,8 +33,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 	 */
 	@Override
 	public void criar(Blog objeto) {
-
-		abrirConexao();
 		String sql = "INSERT INTO blog (titulo,descricao,imagemFundo,autorizacaoNormal,autorizacaoAnonimo,login) VALUES (?,?,?,?,?,?)";
 
 		PreparedStatement stmt = null;
@@ -59,11 +54,11 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 	}
 
@@ -75,7 +70,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 	@Override
 	public Blog consultar(Integer id) {
 
-		abrirConexao();
 		String selectSQL = "SELECT * FROM blog WHERE codigo = ?";
 		Blog b = null;
 
@@ -91,22 +85,23 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 			if (rs.next()) {
 				b = new Blog();
-
+								
 				b.setCodigo(rs.getInt(1));
 				b.setTitulo(rs.getString(2));
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 			}
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, rs);
 		}
+		
 		return b;
 	}
 
@@ -117,8 +112,7 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 	 */
 	@Override
 	public void alterar(Blog objeto) {
-
-		abrirConexao();
+		
 		String sqlUpdate = "UPDATE blog SET titulo=?,descricao=?,imagemFundo=?,autorizacaoNormal=?,autorizacaoAnonimo=? WHERE codigo=?";
 
 		PreparedStatement stmt = null;
@@ -134,11 +128,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			stmt.setInt(6, objeto.getCodigo());
 
 			stmt.executeUpdate();
-
+			stmt.close();
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -150,7 +143,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 	@Override
 	public void deletar(Blog objeto) {
 
-		abrirConexao();
 		String sqlDelete = "DELETE FROM blog WHERE codigo = ?";
 
 		PreparedStatement stmt = null;
@@ -161,17 +153,14 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			stmt.setInt(1, objeto.getCodigo());
 
 			stmt.executeUpdate();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, null);
 		}
 
 	}
 
 	public List<Blog> consultarPorNome(String titulo, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM blog WHERE Ucase(titulo) LIKE Ucase('%" + titulo + "%') ORDER BY titulo " + order
 				+ " LIMIT ?";
@@ -191,29 +180,28 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			while (rs.next()) {
 
 				b = new Blog();
-
+				
 				b.setCodigo(rs.getInt(1));
 				b.setTitulo(rs.getString(2));
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 				resultado.add(b);
 			}
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 
 		return resultado;
 	}
 
 	public List<Blog> consultarPorDescricao(String descricao, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM blog WHERE Ucase(descricao) LIKE Ucase('%" + descricao + "%') ORDER BY descricao "
 				+ order + " LIMIT ?";
@@ -233,22 +221,22 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			while (rs.next()) {
 
 				b = new Blog();
-
+				
 				b.setCodigo(rs.getInt(1));
 				b.setTitulo(rs.getString(2));
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 				resultado.add(b);
 			}
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
@@ -262,7 +250,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 	@Override
 	public List<Blog> getList() {
 
-		abrirConexao();
 		String sqlList = "SELECT * FROM blog";
 
 		List<Blog> bu = null;
@@ -278,29 +265,28 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 			while (rs.next()) {
 				b = new Blog();
-
+				
 				b.setCodigo(rs.getInt(1));
 				b.setTitulo(rs.getString(2));
 				b.setDescricao(rs.getString(3));
 				b.setImagemFundo(rs.getString(4));
 				b.setAutorizaComentario(rs.getBoolean(5));
 				b.setAutorizaComentarioAnonimo(rs.getBoolean(6));
-				b.setUsuario(daoUsuario.consultar(rs.getString("login")));
+				b.setUsuario(new JDBCDAOUsuario().consultar(rs.getString("login")));
 
 				bu.add(b);
 			}
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return bu;
 	}
 
 	public Integer getMaxId() {
-		abrirConexao();
 
 		String sql = "SELECT MAX(codigo) FROM blog";
 		int id = 0;
@@ -315,18 +301,17 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			if (rs.next()) {
 				id = rs.getInt(1);
 			}
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			fecharConexao(stmt, rs);
-		}
-
+		} 
 		return id;
 	}
 
 	@Override
 	public Set<Blog> getBlogsPorUsuario(Usuario usuario) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM blog WHERE login=?";
 
@@ -356,11 +341,10 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 				blogs.add(blog);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return blogs;
@@ -369,7 +353,6 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 
 	@Override
 	public void removerAssinante(Blog blog, Usuario usuario) {
-		abrirConexao();
 
 		String sql = "DELETE FROM assinatura WHERE codBlog = ? AND login = ?";
 
@@ -381,11 +364,11 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 			stmt.setString(2, usuario.getLogin());
 
 			stmt.execute();
+			stmt.close();
+			
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 	}
 
 }

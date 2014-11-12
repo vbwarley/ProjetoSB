@@ -20,7 +20,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 * Método construtor da classe JDBCDAOPalavraChave
 	 */
 	public JDBCDAOPalavraChave() {
-
 	}
 
 	/*
@@ -30,7 +29,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 */
 	@Override
 	public void criar(PalavraChave objeto) {
-		abrirConexao();
+		
 		String insertSql = "INSERT INTO palavras_chave (nome) VALUES (?)";
 
 		PreparedStatement stmt = null;
@@ -45,13 +44,11 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
-
+			
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 	}
 
@@ -62,27 +59,19 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 */
 	@Override
 	public PalavraChave consultar(Integer id) {
-		abrirConexao();
+		
 		String selectSql = "SELECT * FROM palavras_chave WHERE codigo = ?";
-		String selectSqlPP = "SELECT * FROM postagem_palavras WHERE codPalavra = ?";
 
 		PalavraChave pc = null;
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		PreparedStatement stmtPP = null;
-		ResultSet rsPP = null;
 
 		try {
 			// recupera palavras-chave
 			stmt = getConnection().prepareStatement(selectSql);
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
-
-			// recupera postagens com a palavra-chave pesquisada
-			stmtPP = getConnection().prepareStatement(selectSqlPP);
-			stmtPP.setInt(1, id);
-			rsPP = stmtPP.executeQuery();
 
 			while (rs.next()) {
 				pc = new PalavraChave();
@@ -91,14 +80,12 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 				pc.setNome(rs.getString(2));
 
 			}
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-			fecharConexao(stmtPP, rsPP);
 		}
-
 		return pc;
 	}
 
@@ -109,7 +96,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 */
 	@Override
 	public void alterar(PalavraChave objeto) {
-		abrirConexao();
+		
 		String updateSql = "UPDATE palavras_chave SET nome=? WHERE codigo = ?";
 
 		PreparedStatement stmt = null;
@@ -124,8 +111,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -136,7 +121,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 */
 	@Override
 	public void deletar(PalavraChave objeto) {
-		abrirConexao();
+		
 		String deleteSql = "DELETE FROM palavras_chave WHERE codigo=?";
 
 		PreparedStatement stmt = null;
@@ -150,8 +135,6 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -162,7 +145,7 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 	 */
 	@Override
 	public List<PalavraChave> getList() {
-		abrirConexao();
+		
 		String sqlList = "SELECT * FROM palavras_chave";
 		List<PalavraChave> lpc = null;
 		PalavraChave pc = null;
@@ -185,10 +168,10 @@ public class JDBCDAOPalavraChave extends JDBCDAO implements DAOPalavraChave {
 				lpc.add(pc);
 			}
 
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return lpc;

@@ -8,7 +8,6 @@ import java.util.List;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Postagem;
-import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOPostagem;
 
 /**
@@ -18,8 +17,6 @@ import nucleo.model.persistencia.dao.DAOPostagem;
  * @author nathalia
  */
 public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
-
-	private DAOBlog daoBlog = new JDBCDAOBlog();
 	
 	/**
 	 * Método construtor da classe JDBCDAOPostagem
@@ -35,7 +32,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 	 */
 	@Override
 	public void criar(Postagem objeto) {
-		abrirConexao();
+
 		String sql = "INSERT INTO postagem (titulo,conteudo,codBlog,data_criacao) VALUES (?,?,?,?)";
 
 		PreparedStatement stmt = null;
@@ -57,11 +54,11 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 			if (rs.next())
 				objeto.setCodigo(rs.getInt(1));
 
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 	}
@@ -73,7 +70,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 	 */
 	@Override
 	public Postagem consultar(Integer id) {
-		abrirConexao();
+
 		String PostagemSQL = "Select * from postagem where codigo = ?";
 
 		Postagem p = null;
@@ -94,16 +91,17 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(daoBlog.consultar(rs.getInt(4)));
+				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
 				p.setData(rs.getDate(5));
 
 			}
 
+			stmt.close();
+			rs.close();
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 
 		return p;
 	}
@@ -115,14 +113,12 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 	 */
 	@Override
 	public void alterar(Postagem objeto) {
-		abrirConexao();
+
 		String sqlUpdate = "UPDATE postagem SET titulo=?,conteudo=?,codBlog=?,data_criacao=? WHERE codigo=?";
 
 		PreparedStatement stmt = null;
 
 		try {
-			abrirConexao();
-
 			stmt = getConnection().prepareStatement(sqlUpdate);
 
 			stmt.setString(1, objeto.getTitulo());
@@ -132,10 +128,9 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 			stmt.setDate(5, objeto.getData());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -146,7 +141,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 	 */
 	@Override
 	public void deletar(Postagem objeto) {
-		abrirConexao();
 
 		String sqlDelete = "DELETE FROM postagem WHERE codigo = ?";
 
@@ -162,9 +156,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 	}
 
 	/*
@@ -174,7 +166,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 	 */
 	@Override
 	public List<Postagem> getList() {
-		abrirConexao();
 
 		String sqlList = "SELECT * FROM postagem";
 
@@ -196,25 +187,24 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 				p.setCodigo(rs.getInt(1));
 				p.setTitulo(rs.getString(2));
 				p.setConteudo(rs.getString(3));
-				p.setBlog(daoBlog.consultar(rs.getInt(4)));
+				p.setBlog(new JDBCDAOBlog().consultar(rs.getInt(4)));
 				p.setData(rs.getDate(5));
 
 				po.add(p);
 
 			}
-
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 
 		return po;
 	}
 
 	@Override
 	public List<Postagem> getPostagensPorBlog(Blog blog) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM postagem WHERE codBlog = ?";
 
@@ -242,12 +232,13 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 				posts.add(post);
 			}
+			
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 
 		return posts;
 
@@ -255,7 +246,6 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 	@Override
 	public Integer getMaxId() {
-		abrirConexao();
 
 		String sql = "SELECT MAX(codigo) FROM postagem";
 		int id = 0;
@@ -270,10 +260,10 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 			if (rs.next()) {
 				id = rs.getInt(1);
 			}
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return id;

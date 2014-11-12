@@ -26,7 +26,6 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 	 * Construtor da classe.
 	 */
 	public JDBCDAOPostagemPalavras() {
-
 	}
 
 	/*
@@ -36,7 +35,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 	 */
 	@Override
 	public void criar(PostagemPalavra objeto) {
-		abrirConexao();
+		
 		String insetSql = "INSERT INTO postagem_palavras VALUES (?,?)";
 
 		PreparedStatement stmt = null;
@@ -47,11 +46,11 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 			stmt.setInt(2, objeto.getPalavraChave().getCodigo());
 
 			stmt.execute();
+			stmt.close();
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 	}
 
 	/*
@@ -61,7 +60,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 	 */
 	@Override
 	public PostagemPalavra consultar(PostagemPalavra id) {
-		abrirConexao();
+		
 		String selectSql = "SELECT * FROM postagem_palavras WHERE codPostagem=? AND codPalavra=?";
 		PostagemPalavra pp = null;
 
@@ -80,11 +79,12 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 				pp.setPostagem(daoPostagem.consultar(rs.getInt(1)));
 				pp.setPalavraChave(daoPalavraChave.consultar(rs.getInt(2)));
 			}
+			
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 		return pp;
 	}
 
@@ -105,7 +105,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 	 */
 	@Override
 	public void deletar(PostagemPalavra objeto) {
-		abrirConexao();
+		
 		String updateSql = "DELETE FROM postagem_palavras WHERE codPostagem=? AND codPalavra=?";
 
 		PreparedStatement stmt = null;
@@ -119,9 +119,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 	}
 
 	/*
@@ -131,7 +129,7 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 	 */
 	@Override
 	public List<PostagemPalavra> getList() {
-		abrirConexao();
+		
 		String selectList = "SELECT * FROM postagem_palavras";
 		List<PostagemPalavra> listaPP = null;
 		PostagemPalavra pp = null;
@@ -152,12 +150,11 @@ public class JDBCDAOPostagemPalavras extends JDBCDAO implements DAOPostagemPalav
 
 				listaPP.add(pp);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 		return listaPP;
 	}
 }

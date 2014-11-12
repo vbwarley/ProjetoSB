@@ -8,7 +8,6 @@ import java.util.List;
 
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
-import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOUsuario;
 
 /**
@@ -19,13 +18,11 @@ import nucleo.model.persistencia.dao.DAOUsuario;
  */
 public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
-	private DAOBlog daoBlog = new JDBCDAOBlog();
-	
+
 	/**
 	 * Construtor da classe.
 	 */
 	public JDBCDAOUsuario() {
-
 	}
 
 	/*
@@ -35,7 +32,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	 */
 	@Override
 	public void criar(Usuario objeto) {
-		abrirConexao();
+
 		String sql = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		String sqlEmail = "SELECT * FROM usuario WHERE email = ?";
 
@@ -66,11 +63,11 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			if (!rs.next())
 				stmt.execute();
 
+			stmt.close();
+			stmtEmail.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-			fecharConexao(stmtEmail, null);
 		}
 	}
 
@@ -81,7 +78,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	 */
 	@Override
 	public Usuario consultar(String id) {
-		abrirConexao();
+
 		String selectSQL = "SELECT * FROM usuario WHERE login = ?";
 
 		Usuario u = null;
@@ -110,13 +107,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString(11));
 				u.setMusicas(rs.getString(12));
 
-				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 			}
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 		return u;
 	}
@@ -128,13 +125,13 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	 */
 	@Override
 	public void alterar(Usuario objeto) {
-		abrirConexao();
+
 		String sqlUpdate = "UPDATE usuario SET senha=?,nome=?,email=?,sexo=?,data_nascimento=?,endereco=?,interesses=?,quem_sou=?,filmes=?,livros=?,musicas=? WHERE login=?";
 
 		PreparedStatement stmt = null;
 
 		try {
-			abrirConexao();
+
 			stmt = getConnection().prepareStatement(sqlUpdate);
 
 			stmt.setString(1, objeto.getLogin());
@@ -153,10 +150,9 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt.setString(12, objeto.getLogin());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -167,7 +163,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	 */
 	@Override
 	public void deletar(Usuario objeto) {
-		abrirConexao();
+
 		String sqlDelete = "DELETE FROM usuario WHERE login = ?";
 
 		PreparedStatement stmt = null;
@@ -178,10 +174,9 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt.setString(1, objeto.getLogin());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, null);
 		}
 	}
 
@@ -192,7 +187,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 	 */
 	@Override
 	public List<Usuario> getList() {
-		abrirConexao();
+
 		String sqlList = "SELECT * FROM usuario";
 
 		List<Usuario> lu = null;
@@ -225,18 +220,17 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 
 				lu.add(u);
 			}
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return lu;
 	}
 
 	public List<Usuario> consultarPorNome(String nome, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(nome) LIKE Ucase('%" + nome + "%') ORDER BY nome " + order
 				+ " LIMIT ?";
@@ -251,8 +245,6 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt = getConnection().prepareStatement(sql);
 			stmt.setInt(1, limit);
 
-			System.out.println(stmt);
-
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -272,22 +264,21 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
 	}
 
 	public List<Usuario> consultarPorLogin(String login, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(login) LIKE Ucase('%" + login + "%') ORDER BY nome " + order
 				+ " LIMIT ?";
@@ -302,8 +293,6 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			stmt = getConnection().prepareStatement(sql);
 			stmt.setInt(1, limit);
 
-			System.out.println(stmt);
-
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -322,22 +311,20 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
 	}
 
 	public List<Usuario> consultarPorEmail(String email, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM usuario WHERE email = ?";
 
@@ -369,22 +356,20 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
 	}
 
 	public List<Usuario> consultarPorIntervaloData(String from, String to, String order, int limit) {
-		abrirConexao();
 
 		String sql = "SELECT * FROM usuario WHERE data_nascimento BETWEEN ? AND ?";
 		ArrayList<Usuario> resultado = new ArrayList<Usuario>();
@@ -415,35 +400,32 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 				u.setLivros(rs.getString("livros"));
 				u.setMusicas(rs.getString("musicas"));
 
-				u.getBlogsPossuidos().addAll(daoBlog.getBlogsPorUsuario(u));
+				u.getBlogsPossuidos().addAll(new JDBCDAOBlog().getBlogsPorUsuario(u));
 
 				resultado.add(u);
 			}
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return resultado;
 	}
 
 	public boolean validacaoLogin(String login, String senha) {
-		abrirConexao();
 
 		Usuario u = consultar(login);
 
 		if (u == null || !u.getSenha().equals(senha))
 			return false;
-
+		
 		return true;
-
 	}
 
 	@Override
 	public List<Blog> getBlogsSeguidos(Usuario usuario) {
-		abrirConexao();
 
 		String sql = "SELECT codBlog FROM assinatura WHERE login = ?";
 
@@ -461,16 +443,15 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				Blog blog = daoBlog.consultar(rs.getInt(1));
+
+				Blog blog = new JDBCDAOBlog().consultar(rs.getInt(1));
 				blogs.add(blog);
 			}
-
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			fecharConexao(stmt, rs);
-		}
-		
+		} 
 		return blogs;
 	}
 }

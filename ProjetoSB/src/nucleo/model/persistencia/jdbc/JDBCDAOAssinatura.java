@@ -10,6 +10,7 @@ import nucleo.model.negocios.Assinatura;
 import nucleo.model.persistencia.dao.DAOAssinatura;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOUsuario;
+import nucleo.model.persistencia.factory.DAOFactory;
 
 /**
  * Classe para criacao de assinantes de um blog.
@@ -19,15 +20,15 @@ import nucleo.model.persistencia.dao.DAOUsuario;
 
 public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
-	private DAOUsuario daoUsuario = new JDBCDAOUsuario();
-	private DAOBlog daoBlog = new JDBCDAOBlog();
+	private DAOFactory factory = DAOFactory.getDAOFactory();
+	private DAOUsuario daoUsuario = factory.getDAOUsuario();
+	private DAOBlog daoBlog = factory.getDAOBlog();
 
 	
 	/**
 	 * Método construtor da classe JDBCDAOAssinatura
 	 */
 	public JDBCDAOAssinatura() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -37,7 +38,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 */
 	@Override
 	public void criar(Assinatura objeto) {
-		abrirConexao();
 
 		String insetSql = "INSERT INTO assinatura VALUES (?,?)";
 
@@ -49,11 +49,9 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 			stmt.setInt(2, objeto.getBlog().getCodigo());
 
 			stmt.execute();
-
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
 		}
 
 	}
@@ -65,7 +63,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 */
 	@Override
 	public Assinatura consultar(Assinatura id) {
-		abrirConexao();
 
 		String selectSql = "SELECT * FROM assinatura WHERE login=? AND codBlog=?";
 		Assinatura a = null;
@@ -82,15 +79,17 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 			if (rs.next()) {
 				a = new Assinatura();
+				
 				a.setUsuario(daoUsuario.consultar(rs.getString(1)));
 				a.setBlog(daoBlog.consultar(rs.getInt(2)));
 			}
+			
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
-		}
+		} 
 
 		return a;
 	}
@@ -112,7 +111,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 */
 	@Override
 	public void deletar(Assinatura objeto) {
-		abrirConexao();
 		String updateSql = "DELETE FROM assinatura WHERE login=? AND codBlog=?";
 
 		PreparedStatement stmt = null;
@@ -123,11 +121,10 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 			stmt.setInt(2, objeto.getBlog().getCodigo());
 
 			stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, null);
-		}
+		} 
 	}
 
 	/*
@@ -137,7 +134,6 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 	 */
 	@Override
 	public List<Assinatura> getList() {
-		abrirConexao();
 
 		String selectList = "SELECT * FROM assinatura";
 		List<Assinatura> listaA = null;
@@ -154,24 +150,26 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 			while (rs.next()) {
 				assinatura = new Assinatura();
+								
 				assinatura.setUsuario(daoUsuario.consultar(rs.getString(1)));
 				assinatura.setBlog(daoBlog.consultar(rs.getInt(2)));
 
 				listaA.add(assinatura);
 			}
+			
+			stmt.close();
+			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 		return listaA;
 	}
 
 	@Override
 	public Integer getMaxId() {
-		abrirConexao();
 
+		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
@@ -186,10 +184,10 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 			if (rs.next())
 				id = rs.getInt(1);
 
+			stmt.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			fecharConexao(stmt, rs);
 		}
 
 		return id;

@@ -55,9 +55,9 @@ public class Facade {
 	public static void main(String[] args) {
 		args = new String[] { "fachada.Facade", "testes-aceitacao/us01.txt", "testes-aceitacao/us02.txt",
 				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
-				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
+				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt","testes-aceitacao/us08.txt",
 				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
-				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt",};
+				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt"};
 		EasyAccept.main(args);
 	}
 
