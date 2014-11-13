@@ -16,7 +16,7 @@ public class Assinatura {
 	 * Construtor da classe.
 	 */
 	public Assinatura() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**

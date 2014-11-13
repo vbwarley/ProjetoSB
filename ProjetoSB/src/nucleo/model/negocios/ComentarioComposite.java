@@ -191,21 +191,10 @@ public abstract class ComentarioComposite {
 	 * @author Douglas
 	 */
 	public boolean equals(ComentarioComposite comentario) {
-		int iguais = 0;
 		 
-		if (comentario.getCodigo() == this.getCodigo() 
-				&& comentario.getTitulo().equals(this.getTitulo())
-				&& comentario.getConteudo().equals(this.getConteudo())
-				&& comentario.getPostagem().equals(this.getPostagem())
-				&& comentario.getComentarioPai().getCodigo() == this.getComentarioPai().getCodigo()
-				&& comentario.getUsuario().equals(this.getUsuario())) {
-			for (ComentarioComposite comentarioP : comentario.getListaComentarios())
-				for (ComentarioComposite comentarioT : this.getListaComentarios())
-					if (comentarioP.equals(comentarioT))
-						iguais++;
-			if (iguais == this.getListaComentarios().size() && this.getListaComentarios().size() == comentario.getListaComentarios().size())
+		if (comentario.getCodigo() == this.getCodigo())
 				return true;
-		}
+		
 		return false;
 	}
 }

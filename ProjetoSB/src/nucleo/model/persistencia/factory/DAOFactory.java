@@ -1,5 +1,6 @@
 package nucleo.model.persistencia.factory;
 
+import nucleo.model.persistencia.dao.DAOAssinatura;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
@@ -61,18 +62,27 @@ public abstract class DAOFactory {
 	public abstract DAOComentario getDAOComentario();
 	
 	/**
+	 * Método que retorna uma instância de DAOAssinatura.
+	 * 
+	 * @return
+	 */	
+	public abstract DAOAssinatura getDAOAssinatura();
+	
+	/**
 	 * Método que retorna uma instância de DAOFactory, onde conterá a referência de sua classe filha, JDBCDAOFactory.
 	 * 
 	 * @return um objeto de DAOFactory
 	 */
 	public static DAOFactory getDAOFactory() {
 		try {
-			return (DAOFactory) FACTORY_CLASS.newInstance();
+			return FACTORY_CLASS.newInstance();
 		} catch (InstantiationException e) {
 			throw new RuntimeException();
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException();
 		}
 	}
+
+	
 	
 }

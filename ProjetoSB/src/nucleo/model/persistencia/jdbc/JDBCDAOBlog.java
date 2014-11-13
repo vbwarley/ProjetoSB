@@ -350,25 +350,43 @@ public class JDBCDAOBlog extends JDBCDAO implements DAOBlog {
 		return blogs;
 
 	}
+	
+//	@Override
+//	public void incluirSeguidor(Blog b, Usuario assinante) {
+//		
+//		String sql = "INSERT INTO assinatura VALUES (?,?)";
+//		PreparedStatement stmt = null;
+//		
+//		try {
+//			stmt = getConnection().prepareStatement(sql);
+//			stmt.setString(1, assinante.getLogin());
+//			stmt.bl
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		
+//	}
 
-	@Override
-	public void removerAssinante(Blog blog, Usuario usuario) {
+//	@Override
+//	public void removerAssinante(Blog blog, Usuario usuario) {
+//
+//		String sql = "DELETE FROM assinatura WHERE codBlog = ? AND login = ?";
+//
+//		PreparedStatement stmt = null;
+//
+//		try {
+//			stmt = getConnection().prepareStatement(sql);
+//			stmt.setInt(1, blog.getCodigo());
+//			stmt.setString(2, usuario.getLogin());
+//
+//			stmt.execute();
+//			stmt.close();
+//			
+//		} catch (SQLException e) {
+//			throw new RuntimeException();
+//		} 
+//	}
 
-		String sql = "DELETE FROM assinatura WHERE codBlog = ? AND login = ?";
-
-		PreparedStatement stmt = null;
-
-		try {
-			stmt = getConnection().prepareStatement(sql);
-			stmt.setInt(1, blog.getCodigo());
-			stmt.setString(2, usuario.getLogin());
-
-			stmt.execute();
-			stmt.close();
-			
-		} catch (SQLException e) {
-			throw new RuntimeException();
-		} 
-	}
+	
 
 }

@@ -11,6 +11,8 @@ import nucleo.model.negocios.ComentarioAnonimo;
 import nucleo.model.negocios.ComentarioComposite;
 import nucleo.model.negocios.ComentarioNormal;
 import nucleo.model.negocios.Midia;
+import nucleo.model.negocios.MidiaComentario;
+import nucleo.model.negocios.MidiaPostagem;
 import nucleo.model.negocios.Postagem;
 import nucleo.model.negocios.TipoMidia;
 import nucleo.model.negocios.Usuario;
@@ -50,7 +52,7 @@ public class TestJDBCDAOMidia {
 		ComentarioComposite comentario = new ComentarioNormal();
 		ComentarioComposite comentarioN = new ComentarioNormal();
 		ComentarioComposite comentarioA = new ComentarioAnonimo();
-		Midia midia = new Midia();
+		MidiaComentario midia = new MidiaComentario();
 
 		usuario.setLogin("warlyos");
 		usuario.setSenha("222");
@@ -117,7 +119,7 @@ public class TestJDBCDAOMidia {
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
 		midia.setComentario(comentario);
-		midia.setPostagem(null);
+		
 
 		jdm.criar(midia);
 
@@ -134,7 +136,7 @@ public class TestJDBCDAOMidia {
 		ComentarioComposite comentario = new ComentarioNormal();
 		ComentarioComposite comentarioN = new ComentarioNormal();
 		ComentarioComposite comentarioA = new ComentarioAnonimo();
-		Midia midia = new Midia();
+		MidiaComentario midia = new MidiaComentario();
 
 		usuario.setLogin("warly");
 		usuario.setSenha("222");
@@ -201,7 +203,6 @@ public class TestJDBCDAOMidia {
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
 		midia.setComentario(comentarioA);
-		midia.setPostagem(null);
 
 		jdm.criar(midia);
 
@@ -215,7 +216,7 @@ public class TestJDBCDAOMidia {
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
 		Blog blog = new Blog();
-		Midia midia = new Midia();
+		MidiaPostagem midia = new MidiaPostagem();
 
 		usuario.setLogin("varly");
 		usuario.setSenha("222");
@@ -253,7 +254,6 @@ public class TestJDBCDAOMidia {
 		
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
-		midia.setComentario(null);
 		midia.setPostagem(postagem);
 
 		jdm.criar(midia);
@@ -273,7 +273,7 @@ public class TestJDBCDAOMidia {
 		Usuario usuarioA = new Usuario();
 		Postagem postagem = new Postagem();
 		Blog blog = new Blog();
-		Midia midia = new Midia();
+		MidiaPostagem midia = new MidiaPostagem();
 
 		usuario.setLogin("warlzy");
 		usuario.setSenha("222");
@@ -311,7 +311,6 @@ public class TestJDBCDAOMidia {
 
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo X");
-		midia.setComentario(null);
 		midia.setPostagem(postagem);
 
 		jdm.criar(midia);
@@ -330,9 +329,9 @@ public class TestJDBCDAOMidia {
 		ComentarioComposite comentario = new ComentarioNormal();
 		ComentarioComposite comentarioN = new ComentarioNormal();
 		ComentarioComposite comentarioA = new ComentarioAnonimo();
-		Midia midia = new Midia();
-		Midia midia2 = new Midia();
-		Midia midia3 = new Midia();
+		MidiaComentario midia = new MidiaComentario();
+		MidiaPostagem midia2 = new MidiaPostagem();
+		MidiaPostagem midia3 = new MidiaPostagem();
 		List<Midia> listMidia = new ArrayList<Midia>();
 
 		usuario.setLogin("warlys");
@@ -400,16 +399,13 @@ public class TestJDBCDAOMidia {
 		midia.setTipo(TipoMidia.AUDIO);
 		midia.setNomeArquivo("Arquivo W");
 		midia.setComentario(comentario);
-		midia.setPostagem(null);
 
 		midia2.setTipo(TipoMidia.IMAGEM);
 		midia2.setNomeArquivo("Arquivo W");
-		midia2.setComentario(null);
 		midia2.setPostagem(postagem);
 
 		midia3.setTipo(TipoMidia.VIDEO);
 		midia3.setNomeArquivo("Arquivo X");
-		midia3.setComentario(null);
 		midia3.setPostagem(postagem);
 
 		jdm.criar(midia);

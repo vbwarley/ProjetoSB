@@ -258,8 +258,14 @@ public class Usuario implements Observer {
 	 * 
 	 * @param blog a ser assinado
 	 */
-	public void criarAssinatura(Blog blog) {
+	public Assinatura criarAssinatura(Blog blog) {
 		blog.addObserver(this);
+	
+		Assinatura a = new Assinatura();	
+		a.setBlog(blog);
+		a.setUsuario(this);
+		
+		return a;
 	}
 
 	/**
@@ -267,8 +273,14 @@ public class Usuario implements Observer {
 	 * 
 	 * @param blog a ser excluido das assinaturas
 	 */
-	public void excluirAssinatura(Blog blog) {
+	public Assinatura excluirAssinatura(Blog blog) {
 		blog.deleteObserver(this);
+		
+		Assinatura a = new Assinatura();	
+		a.setBlog(blog);
+		a.setUsuario(this);
+		
+		return a;
 	}
 
 	/**
@@ -308,31 +320,8 @@ public class Usuario implements Observer {
 	 */
 	public boolean equals(Usuario usuario) {
 		// int iguais = 0;
-		if (usuario.getLogin().equals(this.login)
-				&& (usuario.getSenha() == null ? (usuario.getSenha() == this.senha)
-						: usuario.getSenha().equals(this.senha))
-						&& (usuario.getNome() == null ? (usuario.getNome() == this.nome)
-								: usuario.getNome().equals(this.nome))
-								&& usuario.getSexo() == this.sexo
-								&& (usuario.getDataNascimento() == null ? (usuario
-										.getDataNascimento() == this.dataNascimento) : usuario
-										.getDataNascimento().equals(this.dataNascimento))
-										&& (usuario.getEmail() == null ? (usuario.getDataNascimento() == this.dataNascimento)
-												: usuario.getEmail().equals(this.email))
-												&& (usuario.getQuemSouEu() == null ? (usuario.getQuemSouEu() == this.quemSouEu)
-														: usuario.getQuemSouEu().equals(this.quemSouEu))
-														&& (usuario.getInteresses() == null ? (usuario.getInteresses() == this.interesses)
-																: usuario.getInteresses().equals(this.interesses))
-																&& (usuario.getEndereco() == null ? (usuario.getEndereco() == this.endereco)
-																		: usuario.getEndereco().equals(this.endereco))
-																		&& (usuario.getFilmes() == null ? (usuario.getFilmes() == this.filmes)
-																				: usuario.getFilmes().equals(this.filmes))
-																				&& (usuario.getLivros() == null ? (usuario.getLivros() == this.livros)
-																						: usuario.getLivros().equals(this.livros))
-																						&& (usuario.getMusicas() == null ? (usuario.getMusicas() == this.livros)
-																								: usuario.getMusicas().equals(this.musicas))) {
-			return true;
-		}
+		if (usuario.getLogin().equals(this.login))
+				return true;		
 		return false;
 	}
 

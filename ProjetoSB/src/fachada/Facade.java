@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nucleo.model.negocios.Assinatura;
 import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.ComentarioAnonimo;
 import nucleo.model.negocios.ComentarioComposite;
@@ -26,6 +27,7 @@ import nucleo.model.negocios.busca.BuscaUsuarioEmail;
 import nucleo.model.negocios.busca.BuscaUsuarioLogin;
 import nucleo.model.negocios.busca.BuscaUsuarioNome;
 import nucleo.model.negocios.busca.BuscaUsuarioPorIntervaloData;
+import nucleo.model.persistencia.dao.DAOAssinatura;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
@@ -46,6 +48,7 @@ public class Facade {
 	private DAOMidia daoMidia = factory.getDAOMidia();
 	private DAOPostagem daoPostagem = factory.getDAOPostagem();
 	private DAOComentario daoComentario = factory.getDAOComentario();
+	private DAOAssinatura daoAssinatura = factory.getDAOAssinatura();
 
 	private Pattern padrao;
 	private Matcher verificaPadrao;
@@ -54,8 +57,11 @@ public class Facade {
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	public static void main(String[] args) {
-		args = new String[] { "fachada.Facade", 
-				"testes-aceitacao/us13.txt" };
+		args = new String[] { "fachada.Facade", "testes-aceitacao/us01.txt", "testes-aceitacao/us02.txt",
+				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
+				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
+				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
+				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt"};
 		EasyAccept.main(args);
 	}
 
@@ -1135,17 +1141,29 @@ public class Facade {
 
 	}
 
-	public int getNumberOfCommentsByPost(int postId) throws Exception {
+	public int getNumberOfCommentsByPost(String postId) throws Exception {
 
-		List<ComentarioComposite> listC = daoComentario.getList();
-		List<ComentarioComposite> listCommentsPost = new ArrayList<ComentarioComposite>();
+		int numT = 0;
 
-		for (ComentarioComposite comentarioComposite : listC) {
-			if (comentarioComposite.getPostagem().getCodigo() == postId)
-				listCommentsPost.add(comentarioComposite);
+		if (postId == null || postId.equals(""))
+			throw new Exception("Campo inválido: postId");
+
+		int postIdInt = 0;
+		
+		try {
+			postIdInt = Integer.parseInt(postId);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("Campo inválido: postId");
 		}
+		
+		List<ComentarioComposite> comments = daoComentario.getList();
 
-		return listCommentsPost.size();
+		for (ComentarioComposite comentarioComposite : comments)
+			if (comentarioComposite.getPostagem().getCodigo() == postIdInt
+					&& comentarioComposite.getComentarioPai() == null)
+				numT++;
+
+		return numT;
 	}
 
 	public int getComment(int postId, int index) throws Exception {
@@ -1358,14 +1376,14 @@ public class Facade {
 		Date fromDate;
 
 		// formato a ser enviado para o banco
-		SimpleDateFormat sdfBaixo = new SimpleDateFormat("yyyy-MM-dd");		
-		
+		SimpleDateFormat sdfBaixo = new SimpleDateFormat("yyyy-MM-dd");
+
 		// tentativa de conversão de 'from' para funfar e ir ao banco
 		try {
 			fromDate = new Date(sdfCima.parse(from).getTime());
-	
+
 			fromDate = Date.valueOf((sdfBaixo.format(fromDate)));
-					
+
 		} catch (ParseException e) {
 			throw new Exception("Campo inválido: from");
 		} catch (IllegalArgumentException e) {
@@ -1377,14 +1395,14 @@ public class Facade {
 		// tentativa de conversão de 'to' para funfar e ir ao banco
 		try {
 			toDate = new Date(sdfCima.parse(to).getTime());
-			
+
 			toDate = Date.valueOf((sdfBaixo.format(toDate)));
 		} catch (ParseException e) {
 			throw new Exception("Campo inválido: to");
 		} catch (IllegalArgumentException e) {
 			throw new Exception("Campo inválido: to");
 		}
-		
+
 		int offSetInt;
 
 		try {
@@ -1411,13 +1429,14 @@ public class Facade {
 
 		if (order == null || !order.equals("asc") && !order.equals("desc"))
 			throw new Exception("Campo inválido: order");
-		
+
 		if (fromDate.compareTo(toDate) > 0)
 			throw new Exception("Campo inválido: intervalo inconsistente");
 
 		BuscaStrategy<Usuario> buscaUsuario = new BuscaUsuarioPorIntervaloData();
 
-		List<Usuario> usuarios = buscaUsuario.buscar(fromDate.toString() + ";" + toDate.toString(), order, offSetInt, maxEntriesInt);
+		List<Usuario> usuarios = buscaUsuario.buscar(fromDate.toString() + ";" + toDate.toString(), order, offSetInt,
+				maxEntriesInt);
 		List<String> logins = new ArrayList<String>();
 
 		for (Usuario user : usuarios)
@@ -1519,12 +1538,27 @@ public class Facade {
 			throw new Exception("Sessão inválida");
 
 		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
-
+		List<Assinatura> assinaturas = daoAssinatura.getList();
+		int numberOA = 0;
+		
 		if (user == null)
 			throw new Exception("Usuário inválido");
+		
+		for (Assinatura a : assinaturas) 
+			if (a.getUsuario().equals(user))
+				numberOA++;
 
-		return user.getBlogsPossuidos().size();
+		return numberOA;
 
+	}
+
+	public void addPostAnnouncements(String sessionId, String blogId) {
+		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
+		Blog b = daoBlog.consultar(Integer.parseInt(blogId));
+		
+		daoAssinatura.criar(assinante.criarAssinatura(b));
+		
+		
 	}
 
 	public int getAnnouncement(String sessionId, int index) throws Exception {
@@ -1554,11 +1588,13 @@ public class Facade {
 	}
 
 	public void deleteAnnouncement(String sessionId, String announcementId) throws Exception {
-		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
+		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 
 		Blog blog = daoBlog.consultar(Integer.parseInt(announcementId));
 
-		daoBlog.removerAssinante(blog, user);
+		
+		daoAssinatura.deletar(assinante.excluirAssinatura(blog));
+
 	}
 
 	public int addSubComment(String sessionId, String parentCommentId, String texto) throws Exception {
@@ -1589,7 +1625,7 @@ public class Facade {
 			comment = comment.getComentarioPai();
 			nivel++;
 		}
-
+				
 		if (nivel < 3) {
 			comment = daoComentario.consultar(Integer.parseInt(parentCommentId));
 
@@ -1597,7 +1633,7 @@ public class Facade {
 			cN.setConteudo(texto);
 			cN.setUsuario(user);
 			cN.setComentarioPai(comment);
-
+			cN.setPostagem(comment.getPostagem());
 			daoComentario.criar(cN);
 		} else {
 			throw new Exception("Cadeia máxima de subcomentários excedida");
@@ -1636,7 +1672,15 @@ public class Facade {
 		if (blogId == null || blogId.equals(""))
 			throw new Exception("Campo inválido: blogId");
 
-		Blog blog = daoBlog.consultar(Integer.parseInt(blogId));
+		int blogIdInt = 0;
+		
+		try {
+			blogIdInt = Integer.parseInt(blogId);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("Campo inválido: blogId");
+		}
+		
+		Blog blog = daoBlog.consultar(blogIdInt);
 
 		List<Postagem> posts = daoPostagem.getList();
 		List<ComentarioComposite> comments = daoComentario.getList();
@@ -1650,25 +1694,6 @@ public class Facade {
 
 	}
 
-	public int getNumberOfCommentsByPost(String postId) throws Exception {
-
-		if (postId == null || postId.equals(""))
-			throw new Exception("Campo inválido: postId");
-
-		int numT = 0;
-
-		int postIdInt = Integer.parseInt(postId);
-
-		List<ComentarioComposite> comments = daoComentario.getList();
-
-		for (ComentarioComposite comentarioComposite : comments)
-			if (comentarioComposite.getPostagem().getCodigo() == postIdInt
-					&& comentarioComposite.getComentarioPai() != null)
-				numT++;
-
-		return numT;
-
-	}
 
 	public int getTotalNumberOfCommentsByPost(String postId) throws Exception {
 
@@ -1676,7 +1701,13 @@ public class Facade {
 			throw new Exception("Campo inválido: postId");
 
 		int numT = 0;
-		int postIdInt = Integer.parseInt(postId);
+		int postIdInt = 0;
+
+		try {
+			postIdInt = Integer.parseInt(postId);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("Campo inválido: postId");
+		}
 
 		List<ComentarioComposite> comments = daoComentario.getList();
 
@@ -1693,7 +1724,15 @@ public class Facade {
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
+		int commentIdInt = 0;
+		
+		try {
+			commentIdInt = Integer.parseInt(commentId);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("Campo inválido: commentId");
+		}
+		
+		ComentarioComposite comment = daoComentario.consultar(commentIdInt);
 
 		return comment.getListaComentarios().size();
 	}
@@ -1703,14 +1742,22 @@ public class Facade {
 		if (commentId == null || commentId.equals(""))
 			throw new Exception("Campo inválido: commentId");
 
-		ComentarioComposite comment = daoComentario.consultar(Integer.parseInt(commentId));
+		int commentIdInt = 0;
+		
+		try {
+			commentIdInt = Integer.parseInt(commentId);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("Campo inválido: commentId");
+		}
+		
+		ComentarioComposite comment = daoComentario.consultar(commentIdInt);
 
 		List<ComentarioComposite> subC = comment.getListaComentarios();
 		int numT = subC.size();
 
 		for (ComentarioComposite comentarioComposite : subC)
-			numT += comentarioComposite.getListaComentarios().size();
-
+			numT += daoComentario.consultaSubComentarios(comentarioComposite).size();
+		
 		return numT;
 
 	}

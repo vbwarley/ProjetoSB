@@ -32,7 +32,7 @@ public class TestJDBCDAOBlog {
 		Usuario usuario = new Usuario();
 		Blog blog = new Blog();
 
-		usuario.setLogin("UB1");
+		usuario.setLogin("UB11");
 		usuario.setSenha("991");
 		usuario.setNome("RayRAy");
 		usuario.setSexo("Masculino");

@@ -234,6 +234,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return lu;
 	}
 
+	@Override
 	public List<Usuario> consultarPorNome(String nome, String order, int limit) {
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(nome) LIKE Ucase('%" + nome + "%') ORDER BY nome " + order
@@ -282,6 +283,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return resultado;
 	}
 
+	@Override
 	public List<Usuario> consultarPorLogin(String login, String order, int limit) {
 
 		String sql = "SELECT * FROM usuario WHERE Ucase(login) LIKE Ucase('%" + login + "%') ORDER BY nome " + order
@@ -331,6 +333,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return resultado;
 	}
 
+	@Override
 	public List<Usuario> consultarPorEmail(String email) {
 
 		String sql = "SELECT * FROM usuario WHERE email = ?";
@@ -424,6 +427,7 @@ public class JDBCDAOUsuario extends JDBCDAO implements DAOUsuario {
 		return resultado;
 	}
 
+	@Override
 	public boolean validacaoLogin(String login, String senha) {
 
 		Usuario u = consultar(login);

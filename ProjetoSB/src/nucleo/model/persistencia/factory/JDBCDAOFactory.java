@@ -1,11 +1,13 @@
 package nucleo.model.persistencia.factory;
 
+import nucleo.model.persistencia.dao.DAOAssinatura;
 import nucleo.model.persistencia.dao.DAOBlog;
 import nucleo.model.persistencia.dao.DAOComentario;
 import nucleo.model.persistencia.dao.DAOMidia;
 import nucleo.model.persistencia.dao.DAOPalavraChave;
 import nucleo.model.persistencia.dao.DAOPostagem;
 import nucleo.model.persistencia.dao.DAOUsuario;
+import nucleo.model.persistencia.jdbc.JDBCDAOAssinatura;
 import nucleo.model.persistencia.jdbc.JDBCDAOBlog;
 import nucleo.model.persistencia.jdbc.JDBCDAOComentario;
 import nucleo.model.persistencia.jdbc.JDBCDAOMidia;
@@ -71,6 +73,12 @@ public class JDBCDAOFactory extends DAOFactory {
 	public DAOPalavraChave getDAOPalavraChave() {
 		DAOPalavraChave palavraChave = new JDBCDAOPalavraChave();
 		return palavraChave;
+	}
+
+	@Override
+	public DAOAssinatura getDAOAssinatura() {
+		DAOAssinatura assinatura = new JDBCDAOAssinatura();
+		return assinatura;
 	}
 
 }

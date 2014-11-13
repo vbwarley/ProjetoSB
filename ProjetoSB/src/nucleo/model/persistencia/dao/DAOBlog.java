@@ -10,7 +10,9 @@ public interface DAOBlog extends DAO<Blog, Integer> {
 
 	Integer getMaxId();
 
-	void removerAssinante(Blog blog, Usuario user);
+//	void incluirSeguidor(Blog blog, Usuario user);
+//
+//	void removerAssinante(Blog blog, Usuario user);
 
 	List<Blog> consultarPorNome(String match, String order, int maxentries);
 

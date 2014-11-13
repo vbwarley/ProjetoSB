@@ -170,7 +170,7 @@ public class TestJDBCDAOPalavraChave {
 		usuario.setLogin("UP3");
 		usuario.setSenha("112211");
 		usuario.setNome("Franscisacos das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("fran@example.com");
 		usuario.setDataNascimento(Date.valueOf("2001-10-19"));
 		usuario.setEndereco("RIOS");
@@ -232,7 +232,7 @@ public class TestJDBCDAOPalavraChave {
 		usuario.setLogin("UP4");
 		usuario.setSenha("112211");
 		usuario.setNome("Franscisacos das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("fran@example.com");
 		usuario.setDataNascimento(Date.valueOf("2001-10-19"));
 		usuario.setEndereco("RIOS");
@@ -298,7 +298,7 @@ public class TestJDBCDAOPalavraChave {
 		usuario.setLogin("UP5");
 		usuario.setSenha("112211");
 		usuario.setNome("Franscisacos das dores");
-		usuario.setSexo('M');
+		usuario.setSexo("Masculino");
 		usuario.setEmail("fran@example.com");
 		usuario.setDataNascimento(Date.valueOf("2001-10-19"));
 		usuario.setEndereco("RIOS");
