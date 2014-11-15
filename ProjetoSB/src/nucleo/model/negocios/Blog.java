@@ -1,8 +1,8 @@
 package nucleo.model.negocios;
 
-import java.util.Observable;
+import java.util.ArrayList;
 
-public class Blog extends Observable {
+public class Blog implements Subject {
 
 	private int codigo;
 	private String titulo;
@@ -12,16 +12,21 @@ public class Blog extends Observable {
 	private boolean autorizaComentarioAnonimo;
 	private Usuario usuario;
 
+	private ArrayList<Observer> observers;
+
+
 	/**
 	 * Construtor da classe Blog
+	 * 
 	 * @author raiane
 	 */
 	public Blog() {
-
+		observers = new ArrayList<Observer>();
 	}
 
 	/**
 	 * Método que recupera o código do Blog
+	 * 
 	 * @return Int codigo - retorna o codigo do Blog
 	 * @author raiane
 	 */
@@ -31,7 +36,9 @@ public class Blog extends Observable {
 
 	/**
 	 * Método que atribui um código ao Blog
-	 * @param codigo Int - parâmetro passado ao método setCodigo
+	 * 
+	 * @param codigo
+	 *            Int - parâmetro passado ao método setCodigo
 	 * @author raiane
 	 */
 	public void setCodigo(int codigo) {
@@ -40,6 +47,7 @@ public class Blog extends Observable {
 
 	/**
 	 * Método que recupera o título do Blog
+	 * 
 	 * @return String titulo - retorna o titulo do blog
 	 * @author raiane
 	 */
@@ -49,7 +57,9 @@ public class Blog extends Observable {
 
 	/**
 	 * O método setTitulo é o que será usado para atribuir um valor para título.
-	 * @param titulo String  - parâmetro passado ao método setTitulo 
+	 * 
+	 * @param titulo
+	 *            String - parâmetro passado ao método setTitulo
 	 * @author raiane
 	 */
 	public void setTitulo(String titulo) {
@@ -58,6 +68,7 @@ public class Blog extends Observable {
 
 	/**
 	 * O método getDescricao serve para recuperar uma descrição.
+	 * 
 	 * @return String descricao - retorna a descrição do blog
 	 * @author raiane
 	 */
@@ -65,8 +76,12 @@ public class Blog extends Observable {
 		return descricao;
 	}
 
-	/** O método setDescricao é o que será usado para atribuir uma descrição ao blog
-	 * @param descricao String - parâmetro passado ao método setDescricao
+	/**
+	 * O método setDescricao é o que será usado para atribuir uma descrição ao
+	 * blog
+	 * 
+	 * @param descricao
+	 *            String - parâmetro passado ao método setDescricao
 	 * @author raiane
 	 */
 	public void setDescricao(String descricao) {
@@ -82,7 +97,7 @@ public class Blog extends Observable {
 	}
 
 	/**
-	 * @param 
+	 * @param
 	 */
 	public void setImagemFundo(String imagemFundo) {
 		this.imagemFundo = imagemFundo;
@@ -90,7 +105,9 @@ public class Blog extends Observable {
 
 	/**
 	 * Método que retorna uma autorização de comentário ao assinante
-	 * @return Boolean isAutorizaComentario - retorna uma autorização do comentário
+	 * 
+	 * @return Boolean isAutorizaComentario - retorna uma autorização do
+	 *         comentário
 	 * @author raiane
 	 */
 	public boolean isAutorizaComentario() {
@@ -99,7 +116,9 @@ public class Blog extends Observable {
 
 	/**
 	 * Método que atribui um coméntario ao blog
-	 * @param autorizaComentario Boolean - parâmetro passado ao método setAutorizaComentario
+	 * 
+	 * @param autorizaComentario
+	 *            Boolean - parâmetro passado ao método setAutorizaComentario
 	 * @author raiane
 	 */
 	public void setAutorizaComentario(boolean autorizaComentario) {
@@ -107,8 +126,10 @@ public class Blog extends Observable {
 	}
 
 	/**
-	 *Método que retorna uma autorização de comentário anônimo ao assinante
-	 * @return Boolean isAutorizaComentarioAnonimo - retorna uma autorização para comentário anônimo.
+	 * Método que retorna uma autorização de comentário anônimo ao assinante
+	 * 
+	 * @return Boolean isAutorizaComentarioAnonimo - retorna uma autorização
+	 *         para comentário anônimo.
 	 * @author raiane
 	 */
 	public boolean isAutorizaComentarioAnonimo() {
@@ -117,7 +138,10 @@ public class Blog extends Observable {
 
 	/**
 	 * O método setAutorizaComentarioAnonimo atribui comentário anônimo ao Blog
-	 * @param Boolean autorizaComentarioAnonimo - parâmetro passado ao método setAutorizaComentarioAnonimo
+	 * 
+	 * @param Boolean
+	 *            autorizaComentarioAnonimo - parâmetro passado ao método
+	 *            setAutorizaComentarioAnonimo
 	 * @author raiane
 	 */
 	public void setAutorizaComentarioAnonimo(boolean autorizaComentarioAnonimo) {
@@ -126,6 +150,7 @@ public class Blog extends Observable {
 
 	/**
 	 * Método que retorna um usuário que assina o blog
+	 * 
 	 * @return Usuario Usuario - retorna um usuário assinante do blog
 	 * @author raiane
 	 */
@@ -135,21 +160,49 @@ public class Blog extends Observable {
 
 	/**
 	 * O método atribui um usuario
-	 * @param usuario Usuario - parâmetro passado ao método setUsuario
+	 * 
+	 * @param usuario
+	 *            Usuario - parâmetro passado ao método setUsuario
 	 * @author raiane
 	 */
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
+	@Override
+	public void register(Observer newObserver) {
+		observers.add(newObserver);
+	}
+
+	@Override
+	public void unregister(Observer deleteObserver) {
+		observers.remove(deleteObserver);
+	}
+
+	@Override
+	public void notifyObserver() {
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
+	}
+	
+	public ArrayList<Observer> getObservers() {
+		return observers;
+	}
+	
 	/**
-	 * O método verifica se o blog que foi passado como parâmetro é igual a este blog.
-	 * @param blog Blog - parâmetro passado ao método equals
-	 * @return Boolean equals - retorna uma condição verdadeira se todos os campos para a criação de um blog estiver preenchidos corretamente, casso contrário retorna um false
+	 * O método verifica se o blog que foi passado como parâmetro é igual a este
+	 * blog.
+	 * 
+	 * @param blog
+	 *            Blog - parâmetro passado ao método equals
+	 * @return Boolean equals - retorna uma condição verdadeira se todos os
+	 *         campos para a criação de um blog estiver preenchidos
+	 *         corretamente, casso contrário retorna um false
 	 * @author raiane
 	 */
 	public boolean equals(Blog blog) {
-		
+
 		if (blog.getCodigo() == this.codigo)
 			return true;
 		return false;

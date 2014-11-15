@@ -17,7 +17,7 @@ import nucleo.model.persistencia.dao.DAOPostagem;
  * @author nathalia
  */
 public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
-	
+
 	/**
 	 * Método construtor da classe JDBCDAOPostagem
 	 */
@@ -56,6 +56,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 			stmt.close();
 			rs.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -101,7 +102,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} 
+		}
 
 		return p;
 	}
@@ -156,7 +157,7 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} 
+		}
 	}
 
 	/*
@@ -193,12 +194,12 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 				po.add(p);
 
 			}
-			
+
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException();
-		} 
+		}
 
 		return po;
 	}
@@ -232,13 +233,13 @@ public class JDBCDAOPostagem extends JDBCDAO implements DAOPostagem {
 
 				posts.add(post);
 			}
-			
+
 			stmt.close();
 			rs.close();
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		} 
+		}
 
 		return posts;
 
