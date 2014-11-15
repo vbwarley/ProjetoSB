@@ -2,8 +2,6 @@ package nucleo.model.negocios;
 
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 
 /**
@@ -26,6 +24,8 @@ public class Usuario implements Observer {
 	private String musicas;
 	private String livros;
 	private Set<Blog> blogsPossuidos;
+
+	private Subject state;
 
 	/**
 	 * Construtor da classe.
@@ -141,7 +141,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta a data de nascimento do usuário.
 	 * 
-	 * @param dataNascimento a ser setada
+	 * @param dataNascimento
+	 *            a ser setada
 	 */
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
@@ -149,7 +150,7 @@ public class Usuario implements Observer {
 
 	/**
 	 * Retorna o endereço do usuário.
-	 *  
+	 * 
 	 * @return endereco do usuário
 	 */
 	public String getEndereco() {
@@ -159,7 +160,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta o endereço do usuário.
 	 * 
-	 * @param endereco a ser setado
+	 * @param endereco
+	 *            a ser setado
 	 */
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
@@ -177,7 +179,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta os interesses do usuário.
 	 * 
-	 * @param interesses a serem setados.
+	 * @param interesses
+	 *            a serem setados.
 	 */
 	public void setInteresses(String interesses) {
 		this.interesses = interesses;
@@ -195,7 +198,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta o quem sou eu do usuário.
 	 * 
-	 * @param quemSouEu do usuário
+	 * @param quemSouEu
+	 *            do usuário
 	 */
 	public void setQuemSouEu(String quemSouEu) {
 		this.quemSouEu = quemSouEu;
@@ -213,7 +217,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta os filmes favoritos do usuário.
 	 * 
-	 * @param filmes do usuário
+	 * @param filmes
+	 *            do usuário
 	 */
 	public void setFilmes(String filmes) {
 		this.filmes = filmes;
@@ -221,6 +226,7 @@ public class Usuario implements Observer {
 
 	/**
 	 * Retorna as músicas favoritas do usuário.
+	 * 
 	 * @return musicas favoritas do usuario
 	 */
 	public String getMusicas() {
@@ -229,7 +235,9 @@ public class Usuario implements Observer {
 
 	/**
 	 * Seta as músicas favoritas do usuário.
-	 * @param musicas do usuário
+	 * 
+	 * @param musicas
+	 *            do usuário
 	 */
 	public void setMusicas(String musicas) {
 		this.musicas = musicas;
@@ -247,7 +255,8 @@ public class Usuario implements Observer {
 	/**
 	 * Seta os livros favoritos do usuário.
 	 * 
-	 * @param livros do usuário
+	 * @param livros
+	 *            do usuário
 	 */
 	public void setLivros(String livros) {
 		this.livros = livros;
@@ -256,77 +265,58 @@ public class Usuario implements Observer {
 	/**
 	 * Cria uma assinatura de um blog.
 	 * 
-	 * @param blog a ser assinado
+	 * @param blog
+	 *            a ser assinado
 	 */
 	public Assinatura criarAssinatura(Blog blog) {
-		blog.addObserver(this);
-	
-		Assinatura a = new Assinatura();	
+		blog.register(this);
+
+		Assinatura a = new Assinatura();
 		a.setBlog(blog);
 		a.setUsuario(this);
-		
+
 		return a;
 	}
 
 	/**
 	 * Exclui a assinatura de um blog.
 	 * 
-	 * @param blog a ser excluido das assinaturas
+	 * @param blog
+	 *            a ser excluido das assinaturas
 	 */
 	public Assinatura excluirAssinatura(Blog blog) {
-		blog.deleteObserver(this);
-		
-		Assinatura a = new Assinatura();	
+		blog.unregister(this);
+
+		Assinatura a = new Assinatura();
 		a.setBlog(blog);
 		a.setUsuario(this);
-		
+
 		return a;
 	}
 
-	/**
-	 * Este método faz o login do usuário na aplicação.
-	 * 
-	 * @param login do usuário
-	 * @param senha do usuário
-	 * @return true se a autenticação teve êxito, false caso contrário
-	 */
-	public boolean login(String login, String senha) {
-		// ...
-		return true;
-	}
-
-	/**
-	 * Desloga o usuário do sistema.
-	 */
-	public void logout() {
-		// ...
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 */
 	@Override
-	public void update(Observable o, Object arg) {
-		// aqui avisa o usuario das notificaoes
-	}
-
-	/**
-	 * Este método verifica se o usuário passado como parâmetro é igual a este objeto.
-	 * 
-	 * @param usuario a ser comparadado
-	 * @return true se o usuário é igual, false caso contrário
-	 */
-	public boolean equals(Usuario usuario) {
-		// int iguais = 0;
-		if (usuario.getLogin().equals(this.login))
-				return true;		
-		return false;
+	public void update(Subject state) {
+		this.state = state;
+		
+		// aqui será enviado uma notificação pro usuário, em view
 	}
 
 	public Set<Blog> getBlogsPossuidos() {
 		return blogsPossuidos;
+	}
+
+	/**
+	 * Este método verifica se o usuário passado como parâmetro é igual a este
+	 * objeto.
+	 * 
+	 * @param usuario
+	 *            a ser comparadado
+	 * @return true se o usuário é igual, false caso contrário
+	 */
+	public boolean equals(Usuario usuario) {
+		if (usuario.getLogin().equals(this.login))
+			return true;
+		return false;
 	}
 
 }

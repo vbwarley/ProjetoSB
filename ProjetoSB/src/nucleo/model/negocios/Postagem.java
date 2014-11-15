@@ -1,23 +1,22 @@
 package nucleo.model.negocios;
 
 import java.sql.Date;
-import java.util.Observable;
 
-public class Postagem extends Observable {
+public class Postagem {
 
 	private int codigo;
 	private String titulo;
 	private String conteudo;
 	private Blog blog;
 	private Date data;
-	
+
 	/**
 	 * Método construtor de Postagem
 	 * 
 	 * @author nathalia
 	 */
 	public Postagem() {
-		// aqui sera chamado o update dos observadores
+
 	}
 
 	/**
@@ -81,7 +80,6 @@ public class Postagem extends Observable {
 	 */
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
-		// aqui sera chamado o update dos observadores
 	}
 
 	/**
@@ -126,10 +124,7 @@ public class Postagem extends Observable {
 	 */
 	public boolean equals(Postagem postagem) {
 
-		if (postagem.getCodigo() == (this.codigo)
-				&& postagem.getConteudo().equals(this.conteudo)
-				&& postagem.getTitulo().equals(this.titulo)
-				&& postagem.getBlog().getCodigo() == this.blog.getCodigo())
+		if (postagem.getCodigo() == (this.codigo))
 			return true;
 		return false;
 	}

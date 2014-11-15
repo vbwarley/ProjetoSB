@@ -50,6 +50,7 @@ public class JDBCDAOAssinatura extends JDBCDAO implements DAOAssinatura {
 
 			stmt.execute();
 			stmt.close();
+			
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

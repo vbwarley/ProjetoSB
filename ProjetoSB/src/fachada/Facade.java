@@ -61,7 +61,7 @@ public class Facade {
 				"testes-aceitacao/us03.txt", "testes-aceitacao/us04.txt", "testes-aceitacao/us05.txt",
 				"testes-aceitacao/us06.txt", "testes-aceitacao/us07.txt", "testes-aceitacao/us08.txt",
 				"testes-aceitacao/us09.txt", "testes-aceitacao/us10.txt", "testes-aceitacao/us11.txt",
-				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt"};
+				"testes-aceitacao/us12.txt", "testes-aceitacao/us13.txt", "testes-aceitacao/us14.txt" };
 		EasyAccept.main(args);
 	}
 
@@ -570,6 +570,9 @@ public class Facade {
 		p.setData(new Date(System.currentTimeMillis()));
 
 		daoPostagem.criar(p);
+		
+		p.getBlog().notifyObserver();
+
 		return daoPostagem.getMaxId();
 	}
 
@@ -1149,13 +1152,13 @@ public class Facade {
 			throw new Exception("Campo inválido: postId");
 
 		int postIdInt = 0;
-		
+
 		try {
 			postIdInt = Integer.parseInt(postId);
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("Campo inválido: postId");
 		}
-		
+
 		List<ComentarioComposite> comments = daoComentario.getList();
 
 		for (ComentarioComposite comentarioComposite : comments)
@@ -1540,11 +1543,11 @@ public class Facade {
 		Usuario user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
 		List<Assinatura> assinaturas = daoAssinatura.getList();
 		int numberOA = 0;
-		
+
 		if (user == null)
 			throw new Exception("Usuário inválido");
-		
-		for (Assinatura a : assinaturas) 
+
+		for (Assinatura a : assinaturas)
 			if (a.getUsuario().equals(user))
 				numberOA++;
 
@@ -1553,12 +1556,12 @@ public class Facade {
 	}
 
 	public void addPostAnnouncements(String sessionId, String blogId) {
-		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
+		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(
+				Integer.parseInt(sessionId)));
 		Blog b = daoBlog.consultar(Integer.parseInt(blogId));
-		
+
 		daoAssinatura.criar(assinante.criarAssinatura(b));
-		
-		
+
 	}
 
 	public int getAnnouncement(String sessionId, int index) throws Exception {
@@ -1588,11 +1591,11 @@ public class Facade {
 	}
 
 	public void deleteAnnouncement(String sessionId, String announcementId) throws Exception {
-		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(Integer.parseInt(sessionId)));
+		Usuario assinante = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(
+				Integer.parseInt(sessionId)));
 
 		Blog blog = daoBlog.consultar(Integer.parseInt(announcementId));
 
-		
 		daoAssinatura.deletar(assinante.excluirAssinatura(blog));
 
 	}
@@ -1625,7 +1628,7 @@ public class Facade {
 			comment = comment.getComentarioPai();
 			nivel++;
 		}
-				
+
 		if (nivel < 3) {
 			comment = daoComentario.consultar(Integer.parseInt(parentCommentId));
 
@@ -1673,13 +1676,13 @@ public class Facade {
 			throw new Exception("Campo inválido: blogId");
 
 		int blogIdInt = 0;
-		
+
 		try {
 			blogIdInt = Integer.parseInt(blogId);
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("Campo inválido: blogId");
 		}
-		
+
 		Blog blog = daoBlog.consultar(blogIdInt);
 
 		List<Postagem> posts = daoPostagem.getList();
@@ -1693,7 +1696,6 @@ public class Facade {
 		return numT;
 
 	}
-
 
 	public int getTotalNumberOfCommentsByPost(String postId) throws Exception {
 
@@ -1725,13 +1727,13 @@ public class Facade {
 			throw new Exception("Campo inválido: commentId");
 
 		int commentIdInt = 0;
-		
+
 		try {
 			commentIdInt = Integer.parseInt(commentId);
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("Campo inválido: commentId");
 		}
-		
+
 		ComentarioComposite comment = daoComentario.consultar(commentIdInt);
 
 		return comment.getListaComentarios().size();
@@ -1743,13 +1745,13 @@ public class Facade {
 			throw new Exception("Campo inválido: commentId");
 
 		int commentIdInt = 0;
-		
+
 		try {
 			commentIdInt = Integer.parseInt(commentId);
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("Campo inválido: commentId");
 		}
-		
+
 		ComentarioComposite comment = daoComentario.consultar(commentIdInt);
 
 		List<ComentarioComposite> subC = comment.getListaComentarios();
@@ -1757,7 +1759,7 @@ public class Facade {
 
 		for (ComentarioComposite comentarioComposite : subC)
 			numT += daoComentario.consultaSubComentarios(comentarioComposite).size();
-		
+
 		return numT;
 
 	}
