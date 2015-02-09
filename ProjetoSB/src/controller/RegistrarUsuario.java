@@ -49,12 +49,12 @@ public class RegistrarUsuario extends HttpServlet {
 		
 		try {
 			facade.createProfile(login, senha, nome, email, sexo, data, endereco, interesses, quem, filmes, musicas, livros);
+			response.sendRedirect("home.jsp"); // pensar melhor
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// usar dispatcher com include colocando o erro na resposta
 		}
 		
-		response.sendRedirect("alguma_pag.jsp");
+		
 	}
 
 }
