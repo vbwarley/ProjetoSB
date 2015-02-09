@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Página inicial</title>
 </head>
 <body>
 	<header>
@@ -15,9 +15,11 @@
 				Login: <input type="text" name="login">
 				Senha: <input type="text" name="pass">
 				<input type="submit" value="Logar">
-				<a href="registrar.jsp"><button>Registrar-se</button></a>
 			</fieldset>
 		</form>
+			<fieldset>
+				Não tem uma conta? <a href="registrar.jsp">Registre-se!</a>
+			</fieldset>
 	</header>
 	<hr>
 	<section>
