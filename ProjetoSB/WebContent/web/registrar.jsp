@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<jsp:useBean id="erro" class="java.lang.Exception"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +8,7 @@
 <title>Registrar uma nova conta de usuário</title>
 </head>
 <body>
+	<% erro.getMessage(); %>
 	<form action="registrar_usuario" method="post">
 		<fieldset>
 		<legend>Registrando novo usuário</legend>

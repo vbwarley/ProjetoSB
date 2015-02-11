@@ -15,11 +15,11 @@ import java.util.List;
 public abstract class JDBCDAO {
 
 	private static Connection connection = getConnection();
-//	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://localhost/SuperBlogs";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String URL = "jdbc:mysql://localhost:3306/superblogs";
 	private static final String USER = "root";
 	private static final String PASS = "mynewpassword";
-	private static int qtd = 0;
+	
 	/**
 	 * Construtor da classe.
 	 */
@@ -34,13 +34,16 @@ public abstract class JDBCDAO {
 	private static void abrirConexao() {
 
 		try {
-			System.out.println(qtd++);
-			 
+			
+			Class.forName(DRIVER);				 
 			connection = DriverManager.getConnection(URL, USER, PASS);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
