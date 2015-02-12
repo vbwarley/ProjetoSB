@@ -1783,11 +1783,17 @@ public class Facade {
 
 	}
 	
-	public String getBlogs(){
+	public List<Integer> getBlogs(){
 		
-		List<Blog> lista  = daoBlog.getList();
+		List<Blog> lista  = DAOFactory.getDAOFactory().getDAOBlog().getList();
 		
-		return lista.toString(); // pensar melhor
+		List<Integer> ids = new ArrayList<Integer>();
+		
+		for (Blog b : lista){
+			ids.add(b.getCodigo());
+		}
+		
+		return ids;
 		
 	}
 	
