@@ -1,28 +1,23 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fachada.Facade;
-
 /**
- * Servlet implementation class RecuperarBlogServlet
+ * Servlet implementation class MostrarBlog
  */
-@WebServlet("/RecuperarBlogServlet")
-public class RecuperarBlogServlet extends HttpServlet {
+@WebServlet("/MostrarBlog")
+public class MostrarBlog extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Facade fachada;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecuperarBlogServlet() {
+    public MostrarBlog() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +26,7 @@ public class RecuperarBlogServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		fachada = new Facade();
-//		List blogs = fachada.get
+		// TODO Auto-generated method stub
 	}
 
 	/**

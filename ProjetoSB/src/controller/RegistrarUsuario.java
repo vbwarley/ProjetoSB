@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fachada.Facade;
-import nucleo.model.negocios.Usuario;
 
 /**
  * Servlet implementation class RegistrarUsuario
  */
-@WebServlet("/registrar_usuario")
+@WebServlet("/web/registrar_usuario")
 public class RegistrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -45,14 +47,21 @@ public class RegistrarUsuario extends HttpServlet {
 		String filmes = request.getParameter("filmes");
 		String musicas = request.getParameter("musicas");
 		String livros = request.getParameter("livros");
+	
+		System.out.println("Veio");
 		
+		Date date = null;
 		
 		try {
+//			date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+			
 			facade.createProfile(login, senha, nome, email, sexo, data, endereco, interesses, quem, filmes, musicas, livros);
-			response.sendRedirect("home.jsp"); // pensar melhor
+			facade.doLogin(login, senha);
+			response.sendRedirect("home.jsp");
+			// pensar melhor
 		} catch (Exception e) {
-			// usar dispatcher com include colocando o erro na resposta
-		}
+			response.sendRedirect("erro-registro.jsp");
+		} 
 		
 		
 	}
