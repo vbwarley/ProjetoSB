@@ -37,7 +37,19 @@ public class AlterarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String sessionId = request.getParameter("sessionId");
+		String atributo = request.getParameter("atributo");
+		String valor = request.getParameter("valor");
+		
+		try {
+			facade.changeProfileInformation(sessionId, atributo, valor);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -37,7 +37,20 @@ public class ConsultarBlog extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String inf = "";
+		String sId = request.getParameter("id");
+		String atributo = request.getParameter("atributo");
+		
+		int id = Integer.parseInt(sId);
+		
+		try {
+			inf = facade.getBlogInformation(id, atributo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

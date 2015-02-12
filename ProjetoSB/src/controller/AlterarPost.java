@@ -37,7 +37,19 @@ public class AlterarPost extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String sessionId = request.getParameter("sessionId");
+		String postId = request.getParameter("postId");
+		String atributo = request.getParameter("atributo");
+		String valor = request.getParameter("valor");
+		
+		try {
+			facade.changePostInformation(sessionId, postId, atributo, valor);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

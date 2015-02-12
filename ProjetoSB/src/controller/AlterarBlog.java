@@ -43,7 +43,12 @@ public class AlterarBlog extends HttpServlet {
 		String atributo = request.getParameter("atributo");
 		String valor = request.getParameter("valor");
 		
-		
+		try {
+			facade.changeBlogInformation(sessionId, id, atributo, valor);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

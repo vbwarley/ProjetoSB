@@ -37,7 +37,18 @@ public class ConsultarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String inf = "";
+		String login = request.getParameter("login");
+		String atributo = request.getParameter("atributo");
+		
+		
+		try {
+			inf = facade.getProfileInformation(login, atributo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

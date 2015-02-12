@@ -37,7 +37,21 @@ public class CriarBlog extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String sessionId = request.getParameter("sessionId");
+		String titulo = request.getParameter("titulo");
+		String descricao = request.getParameter("descricao");
+		String background = request.getParameter("background");
+		String autz_comment = request.getParameter("autz_comment");
+		String autz_comment_annon = request.getParameter("autz_comment_annon");
+	
+		try {
+			facade.createBlog(sessionId, titulo, descricao, background, autz_comment, autz_comment_annon);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

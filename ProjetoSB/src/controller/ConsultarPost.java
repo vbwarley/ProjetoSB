@@ -37,7 +37,18 @@ public class ConsultarPost extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String inf = "";
+		String sPostId = request.getParameter("postId");
+		String atributo = request.getParameter("atributo");
+		
+		int postId = Integer.parseInt(sPostId);
+		
+		try {
+			inf = facade.getPostInformation(postId, atributo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
