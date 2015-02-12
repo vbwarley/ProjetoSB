@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,28 @@ public class MostrarBlog extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String blogInf = request.getParameter("blogInf");
+		
+		response.setContentType("text/html");
+		response.setCharacterEncoding("utf-8");
+		
+		PrintWriter out = response.getWriter();
+		
+		out.println("<!DOCTYPE html>");
+		out.println("<html lang = 'pt-BR'>");
+		out.println("<head>");
+		out.println("<title> Informações do blog </title>");
+		out.println("<meta charset='utf-8'>");
+		out.println("</head>");
+		out.println("<body>");
+		out.println("<fieldset>");
+		out.println(blogInf);
+		out.println("</fieldset>");
+		out.println("</body>");
+		out.println("</html>");
+		
+		
 	}
 
 	/**

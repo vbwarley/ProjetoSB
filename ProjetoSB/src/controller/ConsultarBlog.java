@@ -38,14 +38,16 @@ public class ConsultarBlog extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String inf = "";
+		String blogInf = "";
 		String sId = request.getParameter("id");
 		String atributo = request.getParameter("atributo");
 		
 		int id = Integer.parseInt(sId);
 		
 		try {
-			inf = facade.getBlogInformation(id, atributo);
+			blogInf = facade.getBlogInformation(id, atributo);
+			request.setAttribute("blogInf", blogInf);
+			request.getRequestDispatcher("/web/mostrar_blog.jsp").include(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
