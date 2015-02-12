@@ -20,15 +20,16 @@
 			</fieldset>
 		</form>
 			<fieldset>
-				Não tem uma conta? <a href="registrar.jsp">Registre-se!</a>
+				Não tem uma conta? <a href="web/registrar.jsp">Registre-se!</a>
 			</fieldset>
 	</header>
 	<hr>
 	<section>
+		
 		<h1>Blogs vivos</h1><br>
 		
 		<c:forEach items="${blogs}" var="blog">
-			<c:out value="${blog.titulo }"/>			
+			<a href="mostrar_blog.jsp?id=${blog.codigo}"><c:out value="${blog.titulo }"/></a>			
 		</c:forEach>
 	</section>
 	<hr>	

@@ -9,7 +9,7 @@
 <body>
 
 <h1>Não foi possível registrar um novo usuário.</h1><br>
-Clique <a href="home.jsp">aqui</a> para voltar ao início e <a href="registrar.jsp">aqui</a> para um novo registro.
+Clique <a href=${pageContext.request.contextPath}/home>aqui</a> para voltar ao início e <a href="registrar.jsp">aqui</a> para um novo registro.
 
 </body>
 </html>

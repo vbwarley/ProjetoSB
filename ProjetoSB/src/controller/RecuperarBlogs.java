@@ -16,7 +16,7 @@ import fachada.Facade;
 /**
  * Servlet implementation class RecuperarBlogServlet
  */
-@WebServlet("/recuperar_blogs")
+@WebServlet("/home")
 public class RecuperarBlogs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Facade fachada;
@@ -37,7 +37,7 @@ public class RecuperarBlogs extends HttpServlet {
 //		int[] ids = fachada.getBlogs();
 		
 		List<Blog> blogs = new ArrayList<Blog>();
-		Blog blog = null;
+//		Blog blog = null;
 		
 //		for (int i = 0; i < ids.length; i++) {
 //			blog = new Blog();
@@ -52,7 +52,7 @@ public class RecuperarBlogs extends HttpServlet {
 		blogs.add(b);
 		
 		request.setAttribute("blogs", blogs);
-		request.getRequestDispatcher("web/home.jsp").include(request, response);
+		request.getRequestDispatcher("/WEB-INF/home.jsp").include(request, response);
 	}
 
 	/**
