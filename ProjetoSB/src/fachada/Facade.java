@@ -1793,7 +1793,6 @@ public class Facade {
 			ids.add(b.getCodigo());
 		}
 		
-		
 		return ids;
 		
 	}
