@@ -20,6 +20,7 @@ import fachada.Facade;
 public class RecuperarBlogs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Facade fachada;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
