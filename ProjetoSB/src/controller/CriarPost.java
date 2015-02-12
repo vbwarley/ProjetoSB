@@ -37,7 +37,18 @@ public class CriarPost extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String sessionId = request.getParameter("sessionId");
+		String blogId = request.getParameter("blogId");
+		String titulo = request.getParameter("titulo");
+		String texto = request.getParameter("texto");
+		
+		try {
+			facade.createPost(sessionId, blogId, titulo, texto);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

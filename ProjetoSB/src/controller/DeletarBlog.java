@@ -37,7 +37,20 @@ public class DeletarBlog extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String sessionId1 = request.getParameter("sessionId1");
+		String sBlogId1 = request.getParameter("blogId1");
+		
+		int blogId1 = Integer.parseInt(sBlogId1);
+		
+		try {
+			facade.deleteBlog(sessionId1, blogId1);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

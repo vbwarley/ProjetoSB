@@ -1119,12 +1119,12 @@ public class Facade {
 		return listBlogs.get(index).getCodigo();
 	}
 
-	public int addComment(String sessionid, int postId, String texto) throws Exception {
+	public int addComment(String sessionId, int postId, String texto) throws Exception {
 
 		Usuario user = null;
 		int ssId;
 		try {
-			ssId = Integer.parseInt(sessionid);
+			ssId = Integer.parseInt(sessionId);
 			user = daoUsuario.consultar(GerenciadorSessao.getInstance().getLoginById(ssId));
 		} catch (Exception e) {
 			throw new Exception("SessÃ£o invÃ¡lida");

@@ -37,7 +37,18 @@ public class CriarComentario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String sessionId = request.getParameter("sessionId");
+		String sPostId = request.getParameter("postId");
+		String texto = request.getParameter("texto");
+		
+		int postId = Integer.parseInt(sPostId);
+		
+		try {
+			facade.addComment(sessionId, postId, texto);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

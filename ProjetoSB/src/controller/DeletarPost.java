@@ -37,7 +37,20 @@ public class DeletarPost extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String sessionId1 = request.getParameter("sessionId1");
+		String sPostId1 = request.getParameter("postId1");
+
+		int postId1 = Integer.parseInt(sPostId1);
+		
+		try {
+			facade.deletePost(sessionId1, postId1);
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
