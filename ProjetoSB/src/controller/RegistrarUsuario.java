@@ -3,7 +3,8 @@ package controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,19 +48,17 @@ public class RegistrarUsuario extends HttpServlet {
 		String filmes = request.getParameter("filmes");
 		String musicas = request.getParameter("musicas");
 		String livros = request.getParameter("livros");
-	
-		System.out.println("Veio");
-		
-		Date date = null;
 		
 		try {
-//			date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+			String[] s = data.split("-");
+			data = s[2]+"/"+s[1]+"/"+s[0];
 			
 			facade.createProfile(login, senha, nome, email, sexo, data, endereco, interesses, quem, filmes, musicas, livros);
 			facade.doLogin(login, senha);
-			response.sendRedirect("home.jsp");
+			response.sendRedirect("home");
 			// pensar melhor
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.sendRedirect("erro-registro.jsp");
 		} 
 		

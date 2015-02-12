@@ -43,8 +43,9 @@ public class Login extends HttpServlet {
 		
 		try {
 			facade.doLogin(login, senha);
-			response.sendRedirect("home.jsp"); // pensar melhor
+			response.sendRedirect("home"); // pensar melhor
 		} catch (Exception e) {
+			e.printStackTrace();
 			// usar dispatcher com include colocando o erro na resposta
 		}
 		
