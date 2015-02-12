@@ -53,22 +53,15 @@ public class RegistrarUsuario extends HttpServlet {
 		Date date = null;
 		
 		try {
-			date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-		} catch (ParseException e1) {
-			throw new RuntimeException();
-		}
-		
-		try {
-			facade.createProfile(login, senha, nome, email, sexo, date.toString(), endereco, interesses, quem, filmes, musicas, livros);
+//			date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+			
+			facade.createProfile(login, senha, nome, email, sexo, data, endereco, interesses, quem, filmes, musicas, livros);
 			facade.doLogin(login, senha);
 			response.sendRedirect("home.jsp");
 			// pensar melhor
 		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("erro", e);
-			request.getRequestDispatcher("registrar.jsp").include(request, response);
-			// ...
-		}
+			response.sendRedirect("erro-registro.jsp");
+		} 
 		
 		
 	}

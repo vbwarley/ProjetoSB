@@ -1783,12 +1783,11 @@ public class Facade {
 
 	}
 	
-	public void getBlogs(){
+	public String getBlogs(){
 		
-		List<Blog> lista  = DAOFactory.getDAOFactory().getDAOBlog().getList();
+		List<Blog> lista  = daoBlog.getList();
 		
-		
-		//return lista
+		return lista.toString(); // pensar melhor
 		
 	}
 	
