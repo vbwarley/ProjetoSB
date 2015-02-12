@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nucleo.model.negocios.Blog;
 import fachada.Facade;
 
 /**
  * Servlet implementation class RecuperarBlogServlet
  */
-@WebServlet("/RecuperarBlogServlet")
+@WebServlet("/recuperar_blogs")
 public class RecuperarBlogs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Facade fachada;
@@ -31,9 +32,27 @@ public class RecuperarBlogs extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+		
 		fachada = new Facade();
-//		List blogs = fachada.get
+//		int[] ids = fachada.getBlogs();
+		
+		List<Blog> blogs = new ArrayList<Blog>();
+		Blog blog = null;
+		
+//		for (int i = 0; i < ids.length; i++) {
+//			blog = new Blog();
+//			blog.setCodigo(i);
+//			blog.setTitulo(fachada.getBlogInformation(i, "titulo"));
+//			blogs.add(blog);
+//		}
+		
+		Blog b = new Blog();
+		b.setCodigo(1212);
+		b.setTitulo("xxx");
+		blogs.add(b);
+		
+		request.setAttribute("blogs", blogs);
+		request.getRequestDispatcher("web/home.jsp").include(request, response);
 	}
 
 	/**

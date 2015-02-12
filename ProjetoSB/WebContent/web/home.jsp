@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="blog" class="nucleo.model.negocios.Blog"/>
+<%@ page import="java.util.List" %>
+<% List<nucleo.model.negocios.Blog> list = (List<nucleo.model.negocios.Blog>) request.getAttribute("blogs"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +26,9 @@
 	<hr>
 	<section>
 		<h1>Blogs vivos</h1><br>
-		<c:forEach var="blog" items="${blogs}">
-			
+		
+		<c:forEach items="${blogs}" var="blog">
+			<c:out value="${blog.titulo }"/>			
 		</c:forEach>
 	</section>
 	<hr>	
