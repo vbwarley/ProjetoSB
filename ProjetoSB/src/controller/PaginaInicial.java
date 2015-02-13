@@ -11,20 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
  * Servlet implementation class RecuperarBlogServlet
  */
 @WebServlet("/home")
-public class RecuperarBlogs extends HttpServlet {
+public class PaginaInicial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Facade fachada;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RecuperarBlogs() {
+    public PaginaInicial() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,6 +51,15 @@ public class RecuperarBlogs extends HttpServlet {
 		Blog b = new Blog();
 		b.setCodigo(1212);
 		b.setTitulo("xxx");
+		b.setDescricao("blablabla");
+		b.setImagemFundo("imagens/imagem1.jpg");
+		b.setAutorizaComentario(true);
+		b.setAutorizaComentarioAnonimo(false);
+		
+		Usuario user = new Usuario();
+		user.setLogin("thew");
+		
+		b.setUsuario(user);	
 		blogs.add(b);
 		
 		request.setAttribute("blogs", blogs);

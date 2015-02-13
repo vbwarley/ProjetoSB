@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
@@ -43,7 +44,14 @@ public class Login extends HttpServlet {
 		
 		try {
 			facade.doLogin(login, senha);
-			response.sendRedirect("home"); // pensar melhor
+			
+			Usuario u = new Usuario();
+			u.setLogin(login);
+			u.setSenha(senha);
+			u.setNome(facade.getProfileInformation(login, "nome_exibicao"));
+			
+			request.getSession().setAttribute("usuario_logado", u);
+			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
 		} catch (Exception e) {
 			e.printStackTrace();
 			// usar dispatcher com include colocando o erro na resposta

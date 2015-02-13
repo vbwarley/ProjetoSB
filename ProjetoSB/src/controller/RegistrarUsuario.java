@@ -50,12 +50,14 @@ public class RegistrarUsuario extends HttpServlet {
 		String livros = request.getParameter("livros");
 		
 		try {
+			System.out.println(data);
 			String[] s = data.split("-");
+			System.out.println(s.length);
 			data = s[2]+"/"+s[1]+"/"+s[0];
 			
 			facade.createProfile(login, senha, nome, email, sexo, data, endereco, interesses, quem, filmes, musicas, livros);
-			facade.doLogin(login, senha);
-			response.sendRedirect("home");
+//			facade.doLogin(login, senha);
+			response.sendRedirect(request.getContextPath() + "/home");
 			// pensar melhor
 		} catch (Exception e) {
 			e.printStackTrace();

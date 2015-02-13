@@ -16,7 +16,7 @@ import fachada.Facade;
 /**
  * Servlet implementation class ConsultarBlog
  */
-@WebServlet("/ConsultarBlog")
+@WebServlet("/web/consultar_blog.jsp")
 public class ConsultarBlog extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
