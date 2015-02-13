@@ -40,7 +40,7 @@ public class ConsultarBlog extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		System.out.println("Chegou!");
 		String atributo = request.getParameter("atributo");
 		String match = request.getParameter("match");
 		String order = request.getParameter("order");

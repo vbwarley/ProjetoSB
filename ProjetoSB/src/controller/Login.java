@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 		String senha = request.getParameter("pass");
 		
 		try {
-			facade.doLogin(login, senha);
+			Integer sessionId = facade.doLogin(login, senha);
 			
 			Usuario u = new Usuario();
 			u.setLogin(login);
@@ -51,7 +51,8 @@ public class Login extends HttpServlet {
 			u.setNome(facade.getProfileInformation(login, "nome_exibicao"));
 			
 			request.getSession().setAttribute("usuario_logado", u);
-			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
+			request.getSession().setAttribute("sessionId", sessionId);
+			response.sendRedirect(request.getContextPath() + "/home?sessionId="+sessionId); // pensar melhor
 		} catch (Exception e) {
 			e.printStackTrace();
 			// usar dispatcher com include colocando o erro na resposta

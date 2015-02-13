@@ -6,7 +6,7 @@
 	List<nucleo.model.negocios.Blog> list = (List<nucleo.model.negocios.Blog>) request.getAttribute("blogs");
 %>
 <jsp:useBean id="usuario" class="nucleo.model.negocios.Usuario" />
-
+<jsp:useBean id="sessionId" class="java.lang.Integer"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,9 +28,11 @@
 					Não tem uma conta? <a href="web/registrar.jsp">Registre-se!</a>
 				</fieldset>
 			</c:when>
-
 			<c:otherwise>
-				<c:import url="/WEB-INF/_consultar-blogs.jsp" />
+				<h2>Bem vindo ao SuperBlogs, ${usuario.nome}!</h2>
+				<br><br>
+				<a href="web/mostrar_configuracoes.jsp">Ir para as configurações</a><br>
+				<a href="web/logout.jsp?ssid=${sessioId }">Log out</a>
 			</c:otherwise>
 		</c:choose>
 
@@ -38,14 +40,17 @@
 	</header>
 	<hr>
 	<section>
-
+		<h2></h2>
 		<h1>Blogs vivos</h1>
 		<br>
-
-		<c:forEach items="${blogs}" var="blog">
-			<a href="web/mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a>
-		</c:forEach>
+		<c:if test="${ empty usuario }">
+			<c:forEach items="${blogs}" var="blog">
+				<a href="web/mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a>
+			</c:forEach>
+		</c:if>
+		<c:import url="/WEB-INF/_consultar-blogs.jsp" />
 	</section>
 	<hr>
+
 </body>
 </html>

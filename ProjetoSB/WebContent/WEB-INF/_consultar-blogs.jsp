@@ -1,4 +1,4 @@
-<form action="/web/consultar_blog.jsp" method="post">
+<form action="ProjetoSB/web/consultar_blog.jsp" method="post">
 	<fieldset>
 		<legend>Consulta</legend>
 		Busca por blogs <input type="text" name="match"
