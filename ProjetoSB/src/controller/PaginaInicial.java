@@ -60,9 +60,20 @@ public class PaginaInicial extends HttpServlet {
 		user.setLogin("thew");
 		
 		b.setUsuario(user);	
-		blogs.add(b);
+		blogs.add(b);	
+		
+		// verificar se há usuários logados
 		
 		request.setAttribute("blogs", blogs);
+		
+//		Integer ssid = (Integer) request.getSession(true).getAttribute("sessionId");
+//		Usuario u = (Usuario) request.getSession(true).getAttribute("usuario_logado");
+//		
+//		System.out.println(ssid);
+//		System.out.println(u == null ? "null" : u.getLogin());
+//		
+//		request.getSession(true).setAttribute("sessionId", ssid);
+//		request.getSession(true).setAttribute("usuario_logado", u);
 		request.getRequestDispatcher("/WEB-INF/home.jsp").include(request, response);
 	}
 

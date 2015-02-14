@@ -52,10 +52,10 @@ public class Login extends HttpServlet {
 			
 			request.getSession().setAttribute("usuario_logado", u);
 			request.getSession().setAttribute("sessionId", sessionId);
-			response.sendRedirect(request.getContextPath() + "/home?sessionId="+sessionId); // pensar melhor
+			
+			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
 		} catch (Exception e) {
-			e.printStackTrace();
-			// usar dispatcher com include colocando o erro na resposta
+			response.sendRedirect("web/erro-login.jsp");
 		}
 		
 	}

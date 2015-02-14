@@ -14,7 +14,7 @@ import nucleo.model.negocios.Usuario;
 /**
  * Servlet implementation class Logout
  */
-@WebServlet("/Logout")
+@WebServlet("/web/logout.jsp")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -31,10 +31,14 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 		
 		try {
-			facade.logoff();
+			Integer ssid = Integer.parseInt(request.getParameter("sessionId"));
+			facade.logoff(ssid);
+			
+			request.getSession(true).removeAttribute("sessionId");
+			request.getSession(true).removeAttribute("usuario_logado");
+			response.sendRedirect(request.getContextPath() + "/home");
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

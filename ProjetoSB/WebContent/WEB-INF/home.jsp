@@ -4,9 +4,11 @@
 <%@ page import="java.util.List"%>
 <%
 	List<nucleo.model.negocios.Blog> list = (List<nucleo.model.negocios.Blog>) request.getAttribute("blogs");
+	Integer sessionId = (Integer) request.getSession().getAttribute("sessionId");
 %>
-<jsp:useBean id="usuario" class="nucleo.model.negocios.Usuario" />
-<jsp:useBean id="sessionId" class="java.lang.Integer"/>
+<jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
+	scope="session" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,9 +16,11 @@
 <title>Página inicial</title>
 </head>
 <body>
-	<header>
-		<c:choose>
-			<c:when test="${ empty usuario }">
+
+	<c:choose>
+
+		<c:when test="${ empty usuario_logado.login  }">
+			<header>
 				<form action="login.jsp" method="post">
 					<fieldset>
 						Login: <input type="text" name="login"> Senha: <input
@@ -27,29 +31,39 @@
 				<fieldset>
 					Não tem uma conta? <a href="web/registrar.jsp">Registre-se!</a>
 				</fieldset>
-			</c:when>
-			<c:otherwise>
-				<h2>Bem vindo ao SuperBlogs, ${usuario.nome}!</h2>
-				<br><br>
-				<a href="web/mostrar_configuracoes.jsp">Ir para as configurações</a><br>
-				<a href="web/logout.jsp?ssid=${sessioId }">Log out</a>
-			</c:otherwise>
-		</c:choose>
+			</header>
+		</c:when>
+		<c:otherwise>
+			<header>
+				teste usuario ${usuario_logado.login }
 
-
-	</header>
+				<h2>Bem vindo ao SuperBlogs, ${usuario_logado.nome}!</h2>
+				<a href="web/mostrar_configuracoes.jsp">Ir para as configurações</a>
+				<br> <a href="web/logout.jsp?sessionId=${sessionId}">Log
+					out</a>
+			</header>
+		</c:otherwise>
+	</c:choose>
 	<hr>
-	<section>
-		<h2></h2>
-		<h1>Blogs vivos</h1>
-		<br>
-		<c:if test="${ empty usuario }">
-			<c:forEach items="${blogs}" var="blog">
-				<a href="web/mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a>
-			</c:forEach>
-		</c:if>
-		<c:import url="/WEB-INF/_consultar-blogs.jsp" />
-	</section>
+
+	<c:choose>
+		<c:when test="${ empty usuario_logado.login }">
+			<section>
+				<c:forEach items="${blogs}" var="blog">
+					<a href="web/mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a>
+				</c:forEach>
+			</section>
+		</c:when>
+		<c:otherwise>
+			<section>
+				<c:import url="/WEB-INF/_consultar-blogs.jsp" />
+			</section>
+			<hr>
+			<section>
+				<h1>Assinaturas</h1>
+			</section>
+		</c:otherwise>
+	</c:choose>
 	<hr>
 
 </body>
