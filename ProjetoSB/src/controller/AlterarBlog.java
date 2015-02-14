@@ -13,7 +13,7 @@ import fachada.Facade;
 /**
  * Servlet implementation class AlterarBlog
  */
-@WebServlet("/AlterarBlog")
+@WebServlet("/web/alterarBlog")
 public class AlterarBlog extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -38,13 +38,24 @@ public class AlterarBlog extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String sessionId = request.getParameter("sessionId");
+		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
+        
 		String id = request.getParameter("id");
 		String atributo = request.getParameter("atributo");
-		String valor = request.getParameter("valor");
+		String valor; 
+		
+		if (atributo.equals("background")){
+			valor = request.getParameter("valorImagem");
+		} else if (atributo.equals("autz_comment")){
+			valor = request.getParameter("autz_comment");
+		} else if (atributo.equals("autz_comment_annon")){
+			valor = request.getParameter("autz_comment_annon");
+		} else {
+			valor = request.getParameter("valor");	
+		}
 		
 		try {
-			facade.changeBlogInformation(sessionId, id, atributo, valor);
+			facade.changeBlogInformation(String.valueOf(sessionId), id, atributo, valor);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
