@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nucleo.model.negocios.Blog;
-import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
@@ -21,59 +20,63 @@ import fachada.Facade;
 public class PaginaInicial extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Facade fachada;
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public PaginaInicial() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public PaginaInicial() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		fachada = new Facade();
-//		int[] ids = fachada.getBlogs();
-		
+		List<Integer> ids = fachada.getBlogs();
+
 		List<Blog> blogs = new ArrayList<Blog>();
-//		Blog blog = null;
-		
-//		for (int i = 0; i < ids.length; i++) {
-//			blog = new Blog();
-//			blog.setCodigo(i);
-//			blog.setTitulo(fachada.getBlogInformation(i, "titulo"));
-//			blogs.add(blog);
-//		}
-		
-		Blog b = new Blog();
-		b.setCodigo(1212);
-		b.setTitulo("xxx");
-		b.setDescricao("blablabla");
-		b.setImagemFundo("imagens/imagem1.jpg");
-		b.setAutorizaComentario(true);
-		b.setAutorizaComentarioAnonimo(false);
-		
-		Usuario user = new Usuario();
-		user.setLogin("thew");
-		
-		b.setUsuario(user);	
-		blogs.add(b);	
-		
-		// verificar se há usuários logados
-		
+		Blog blog = null;
+
+		try {
+			for (int i = 0; i < ids.size(); i++) {
+				blog = new Blog();
+				blog.setCodigo(ids.get(i));
+				blog.setTitulo(fachada.getBlogInformation(ids.get(i), "titulo"));
+				blogs.add(blog);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		List<Blog> blogsAssinados = null;
+		Blog b = null;
+
+		List<Integer> as = (List<Integer>) request.getSession(true).getAttribute("assinaturas");
+
+		try {
+
+			blogsAssinados = new ArrayList<Blog>();
+			
+			if (as != null)
+				for (Integer blogId : as) {
+					b = new Blog();
+					b.setCodigo(blogId);
+					b.setTitulo(fachada.getBlogInformation(blogId, "titulo"));
+					blogsAssinados.add(b);
+				}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 		request.setAttribute("blogs", blogs);
+		request.getSession(true).setAttribute("blogsAssinados", blogsAssinados);
 		
-//		Integer ssid = (Integer) request.getSession(true).getAttribute("sessionId");
-//		Usuario u = (Usuario) request.getSession(true).getAttribute("usuario_logado");
-//		
-//		System.out.println(ssid);
-//		System.out.println(u == null ? "null" : u.getLogin());
-//		
-//		request.getSession(true).setAttribute("sessionId", ssid);
-//		request.getSession(true).setAttribute("usuario_logado", u);
 		request.getRequestDispatcher("/WEB-INF/home.jsp").include(request, response);
 	}
 

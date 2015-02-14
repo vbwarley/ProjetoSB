@@ -54,15 +54,15 @@ public class Login extends HttpServlet {
 			request.getSession().setAttribute("usuario_logado", u);
 			request.getSession().setAttribute("sessionId", sessionId);
 			
-			request.getSession().setAttribute("login", u.getLogin());
-			response.sendRedirect(request.getContextPath() + "/web/recuperarAssinaturas");
+//			request.getSession().setAttribute("login", u.getLogin());
+			response.sendRedirect(request.getContextPath() + "/web/recuperar_assinaturas.jsp");
 			
-			List<Integer> idsAssinaturas = (List<Integer>) request.getSession().getAttribute("assinaturas");
-			
-			request.getSession().setAttribute("assinaturas", idsAssinaturas);
-			
-			
-			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
+//			List<Integer> idsAssinaturas = (List<Integer>) request.getSession().getAttribute("assinaturas");
+//			
+//			request.getSession().setAttribute("assinaturas", idsAssinaturas);
+//			
+//			
+//			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
 		} catch (Exception e) {
 			response.sendRedirect("web/erro-login.jsp");
 		}

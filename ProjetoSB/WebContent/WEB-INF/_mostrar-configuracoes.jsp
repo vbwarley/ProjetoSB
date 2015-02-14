@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ page import="java.util.List"%>
 
 <%
-	List<Integer> assinaturas = (List<Integer>) request.getAttribute("assinaturas");
+	List<nucleo.model.negocios.Blog> blogsAssinados = (List<nucleo.model.negocios.Blog>) request.getSession(
+			true).getAttribute("blogsAssinados");
 %>
 
-<jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario" scope="session" />
+<jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
+	scope="session" />
 <!DOCTYPE html">
 <html>
 <head>
@@ -29,16 +32,16 @@
 	<section>
 		<h3>Configurações de assinaturas</h3>
 		<c:choose>
-			<c:when test="${ empty assinaturas }">
+			<c:when test="${fn:length(blogsAssinados) == 0}">
 				Você não tem nenhuma assinatura.
 			</c:when>
 			<c:otherwise>
-				<c:forEach items="${assinaturas}" var="ass">
-					<a href="web/mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a> -> <a href="web/excluir_assinatura.jsp?blogId=${ass.blog.codigo}">Excluir</a>
+				<c:forEach items="${blogsAssinados}" var="blog">
+					<a href="mostrar_blog.jsp?id=${blog.codigo}">${blog.titulo }</a> -> <a
+						href="excluir_assinatura.jsp?blogId=${blog.codigo}">Excluir</a>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-
-	</section>
+	<section>
 </body>
 </html>

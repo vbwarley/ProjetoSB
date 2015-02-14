@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nucleo.model.negocios.Blog;
 import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
@@ -34,22 +35,38 @@ public class MostrarConfiguracoes extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Usuario usuario = (Usuario) request.getSession(true).getAttribute("usuario_logado");
-		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
+//		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
+//		
+//		List<Integer> idsAssinaturas = null;
+//		
+//		List<Blog> blogsAssinados = null;
+//		Blog b = null;
+//		
+//		List<Integer> as = (List<Integer>) request.getSession(true).getAttribute("idsAssinaturas");
+//
+//		try {
+//
+//			blogsAssinados = new ArrayList<Blog>();
+//			
+//			if (as != null)
+//				for (Integer blogId : as) {
+//					b = new Blog();
+//					b.setCodigo(blogId);
+//					b.setTitulo(facade.getBlogInformation(blogId, "titulo"));
+//					blogsAssinados.add(b);
+//				}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			request.setAttribute("assinaturas", blogsAssinados);
+//			request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").include(request, response);
+//		}
 		
-		List<Integer> idsAssinaturas = null;
+		// alterar blogs
 		
-		try {
-			int index = 0;
-			idsAssinaturas = new ArrayList<Integer>();
-			
-			while (true)
-				idsAssinaturas.add(facade.getAnnouncement(String.valueOf(sessionId), ++index));
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.getAttribute("assinaturas");
-			request.setAttribute("assinaturas", idsAssinaturas);
-			request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").include(request, response);
-		}
+		// excluir assinaturas
+		
+		request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").forward(request, response);
 		
 		
 	}
