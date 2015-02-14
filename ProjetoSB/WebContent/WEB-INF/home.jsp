@@ -5,6 +5,7 @@
 <%
 	List<nucleo.model.negocios.Blog> list = (List<nucleo.model.negocios.Blog>) request.getAttribute("blogs");
 	Integer sessionId = (Integer) request.getSession().getAttribute("sessionId");
+	List<Integer> idsAssinaturas = (List<Integer>) request.getSession().getAttribute("assinaturas");
 %>
 <jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
 	scope="session" />
@@ -59,9 +60,13 @@
 				<c:import url="/WEB-INF/_consultar-blogs.jsp" />
 			</section>
 			<hr>
+			<c:when test="${ empty usuario_logado.login }">
 			<section>
-				<h1>Assinaturas</h1>
+				<c:forEach items="${assinaturas}" var="assinatura">
+					${assinatura.blog.titulo}</a>
+				</c:forEach>
 			</section>
+		</c:when>
 		</c:otherwise>
 	</c:choose>
 	<hr>
