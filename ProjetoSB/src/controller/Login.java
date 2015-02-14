@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,6 +53,14 @@ public class Login extends HttpServlet {
 			
 			request.getSession().setAttribute("usuario_logado", u);
 			request.getSession().setAttribute("sessionId", sessionId);
+			
+			request.getSession().setAttribute("login", u.getLogin());
+			response.sendRedirect(request.getContextPath() + "/web/recuperarAssinaturas");
+			
+			List<Integer> idsAssinaturas = (List<Integer>) request.getSession().getAttribute("assinaturas");
+			
+			request.getSession().setAttribute("assinaturas", idsAssinaturas);
+			
 			
 			response.sendRedirect(request.getContextPath() + "/home"); // pensar melhor
 		} catch (Exception e) {
