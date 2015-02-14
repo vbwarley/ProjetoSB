@@ -7,8 +7,7 @@
 		Opções de pesquisa: <br>
 		<fieldset>
 			<input type="radio" name="atributo" value="titulo"> Titulo <br>
-			<input type="radio" name="atributo" value="descricao">
-			Descrição <br>
+			<input type="radio" name="atributo" value="descricao"> Descrição <br>
 		</fieldset>
 		<fieldset>
 			<input type="radio" name="order" value="asc"> Ordem crescente
