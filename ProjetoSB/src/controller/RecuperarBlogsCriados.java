@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,12 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
  * Servlet implementation class RecuperarBlogsCriados
  */
-@WebServlet("/RecuperarBlogsCriados")
+@WebServlet("/web/recuperar_blogs_criados.jsp")
 public class RecuperarBlogsCriados extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -31,13 +35,48 @@ public class RecuperarBlogsCriados extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		Usuario usuario = (Usuario) request.getSession(true).getAttribute("usuario_logado");	
+		
+		int index = 0;
+		List<Integer> idsBlogsCriados = null;
+		List<Blog> blogsCriados = null;
+		Blog b = null;
+		
+		try {
+			idsBlogsCriados = new ArrayList<Integer>();
+			
+			while (true)
+				idsBlogsCriados.add(facade.getBlogByLogin(usuario.getLogin(), index++));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			blogsCriados = new ArrayList<Blog>();
+			b = new Blog();
+			System.out.println(idsBlogsCriados.size());
+			if (idsBlogsCriados != null)
+				for (Integer blogId : idsBlogsCriados) {
+					b = new Blog();
+					b.setCodigo(blogId);
+					b.setTitulo(facade.getBlogInformation(blogId, "titulo"));
+					b.setImagemFundo(facade.getBlogInformation(blogId, "background"));
+					b.setDescricao(facade.getBlogInformation(blogId, "descricao"));
+					b.setAutorizaComentario(Boolean.getBoolean(facade.getBlogInformation(blogId, "autz_comment")));
+					b.setAutorizaComentarioAnonimo(Boolean.getBoolean(facade.getBlogInformation(blogId, "autz_comment_annon")));
+					b.setUsuario(usuario);
+					blogsCriados.add(b);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		usuario.getBlogsPossuidos().addAll(blogsCriados);
+		request.getSession(true).setAttribute("blogsCriados", blogsCriados);
+		request.getRequestDispatcher("/home").include(request, response);
+		
+		
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
@@ -76,7 +77,7 @@ public class PaginaInicial extends HttpServlet {
 
 		request.setAttribute("blogs", blogs);
 		request.getSession(true).setAttribute("blogsAssinados", blogsAssinados);
-		
+
 		request.getRequestDispatcher("/WEB-INF/home.jsp").include(request, response);
 	}
 

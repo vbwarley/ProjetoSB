@@ -303,7 +303,7 @@ public class Facade {
 			} else if (atributo.equals("data_nasc")) {
 				SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy");
 				String data = s.format(usuario.getDataNascimento());
-				return data;
+				return usuario.getDataNascimento().toString();
 			}
 		}
 

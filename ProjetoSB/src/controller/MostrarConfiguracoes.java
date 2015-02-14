@@ -65,6 +65,8 @@ public class MostrarConfiguracoes extends HttpServlet {
 		// alterar blogs
 		
 		// excluir assinaturas
+		Usuario u = (Usuario) request.getSession(true).getAttribute("usuario_logado");
+		System.out.println(u.getBlogsPossuidos().size());
 		
 		request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").forward(request, response);
 		

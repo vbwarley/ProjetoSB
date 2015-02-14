@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,14 +29,7 @@ public class Login extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
+    /**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,13 +44,16 @@ public class Login extends HttpServlet {
 			u.setLogin(login);
 			u.setSenha(senha);
 			u.setNome(facade.getProfileInformation(login, "nome_exibicao"));
+			u.setDataNascimento(Date.valueOf(facade.getProfileInformation(login, "data_nasc")));
+			// mais
+//			u.getBlogsPossuidos().add(arg0);
 			
-			request.getSession().setAttribute("usuario_logado", u);
-			request.getSession().setAttribute("sessionId", sessionId);
+			request.getSession(true).setAttribute("usuario_logado", u);
+			request.getSession(true).setAttribute("sessionId", sessionId);
 			
 //			request.getSession().setAttribute("login", u.getLogin());
 			response.sendRedirect(request.getContextPath() + "/web/recuperar_assinaturas.jsp");
-			
+
 //			List<Integer> idsAssinaturas = (List<Integer>) request.getSession().getAttribute("assinaturas");
 //			
 //			request.getSession().setAttribute("assinaturas", idsAssinaturas);
