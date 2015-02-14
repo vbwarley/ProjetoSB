@@ -13,15 +13,15 @@ import fachada.Facade;
 /**
  * Servlet implementation class Excluir
  */
-@WebServlet("/Excluir")
-public class Excluir extends HttpServlet {
+@WebServlet("/web/excluir_assinatura.jsp")
+public class ExcluirAssinatura extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Excluir() {
+    public ExcluirAssinatura() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,14 +30,18 @@ public class Excluir extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		String sessionId = (String) request.getSession(true).getAttribute("sessionId");
+		String blogId = request.getParameter("blogId");
+		
+		try {
+			facade.deleteAnnouncement(sessionId, blogId);
+			response.sendRedirect("mostrar_configuracoes.jsp");
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("erro-excluir_assinatura.jsp");
+		}
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
 
 }
