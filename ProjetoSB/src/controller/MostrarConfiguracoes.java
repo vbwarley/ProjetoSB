@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +33,23 @@ public class MostrarConfiguracoes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+//		Usuario usuario = (Usuario) request.getSession(true).getAttribute("usuario_logado");
+		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
+		
+		List<Integer> idsAssinaturas = null;
+		
+		try {
+			int index = 0;
+			idsAssinaturas = new ArrayList<Integer>();
+			
+			while (true)
+				idsAssinaturas.add(facade.getAnnouncement(String.valueOf(sessionId), ++index));
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.getAttribute("assinaturas");
+			request.setAttribute("assinaturas", idsAssinaturas);
+			request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").include(request, response);
+		}
 		
 		
 	}
