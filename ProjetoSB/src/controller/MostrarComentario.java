@@ -12,21 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nucleo.model.negocios.Blog;
+import nucleo.model.negocios.ComentarioNormal;
 import nucleo.model.negocios.Postagem;
+import nucleo.model.negocios.Usuario;
 import fachada.Facade;
 
 /**
- * Servlet implementation class MostrarPost
+ * Servlet implementation class MostrarComentario
  */
-@WebServlet("/web/mostrarPost")
-public class MostrarPost extends HttpServlet {
+@WebServlet("/mostrarComentario")
+public class MostrarComentario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
-       
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MostrarPost() {
+    public MostrarComentario() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,46 +44,47 @@ public class MostrarPost extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		Blog b = (Blog) request.getSession(true).getAttribute("blog");
+		Postagem p = (Postagem) request.getSession(true).getAttribute("posts");
 		
-		List<Integer> idsPosts = null;
-		List<Postagem> posts = null;
+		List<Integer> idsComentarios = null;
+		List<ComentarioNormal> comentarios = null;
 		
 		int index;
 		
 		try {
 			index = 0;
-			idsPosts = new ArrayList<Integer>();
+			idsComentarios = new ArrayList<Integer>();
 
 			while (true)
-				idsPosts.add(facade.getPost(b.getCodigo(), index++));
+				idsComentarios.add(facade.getComment(p.getCodigo(), index++));
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-			posts = new ArrayList<Postagem>();
+			comentarios = new ArrayList<ComentarioNormal>();
 			
-			for (Integer idPost : idsPosts) {
+			for (Integer idComentario : idsComentarios) {
 				
-				String titulo = "";
+				String autor = "";
 				String texto = "";
-				String data_criacao = "";
 				
 				try {
 					
-					titulo = facade.getPostInformation(idPost, "titulo");
-					texto = facade.getPostInformation(idPost, "texto");
-					data_criacao = facade.getPostInformation(idPost, "data_criacao");
+					autor = facade.getCommentAuthor(idComentario);
+					texto = facade.getCommentText(idComentario);
+					Usuario u = new Usuario();
+					u.setLogin(autor);
+					u.setNome(facade.getProfileInformation(u.getLogin(), "nome_exibicao"));
 					
-					Postagem p = new Postagem();
-					p.setBlog(b);
-					p.setCodigo(idPost);
-					p.setConteudo(texto);
-					p.setTitulo(titulo);
-					p.setData(Date.valueOf(data_criacao));
+					ComentarioNormal c = new ComentarioNormal();
+					c.setCodigo(idComentario);
+					c.setConteudo(texto);
+					c.setPostagem(p);
+					c.setUsuario(u);
 					
-					posts.add(p);
+					comentarios.add(c);
 					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -91,10 +94,11 @@ public class MostrarPost extends HttpServlet {
 			}
 			
 			request.getSession(true).setAttribute("blog", b);
-			request.getSession(true).setAttribute("posts", posts);
-			response.sendRedirect(request.getContextPath() + "/mostrarComentario");
+			request.getSession(true).setAttribute("posts", p);
+			request.getSession(true).setAttribute("comentarios", comentarios);
+			response.sendRedirect(request.getContextPath() + "/mostrar_blog.jsp");
 		}
-
+		
 	}
 
 }

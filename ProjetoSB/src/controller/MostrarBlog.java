@@ -66,7 +66,7 @@ public class MostrarBlog extends HttpServlet {
 			b.setUsuario(user);	
 					
 			request.setAttribute("blog", b);
-			request.getRequestDispatcher("/WEB-INF/mostrar_blog.jsp").include(request, response);
+			request.getRequestDispatcher("/web/mostrarPost").include(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
