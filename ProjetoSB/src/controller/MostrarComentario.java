@@ -20,7 +20,7 @@ import fachada.Facade;
 /**
  * Servlet implementation class MostrarComentario
  */
-@WebServlet("/mostrarComentario")
+@WebServlet("/web/mostrar_comentario.jsp")
 public class MostrarComentario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -45,8 +45,8 @@ public class MostrarComentario extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Blog b = (Blog) request.getSession(true).getAttribute("blog");
-		Postagem p = (Postagem) request.getSession(true).getAttribute("posts");
+		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
+		Postagem p = (Postagem) request.getSession(true).getAttribute("postsMostrar");
 		
 		List<Integer> idsComentarios = null;
 		List<ComentarioNormal> comentarios = null;
@@ -92,11 +92,11 @@ public class MostrarComentario extends HttpServlet {
 				}
 				
 			}
-			
-			request.getSession(true).setAttribute("blog", b);
-			request.getSession(true).setAttribute("posts", p);
-			request.getSession(true).setAttribute("comentarios", comentarios);
-			response.sendRedirect(request.getContextPath() + "/mostrar_blog.jsp");
+			System.out.println("chegou ao mc");
+//			request.getSession(true).setAttribute("blog", b);
+//			request.getSession(true).setAttribute("posts", p);
+			request.getSession(true).setAttribute("comentariosMostrar", comentarios);
+			response.sendRedirect("blog_mostrar.jsp");
 		}
 		
 	}

@@ -19,61 +19,52 @@ import fachada.Facade;
 public class MostrarBlog extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MostrarBlog() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public MostrarBlog() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String id = request.getParameter("id");
-		Blog blog = new Blog();
+
+		String blogId = request.getParameter("id");
+		int intBlogId = Integer.parseInt(blogId);
+		Usuario u = null;
 				
 		try {
-//			int intId = Integer.parseInt(id);
-			
-//			blog.setDescricao(facade.getBlogInformation(intId, "descricao"));
-//			blog.setTitulo(facade.getBlogInformation(intId, "titulo"));
-//			
-//			Usuario user = new Usuario();
-//			user.setLogin(facade.getBlogInformation(intId, "dono"));
-//			
-//			blog.setUsuario(user);
-//			blog.setImagemFundo(facade.getBlogInformation(intId, "background"));
-//			blog.setAutorizaComentario(Boolean.getBoolean(facade.getBlogInformation(intId, "autz_comment")));
-//			blog.setAutorizaComentarioAnonimo(Boolean.getBoolean(facade.getBlogInformation(intId, "autz_comment_annon")));	
-//			blog.setCodigo(intId);
-			
-			// teste
 			Blog b = new Blog();
-			b.setCodigo(1212);
-			b.setTitulo("xxx");
-			b.setDescricao("blablabla");
-			b.setImagemFundo("imagens/imagem1.jpg");
-			b.setAutorizaComentario(true);
-			b.setAutorizaComentarioAnonimo(false);
+			b.setCodigo(intBlogId);
+			b.setTitulo(facade.getBlogInformation(intBlogId, "titulo"));
+			b.setImagemFundo(facade.getBlogInformation(intBlogId, "background"));
+			b.setDescricao(facade.getBlogInformation(intBlogId, "descricao"));
+			b.setAutorizaComentario(Boolean.getBoolean(facade.getBlogInformation(intBlogId, "autz_comment")));
+			b.setAutorizaComentarioAnonimo(Boolean.getBoolean(facade.getBlogInformation(intBlogId, "autz_comment_annon")));
 			
-			Usuario user = new Usuario();
-			user.setLogin("thew");
+			u = new Usuario();
+			u.setLogin(facade.getBlogInformation(intBlogId, "dono"));
 			
-			b.setUsuario(user);	
-					
-			request.setAttribute("blog", b);
-			request.getRequestDispatcher("/web/mostrarPost").include(request, response);
+			b.setUsuario(u);
+			
+			System.out.println("perto de sair do mb");
+			request.getSession(true).setAttribute("blogMostrar", b);
+			request.getRequestDispatcher("mostrar_post.jsp").include(request, response);
+//			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			// criar página de erro mostrar blog
+			response.sendRedirect("erro-mostrar_blog.jsp");
 		}
 		
 		
+
+
+
 	}
 
 }

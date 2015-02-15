@@ -18,7 +18,7 @@ import fachada.Facade;
 /**
  * Servlet implementation class MostrarPost
  */
-@WebServlet("/web/mostrarPost")
+@WebServlet("/web/mostrar_post.jsp")
 public class MostrarPost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
@@ -43,12 +43,14 @@ public class MostrarPost extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Blog b = (Blog) request.getSession(true).getAttribute("blog");
+		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
 		
 		List<Integer> idsPosts = null;
 		List<Postagem> posts = null;
 		
 		int index;
+		
+		System.out.println("inicio do mp");
 		
 		try {
 			index = 0;
@@ -89,10 +91,10 @@ public class MostrarPost extends HttpServlet {
 				}
 				
 			}
-			
-			request.getSession(true).setAttribute("blog", b);
-			request.getSession(true).setAttribute("posts", posts);
-			response.sendRedirect(request.getContextPath() + "/mostrarComentario");
+			System.out.println("chegou ao mp");
+//			request.getSession(true).setAttribute("blog", b); n precisa, pq é de session
+			request.getSession(true).setAttribute("postsMostrar", posts);
+			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);;
 		}
 
 	}

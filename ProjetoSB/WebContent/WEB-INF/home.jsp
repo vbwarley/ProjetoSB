@@ -54,7 +54,7 @@
 		<c:when test="${ empty usuario_logado.login }">
 			<section>
 				<c:forEach items="${blogs}" var="b">
-					<a href="web/mostrar_blog.jsp?id=${b.codigo}">${b.titulo}</a>
+					<a href="mostrar_blog.jsp?id=${b.codigo}">${b.titulo}</a>
 				</c:forEach>
 			</section>
 
@@ -69,7 +69,7 @@
 					<c:when test="${fn:length(blogsAssinados) > 0}">
 						<h4>Assinaturas</h4>
 						<c:forEach items="${blogsAssinados}" var="blogAssinado">
-							<a href="web/mostrar_blog.jsp?id=${blogAssinado.codigo}">${blogAssinado.titulo}</a>
+							<a href="mostrar_blog.jsp?id=${blogAssinado.codigo}">${blogAssinado.titulo}</a>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -81,7 +81,7 @@
 			<section>
 				<h4>Meus blogs</h4>
 				<c:forEach items="${blogsCriados}" var="blogCriado">
-					<a href="web/mostrar_blog.jsp?id=${blogCriado.codigo}">${blogCriado.titulo}</a><br>
+					<a href="mostrar_blog.jsp?id=${blogCriado.codigo}">${blogCriado.titulo}</a><br>
 				</c:forEach>
 			</section>
 
