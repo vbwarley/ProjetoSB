@@ -41,13 +41,19 @@ public class RecuperarBlogsCriados extends HttpServlet {
 		List<Integer> idsBlogsCriados = null;
 		List<Blog> blogsCriados = null;
 		Blog b = null;
+		int id;
 		
 		try {
 			idsBlogsCriados = new ArrayList<Integer>();
 			
-			while (true)
-				idsBlogsCriados.add(facade.getBlogByLogin(usuario.getLogin(), index++));
-			
+			while (true) {
+				id = facade.getBlogByLogin(usuario.getLogin(), index);
+				
+				if (!idsBlogsCriados.contains(id)) {
+					idsBlogsCriados.add(id);
+					index++;
+				} 
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +61,11 @@ public class RecuperarBlogsCriados extends HttpServlet {
 		try {
 			blogsCriados = new ArrayList<Blog>();
 			b = new Blog();
-			System.out.println(idsBlogsCriados.size());
+
+			for (Integer bl : idsBlogsCriados) {
+				System.out.println(bl);
+			}
+			
 			if (idsBlogsCriados != null)
 				for (Integer blogId : idsBlogsCriados) {
 					b = new Blog();
@@ -73,8 +83,13 @@ public class RecuperarBlogsCriados extends HttpServlet {
 		}
 		
 		usuario.getBlogsPossuidos().addAll(blogsCriados);
+		
+//		for (Blog blog : blogsCriados) {
+//			System.out.println(blog.getCodigo());
+//		}
+//		
 		request.getSession(true).setAttribute("blogsCriados", blogsCriados);
-		request.getRequestDispatcher("/home").include(request, response);
+//		request.getRequestDispatcher("/home").include(request, response);
 		
 		
 	}

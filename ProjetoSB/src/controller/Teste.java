@@ -1,13 +1,19 @@
 package controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Teste {
 	public static void main(String[] args) {
-		int index = 0;
+		List<Integer> ids = new ArrayList<Integer>();
 		
-		System.out.println(index++);
+		ids.add(1);
 		
+		if (ids.contains(1))
+			System.out.println(ids.indexOf(1));
+		else
+			System.out.println("N");
 	}
 }

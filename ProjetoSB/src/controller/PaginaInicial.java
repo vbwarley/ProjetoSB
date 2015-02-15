@@ -77,7 +77,10 @@ public class PaginaInicial extends HttpServlet {
 
 		request.setAttribute("blogs", blogs);
 		request.getSession(true).setAttribute("blogsAssinados", blogsAssinados);
-
+		
+		if (request.getSession().getAttribute("usuario_logado") != null) {
+			request.getRequestDispatcher("web/recuperar_blogs_criados.jsp").include(request, response);
+		}
 		request.getRequestDispatcher("/WEB-INF/home.jsp").include(request, response);
 	}
 

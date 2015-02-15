@@ -54,10 +54,12 @@ public class MostrarBlog extends HttpServlet {
 			System.out.println("perto de sair do mb");
 			request.getSession(true).setAttribute("blogMostrar", b);
 			request.getRequestDispatcher("mostrar_post.jsp").include(request, response);
+			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
+			response.sendRedirect("blog_mostrar.jsp");
 //			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 			response.sendRedirect("erro-mostrar_blog.jsp");
 		}
 		

@@ -42,7 +42,7 @@
 				teste usuario ${usuario_logado.login }
 
 				<h2>Bem vindo ao SuperBlogs, ${usuario_logado.nome}!</h2>
-				<a href="mostrar_configuracoes.jsp">Ir para as configurações</a>
+				<a href="web/mostrar_configuracoes.jsp">Ir para as configurações</a>
 				<br> <a href="web/logout.jsp?sessionId=${sessionId}">Log
 					out</a>
 			</header>
@@ -54,7 +54,7 @@
 		<c:when test="${ empty usuario_logado.login }">
 			<section>
 				<c:forEach items="${blogs}" var="b">
-					<a href="mostrar_blog.jsp?id=${b.codigo}">${b.titulo}</a>
+					<a href="web/mostrar_blog.jsp?id=${b.codigo}">${b.titulo}</a><br>
 				</c:forEach>
 			</section>
 
@@ -69,7 +69,7 @@
 					<c:when test="${fn:length(blogsAssinados) > 0}">
 						<h4>Assinaturas</h4>
 						<c:forEach items="${blogsAssinados}" var="blogAssinado">
-							<a href="mostrar_blog.jsp?id=${blogAssinado.codigo}">${blogAssinado.titulo}</a>
+							<a href="web/mostrar_blog.jsp?id=${blogAssinado.codigo}">${blogAssinado.titulo}</a>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -81,8 +81,12 @@
 			<section>
 				<h4>Meus blogs</h4>
 				<c:forEach items="${blogsCriados}" var="blogCriado">
-					<a href="mostrar_blog.jsp?id=${blogCriado.codigo}">${blogCriado.titulo}</a><br>
+					<a href="web/mostrar_blog.jsp?id=${blogCriado.codigo}">${blogCriado.titulo}</a><br>
 				</c:forEach>
+				<br>
+				<c:if test="${fn:length(blogsCriados) < 3}">
+					Clique <a href="web/criar_blog.jsp">aqui</a> para criar um blog.
+				</c:if>
 			</section>
 
 		</c:otherwise>

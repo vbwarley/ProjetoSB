@@ -48,6 +48,7 @@ public class CriarBlog extends HttpServlet {
 	
 		try {
 			facade.createBlog(String.valueOf(sessionId), titulo, descricao, background, autz_comment, autz_comment_annon);
+			response.sendRedirect(request.getContextPath() + "/home");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

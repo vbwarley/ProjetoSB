@@ -54,7 +54,7 @@ public class RecuperarAssinaturas extends HttpServlet {
 			e.printStackTrace();
 
 			request.getSession(true).setAttribute("assinaturas", idsAssinaturas);
-			response.sendRedirect("recuperar_blogs_criados.jsp");
+//			response.sendRedirect("recuperar_blogs_criados.jsp");
 		}
 
 

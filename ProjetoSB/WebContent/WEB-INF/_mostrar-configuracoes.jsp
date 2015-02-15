@@ -11,7 +11,7 @@
 %>
 
 <jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
-	scope="session" />
+	scope="session"/>
 <!DOCTYPE html">
 <html>
 <head>

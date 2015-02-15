@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form action="/web/criarBlog" method="post">
+<form action="criarBlog" method="post">
 <fieldset>
 <legend>Crair blog</legend>
 Titulo: <input type="text" name="titulo" placeholder="Titulo do blog"><br>

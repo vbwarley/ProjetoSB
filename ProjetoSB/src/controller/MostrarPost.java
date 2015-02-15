@@ -2,8 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -23,29 +23,30 @@ import fachada.Facade;
 public class MostrarPost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Facade facade = new Facade();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MostrarPost() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public MostrarPost() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
-		
+
 		List<Integer> idsPosts = null;
 		List<Postagem> posts = null;
-		
+
 		int index;
-		
+
 		System.out.println("inicio do mp");
-		
+
 		try {
 			index = 0;
 			idsPosts = new ArrayList<Integer>();
@@ -54,44 +55,48 @@ public class MostrarPost extends HttpServlet {
 				idsPosts.add(facade.getPost(b.getCodigo(), index++));
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			
+//			e.printStackTrace();
+			System.out.println(b.getCodigo());
+			System.out.println(idsPosts.size());
+
 			posts = new ArrayList<Postagem>();
-			
+
 			for (Integer idPost : idsPosts) {
-				
+
 				String titulo = "";
 				String texto = "";
 				String data_criacao = "";
-				
+
 				try {
-					
+
 					titulo = facade.getPostInformation(idPost, "titulo");
 					texto = facade.getPostInformation(idPost, "texto");
 					data_criacao = facade.getPostInformation(idPost, "data_criacao");
-					
+
 					Postagem p = new Postagem();
 					p.setBlog(b);
 					p.setCodigo(idPost);
 					p.setConteudo(texto);
 					p.setTitulo(titulo);
-					p.setData(Date.valueOf(data_criacao));
+
+					String[] st = data_criacao.split("/");
+					p.setData(Date.valueOf(st[2] + "-" + st[1] + "-"+ st[0]));
 					
 					posts.add(p);
-					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
 			System.out.println("chegou ao mp");
-//			request.getSession(true).setAttribute("blog", b); n precisa, pq é de session
+			// request.getSession(true).setAttribute("blog", b); n precisa, pq é
+			// de session
 			request.getSession(true).setAttribute("postsMostrar", posts);
+			// request.getRequestDispatcher("mostrar_comentario.jsp").include(request,
+			// response);
+			// response.sendRedirect("blog_mostrar.jsp");
 //			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
-//			response.sendRedirect("blog_mostrar.jsp");
-			
-			request.getRequestDispatcher("blog_mostrar.jsp").forward(request, response);
 		}
 
 	}

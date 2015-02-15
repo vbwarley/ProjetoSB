@@ -10,7 +10,7 @@
 	
 	<h1>Não foi possível mostrar o blog requisitado.</h1>
 	<br> Clique
-	<a href=${pageContext.request.contextPath}/home>aqui</a> para voltar ao
+	<a href="${pageContext.request.contextPath}/home">aqui</a> para voltar ao
 	início.
 
 </body>
