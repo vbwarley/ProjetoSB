@@ -37,16 +37,9 @@ public class MostrarComentario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
-		Postagem p = (Postagem) request.getSession(true).getAttribute("postsMostrar");
+		List<Postagem> posts = (List<Postagem>) request.getSession(true).getAttribute("postsMostrar");
 		
 		List<Integer> idsComentarios = null;
 		List<ComentarioNormal> comentarios = null;

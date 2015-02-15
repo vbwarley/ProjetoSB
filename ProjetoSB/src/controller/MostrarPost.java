@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,13 +36,6 @@ public class MostrarPost extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
 		
@@ -94,7 +88,10 @@ public class MostrarPost extends HttpServlet {
 			System.out.println("chegou ao mp");
 //			request.getSession(true).setAttribute("blog", b); n precisa, pq é de session
 			request.getSession(true).setAttribute("postsMostrar", posts);
-			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);;
+//			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
+//			response.sendRedirect("blog_mostrar.jsp");
+			
+			request.getRequestDispatcher("blog_mostrar.jsp").forward(request, response);
 		}
 
 	}
