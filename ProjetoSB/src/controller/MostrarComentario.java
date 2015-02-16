@@ -111,7 +111,7 @@ public class MostrarComentario extends HttpServlet {
 		}
 
 		request.getSession(true).setAttribute("comentariosMostrar", comentarios);
-		request.setAttribute("p", p);
+		request.getSession().setAttribute("p", p);
 		response.sendRedirect("post_mostrar.jsp");
 		// request.setAttribute("totalComentariosPost",
 		// facade.getTotalNumberOfCommentsByPost(varios));

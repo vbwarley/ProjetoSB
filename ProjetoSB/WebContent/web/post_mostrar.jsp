@@ -13,7 +13,7 @@
 	scope="session" />
 <jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
 	scope="session" />
-<jsp:useBean id="p" class="nucleo.model.negocios.Postagem"/>
+<jsp:useBean id="p" class="nucleo.model.negocios.Postagem" scope="session"/>
 
 <!DOCTYPE html>
 <html>
