@@ -66,8 +66,8 @@ public class MostrarConfiguracoes extends HttpServlet {
 		
 		// excluir assinaturas
 		
-//		request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").forward(request, response);
-		response.sendRedirect("/WEB-INF/_mostrar-configuracoes.jsp");
+		request.getRequestDispatcher("/WEB-INF/_mostrar-configuracoes.jsp").include(request, response);
+//		response.sendRedirect("/WEB-INF/_mostrar-configuracoes.jsp");
 		
 	}
 

@@ -53,6 +53,7 @@
 	<c:choose>
 		<c:when test="${ empty usuario_logado.login }">
 			<section>
+				<h5>Blogs disponíveis</h5>
 				<c:forEach items="${blogs}" var="b">
 					<a href="web/mostrar_blog.jsp?id=${b.codigo}">${b.titulo}</a><br>
 				</c:forEach>

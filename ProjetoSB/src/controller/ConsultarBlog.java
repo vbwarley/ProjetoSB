@@ -49,6 +49,7 @@ public class ConsultarBlog extends HttpServlet {
 
 		String sIds = "";
 
+		System.out.println(offSet);
 		if (atributo.equals("titulo")){
 			try {
 				sIds = facade.findBlogByName(match, order, offSet, maxEntries);
@@ -64,6 +65,8 @@ public class ConsultarBlog extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("x"+sIds);
 		
 		String idsS = sIds.substring(1, sIds.length()-1);
 		
