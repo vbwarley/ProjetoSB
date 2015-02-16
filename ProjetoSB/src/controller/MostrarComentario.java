@@ -46,15 +46,23 @@ public class MostrarComentario extends HttpServlet {
 		List<ComentarioNormal> comentarios = null;
 
 		int index;
+		int id;
 
 		for (Postagem p : posts) {
 
 			try {
 				index = 0;
 				idsComentarios = new ArrayList<Integer>();
+				
+				while (true){
 
-				while (true)
-					idsComentarios.add(facade.getComment(p.getCodigo(), index++));
+					id = facade.getComment(p.getCodigo(), index);
+
+					if (!idsComentarios.contains(id)) {
+						idsComentarios.add(id);
+						index++;
+					} 
+				}
 
 			} catch (Exception e) {
 //				e.printStackTrace();

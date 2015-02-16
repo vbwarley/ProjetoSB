@@ -42,19 +42,27 @@ public class RecuperarAssinaturas extends HttpServlet {
 		List<Integer> idsAssinaturas = null;
 
 		int index;
+		int id;
 
 		try {
 			index = 0;
 			idsAssinaturas = new ArrayList<Integer>();
 
-			while (true)
-				idsAssinaturas.add(facade.getAnnouncement(String.valueOf(sessionId), index++));
+			while (true){
+
+				id = facade.getAnnouncement(String.valueOf(sessionId), index);
+
+				if (!idsAssinaturas.contains(id)) {
+					idsAssinaturas.add(id);
+					index++;
+				} 
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
 			request.getSession(true).setAttribute("assinaturas", idsAssinaturas);
-//			response.sendRedirect("recuperar_blogs_criados.jsp");
+			//			response.sendRedirect("recuperar_blogs_criados.jsp");
 		}
 
 

@@ -44,6 +44,7 @@ public class MostrarPost extends HttpServlet {
 		List<Postagem> posts = null;
 
 		int index;
+		int id;
 
 		System.out.println("inicio do mp");
 
@@ -51,9 +52,19 @@ public class MostrarPost extends HttpServlet {
 			index = 0;
 			idsPosts = new ArrayList<Integer>();
 
-			while (true)
-				idsPosts.add(facade.getPost(b.getCodigo(), index++));
+/*			while (true)
+				idsPosts.add(facade.getPost(b.getCodigo(), index++));*/
 
+			while (true){
+
+				id = facade.getPost(b.getCodigo(), index);
+
+				if (!idsPosts.contains(id)) {
+					idsPosts.add(id);
+					index++;
+				} 
+			}
+			
 		} catch (Exception e) {
 //			e.printStackTrace();
 			System.out.println(b.getCodigo());
