@@ -46,8 +46,6 @@ public class MostrarPost extends HttpServlet {
 		int index;
 		int id;
 
-		System.out.println("inicio do mp");
-
 		try {
 			index = 0;
 			idsPosts = new ArrayList<Integer>();
@@ -66,10 +64,6 @@ public class MostrarPost extends HttpServlet {
 			}
 			
 		} catch (Exception e) {
-//			e.printStackTrace();
-			System.out.println(b.getCodigo());
-			System.out.println(idsPosts.size());
-
 			posts = new ArrayList<Postagem>();
 
 			for (Integer idPost : idsPosts) {
@@ -100,7 +94,7 @@ public class MostrarPost extends HttpServlet {
 				}
 
 			}
-			System.out.println("chegou ao mp");
+
 			// request.getSession(true).setAttribute("blog", b); n precisa, pq é
 			// de session
 			request.getSession(true).setAttribute("postsMostrar", posts);

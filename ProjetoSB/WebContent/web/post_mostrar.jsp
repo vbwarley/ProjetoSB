@@ -5,24 +5,21 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%
-	List<nucleo.model.negocios.Postagem> postsMostrar = (List<nucleo.model.negocios.Postagem>) request
-			.getSession(true).getAttribute("postsMostrar");
 	List<nucleo.model.negocios.ComentarioNormal> comentariosMostrar = (List<nucleo.model.negocios.ComentarioNormal>) request
 			.getSession(true).getAttribute("comentariosMostrar");
 
-	List<nucleo.model.negocios.Assinatura> assinaturas = (List<nucleo.model.negocios.Assinatura>) request
-			.getSession(true).getAttribute("assinaturas");
 %>
 <jsp:useBean id="blogMostrar" class="nucleo.model.negocios.Blog"
 	scope="session" />
 <jsp:useBean id="usuario_logado" class="nucleo.model.negocios.Usuario"
 	scope="session" />
+<jsp:useBean id="p" class="nucleo.model.negocios.Postagem"/>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Blog ${blogMostrar.titulo }</title>
+<title>${p.titulo }</title>
 </head>
 <body background="${blogMostrar.imagemFundo }">
 
@@ -41,23 +38,34 @@
 			<br>
 		</c:otherwise>
 	</c:choose>
-	<c:if test="${not empty usuario_logado.login}">
-		<a href="criar_post.jsp">Criar um novo post</a>
-	</c:if>
 	<hr>
-	<c:forEach items="${postsMostrar}" var="p">
-		<section>
-			<h3>${p.titulo }</h3>
-			<h6>${p.data }</h6>
-			<hr>
-			<p>${p.conteudo }</p>
-		</section>
+	<section>
+		<h3>${p.titulo }</h3>
+		<h6>${p.data }</h6>
 		<hr>
-		<section>
-			<a href="mostrar_comentario.jsp?postId=${p.codigo}">Ver	comentários</a>
+		<p>${p.conteudo }</p>
+	</section>
+	<hr>
+	<section>
+		<h5>Comentários (número)</h5>
+		<div>
+			<form action="criarComentario">
+				<fieldset>
+					<legend>Criar comentário</legend>
+					Texto: <input type="text" name="texto"
+						placeholder="Digite o o texto aqui"><br> <input
+						type="hidden" name="postId" value="${p.codigo}"> <input
+						type="submit" value="Publicar"><br>
+				</fieldset>
+			</form>
+		</div>
+		<hr>
+		<c:forEach items="${comentariosMostrar}" var="cmt">
+			Usuario: ${cmt.usuario.login}
+			Texto: <p>${cmt.conteudo}</p>
 			<hr>
-		</section>
-	</c:forEach>
+		</c:forEach>
+	</section>
 	<hr>
 </body>
 </html>

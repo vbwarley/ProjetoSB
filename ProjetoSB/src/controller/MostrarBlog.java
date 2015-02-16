@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,14 +30,15 @@ public class MostrarBlog extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String blogId = request.getParameter("id");
 		int intBlogId = Integer.parseInt(blogId);
 		Usuario u = null;
-				
+
 		try {
 			Blog b = new Blog();
 			b.setCodigo(intBlogId);
@@ -44,28 +46,25 @@ public class MostrarBlog extends HttpServlet {
 			b.setImagemFundo(facade.getBlogInformation(intBlogId, "background"));
 			b.setDescricao(facade.getBlogInformation(intBlogId, "descricao"));
 			b.setAutorizaComentario(Boolean.getBoolean(facade.getBlogInformation(intBlogId, "autz_comment")));
-			b.setAutorizaComentarioAnonimo(Boolean.getBoolean(facade.getBlogInformation(intBlogId, "autz_comment_annon")));
-			
+			b.setAutorizaComentarioAnonimo(Boolean.getBoolean(facade
+					.getBlogInformation(intBlogId, "autz_comment_annon")));
+
 			u = new Usuario();
 			u.setLogin(facade.getBlogInformation(intBlogId, "dono"));
-			
+
 			b.setUsuario(u);
-			
+
 			System.out.println("perto de sair do mb");
 			request.getSession(true).setAttribute("blogMostrar", b);
 			request.getRequestDispatcher("mostrar_post.jsp").include(request, response);
-			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
 			response.sendRedirect("blog_mostrar.jsp");
-//			request.getRequestDispatcher("mostrar_comentario.jsp").include(request, response);
+			// request.getRequestDispatcher("mostrar_comentario.jsp").include(request,
+			// response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			// e.printStackTrace();
 			response.sendRedirect("erro-mostrar_blog.jsp");
 		}
-		
-		
-
-
 
 	}
 

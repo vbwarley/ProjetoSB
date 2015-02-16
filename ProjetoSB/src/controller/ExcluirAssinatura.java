@@ -30,11 +30,11 @@ public class ExcluirAssinatura extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sessionId = (String) request.getSession(true).getAttribute("sessionId");
+		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
 		String blogId = request.getParameter("blogId");
 		
 		try {
-			facade.deleteAnnouncement(sessionId, blogId);
+			facade.deleteAnnouncement(String.valueOf(sessionId), blogId);
 			response.sendRedirect("mostrar_configuracoes.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();

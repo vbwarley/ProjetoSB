@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nucleo.model.negocios.Blog;
 import fachada.Facade;
 
 /**
@@ -39,17 +40,20 @@ public class CriarPost extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Integer sessionId = (Integer) request.getSession(true).getAttribute("sessionId");
-		
-		String blogId = request.getParameter("blogId");
+		Blog b = (Blog) request.getSession(true).getAttribute("blogMostrar");
+
+		String blogId = String.valueOf(b.getCodigo());
 		String titulo = request.getParameter("titulo");
 		String texto = request.getParameter("texto");
+		System.out.println(b.getCodigo());
 		
 		try {
 			facade.createPost(String.valueOf(sessionId), blogId, titulo, texto);
-		
+			response.sendRedirect("mostrar_blog.jsp?id="+blogId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			response.sendRedirect("erro-criar_post.jsp");
 		}
 	}
 
